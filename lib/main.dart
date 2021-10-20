@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//yorum ekle
 void main() {
   runApp(const MyApp());
 }
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
  //buradaki bütün yorumları sildim.
+ 
 
   final String title;
 
