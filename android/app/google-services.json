@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "510087980679",
+    "project_id": "randebul-c6dde",
+    "storage_bucket": "randebul-c6dde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510087980679:android:c6eda422d87c156895ba22",
+        "android_client_info": {
+          "package_name": "com.example.randebul"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "510087980679-ha7f5euam3gjaoj27vcja14nbssaa593.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZJmE1qNZfP2NvESFkzY76q_TBGUhWgAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "510087980679-ha7f5euam3gjaoj27vcja14nbssaa593.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
