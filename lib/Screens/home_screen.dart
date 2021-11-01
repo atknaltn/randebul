@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randebul/Screens/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -44,7 +45,10 @@ class MyHomePage extends StatelessWidget {
                 icon: const Icon(Icons.logout_outlined),
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 tooltip: 'Logout',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
               ),
             ],
           ),
