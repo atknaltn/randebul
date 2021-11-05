@@ -15,11 +15,18 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
+class MyHomePage extends StatefulWidget {
   final String title;
 
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<MyHomePage> {
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('My Personal Journal');
+  final String title = 'Randebul';
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +34,7 @@ class MyHomePage extends StatelessWidget {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(title),
+            title: customSearchBar,
             bottom: const TabBar(tabs: [
               Tab(icon: Icon(Icons.home)),
               Tab(icon: Icon(Icons.calendar_today_outlined)),
@@ -35,6 +42,44 @@ class MyHomePage extends StatelessWidget {
               Tab(icon: Icon(Icons.settings)),
             ]),
             actions: <Widget>[
+              IconButton(
+                icon: customIcon,
+                padding: const EdgeInsets.only(right: 15, left: 15),
+                tooltip: 'Search',
+                onPressed: () {
+                  setState(() {
+                    if (customIcon.icon == Icons.search) {
+                      // Perform set of instructions.
+                      customIcon = const Icon(Icons.cancel);
+                      customSearchBar = const ListTile(
+                        leading: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        title: TextField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                            hintText: 'ara...',
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    } else {
+                      customIcon = const Icon(Icons.search);
+                      customSearchBar = const Text('Randebul');
+                    }
+                  });
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.person),
                 padding: const EdgeInsets.only(right: 15, left: 15),
@@ -46,8 +91,10 @@ class MyHomePage extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 15, left: 15),
                 tooltip: 'Logout',
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 },
               ),
             ],

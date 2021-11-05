@@ -34,7 +34,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       controller: firstNameController,
       keyboardType: TextInputType.name,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{3,}$');
+        RegExp regex = RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
           return ("First Name cannot be Empty");
         }
@@ -108,7 +108,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       controller: passwordController,
       obscureText: true,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password is required for login");
         }
@@ -189,7 +189,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(top: 0.0),
+            padding: const EdgeInsets.only(top: 0.0),
             color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(35.0),
@@ -273,7 +273,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             errorMessage = "An undefined Error happened.";
         }
         Fluttertoast.showToast(msg: errorMessage!);
-        print(error.code);
+        //print(error.code);
       }
     }
   }
@@ -302,7 +302,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
         (route) => false);
   }
 }
