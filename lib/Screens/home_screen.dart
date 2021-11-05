@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 
 class _HomeScreenState extends State<MyHomePage> {
   Icon customIcon = const Icon(Icons.search);
-  Widget customSearchBar = const Text('My Personal Journal');
+  Widget customSearchBar = const Text('Randebul');
   final String title = 'Randebul';
   @override
   Widget build(BuildContext context) {
