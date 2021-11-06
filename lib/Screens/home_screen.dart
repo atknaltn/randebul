@@ -27,6 +27,12 @@ class _HomeScreenState extends State<MyHomePage> {
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Randebul');
   final String title = 'Randebul';
+  bool hide = false;
+  bool leading = true;
+  int index = 0, page = 0;
+  final PageController controller =
+      PageController(initialPage: 0, keepPage: true);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,13 +40,8 @@ class _HomeScreenState extends State<MyHomePage> {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: leading,
             title: customSearchBar,
-            bottom: const TabBar(tabs: [
-              Tab(icon: Icon(Icons.home)),
-              Tab(icon: Icon(Icons.calendar_today_outlined)),
-              Tab(icon: Icon(Icons.shopping_cart)),
-              Tab(icon: Icon(Icons.settings)),
-            ]),
             actions: <Widget>[
               IconButton(
                 icon: customIcon,
@@ -48,6 +49,8 @@ class _HomeScreenState extends State<MyHomePage> {
                 tooltip: 'Search',
                 onPressed: () {
                   setState(() {
+                    hide = !hide;
+                    leading = !leading;
                     if (customIcon.icon == Icons.search) {
                       // Perform set of instructions.
                       customIcon = const Icon(Icons.cancel);
@@ -60,7 +63,7 @@ class _HomeScreenState extends State<MyHomePage> {
                         title: TextField(
                           autofocus: true,
                           decoration: InputDecoration(
-                            hintText: 'ara...',
+                            hintText: ' Aramak için kelime giriniz...',
                             hintStyle: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -80,31 +83,82 @@ class _HomeScreenState extends State<MyHomePage> {
                   });
                 },
               ),
-              IconButton(
-                icon: const Icon(Icons.person),
-                padding: const EdgeInsets.only(right: 15, left: 15),
-                tooltip: 'My Profile',
-                onPressed: () {},
+              if (!hide)
+                IconButton(
+                  icon: const Icon(Icons.person),
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  tooltip: 'My Profile',
+                  onPressed: () {},
+                ),
+              if (!hide)
+                IconButton(
+                  icon: const Icon(Icons.logout_outlined),
+                  padding: const EdgeInsets.only(right: 15, left: 15),
+                  tooltip: 'Logout',
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
+                  },
+                ),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: index,
+            onTap: (int index) {
+              setState(() {
+                this.index = index;
+                controller.animateToPage(index,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease);
+              });
+            },
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.blue[700],
+            selectedFontSize: 13,
+            unselectedFontSize: 13,
+            iconSize: 30,
+            items: const [
+              BottomNavigationBarItem(
+                label: "Home",
+                icon: Icon(Icons.home),
               ),
-              IconButton(
-                icon: const Icon(Icons.logout_outlined),
-                padding: const EdgeInsets.only(right: 15, left: 15),
-                tooltip: 'Logout',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
-                },
+              BottomNavigationBarItem(
+                label: "Calendar",
+                icon: Icon(Icons.calendar_today_outlined),
+              ),
+              BottomNavigationBarItem(
+                label: "Cart",
+                icon: Icon(Icons.shopping_cart),
+              ),
+              BottomNavigationBarItem(
+                label: "Settings",
+                icon: Icon(Icons.settings),
               ),
             ],
           ),
-          body: const TabBarView(
-            children: [
-              Icon(Icons.home),
-              Icon(Icons.calendar_today_outlined),
-              Icon(Icons.shopping_cart),
-              Icon(Icons.settings),
+          body: PageView(
+            /// [PageView.scrollDirection] defaults to [Axis.horizontal].
+            /// Use [Axis.vertical] to scroll vertically.
+            scrollDirection: Axis.horizontal,
+            controller: controller,
+            onPageChanged: (page) {
+              setState(() {
+                index = page;
+              });
+            },
+            children: const <Widget>[
+              Center(
+                child: Icon(Icons.home),
+              ),
+              Center(child: Icon(Icons.calendar_today_outlined)),
+              Center(
+                child: Icon(Icons.shopping_basket),
+              ),
+              Center(
+                child: Icon(Icons.settings),
+              ),
             ],
           ),
           drawer: Drawer(
