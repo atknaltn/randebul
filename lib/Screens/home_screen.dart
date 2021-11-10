@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
+import 'package:randebul/Screens/profilepage.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -88,7 +89,12 @@ class _HomeScreenState extends State<MyHomePage> {
                   icon: const Icon(Icons.person),
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()));
+                  },
                 ),
               if (!hide)
                 IconButton(
@@ -148,9 +154,27 @@ class _HomeScreenState extends State<MyHomePage> {
                 index = page;
               });
             },
-            children: const <Widget>[
-              Center(
-                child: Icon(Icons.home),
+            children: <Widget>[
+              ListView(
+                padding: const EdgeInsets.all(8),
+                children: <Widget>[
+                  Container(
+                      height: 222,
+                      color: Colors.red[500],
+                      child: Center(
+                        child: Text('Eğitim A'),
+                      )),
+                  Container(
+                    height: 222,
+                    color: Colors.amber[500],
+                    child: const Center(child: Text('Eğitim B')),
+                  ),
+                  Container(
+                    height: 222,
+                    color: Colors.green[100],
+                    child: const Center(child: Text('Eğitim C')),
+                  ),
+                ],
               ),
               Center(child: Icon(Icons.calendar_today_outlined)),
               Center(

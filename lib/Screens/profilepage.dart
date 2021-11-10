@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randebul/Screens/home_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -12,10 +13,13 @@ class ProfilePage extends StatelessWidget {
           title: Text('My Profile'),
           actions: [
             IconButton(
-            icon: Icon(
-              Icons.edit,
+              icon: Icon(
+                Icons.edit,
+              ),
+              onPressed: () {
+                print('Editbutton');
+              },
             ),
-            onPressed: (){print('Editbutton');}, ),
           ],
         ),
         drawer: Drawer(
@@ -153,7 +157,12 @@ class UstKart extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  (verified == true)?Icon(Icons.verified, color: Colors.blue,):Text(''),
+                  (verified == true)
+                      ? Icon(
+                          Icons.verified,
+                          color: Colors.blue,
+                        )
+                      : Text(''),
                   Text(
                     isim,
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -168,11 +177,31 @@ class UstKart extends StatelessWidget {
               Row(
                 children: [
                   Text('Puan: $puan '),
-                  (puan<1)? Icon(Icons.star_border, color: Colors.yellow) :(puan<=1)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                  (puan<=2)? Icon(Icons.star_border, color: Colors.yellow) :(puan<=3)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                  (puan<=4)? Icon(Icons.star_border, color: Colors.yellow) :(puan<=5)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                  (puan<=6)? Icon(Icons.star_border, color: Colors.yellow) :(puan<=7)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                  (puan<=8)? Icon(Icons.star_border, color: Colors.yellow) :(puan<=9)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
+                  (puan < 1)
+                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      : (puan <= 1)
+                          ? Icon(Icons.star_half, color: Colors.yellow)
+                          : Icon(Icons.star, color: Colors.yellow),
+                  (puan <= 2)
+                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      : (puan <= 3)
+                          ? Icon(Icons.star_half, color: Colors.yellow)
+                          : Icon(Icons.star, color: Colors.yellow),
+                  (puan <= 4)
+                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      : (puan <= 5)
+                          ? Icon(Icons.star_half, color: Colors.yellow)
+                          : Icon(Icons.star, color: Colors.yellow),
+                  (puan <= 6)
+                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      : (puan <= 7)
+                          ? Icon(Icons.star_half, color: Colors.yellow)
+                          : Icon(Icons.star, color: Colors.yellow),
+                  (puan <= 8)
+                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      : (puan <= 9)
+                          ? Icon(Icons.star_half, color: Colors.yellow)
+                          : Icon(Icons.star, color: Colors.yellow),
                 ],
               ),
             ],
@@ -201,7 +230,9 @@ class Hakkinda extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Text(hakkindaYazisi),
         ],
       ),
@@ -257,48 +288,59 @@ class Yorumlar extends StatelessWidget {
         ),
         child: Column(
           children: [
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             Text(
               'Son Yorumlar',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             YorumKart(
                 username: 'xyz123',
                 tarih: '30 Ekim 2021',
                 puan: 9,
-                yorumMetni: 'Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. '
+                yorumMetni:
+                    'Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. '),
+            SizedBox(
+              height: 5,
             ),
-            SizedBox(height: 5,),
             YorumKart(
                 username: 'Anonim',
                 tarih: '28 Ekim 2021',
                 puan: 4,
-                yorumMetni: 'Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. '
+                yorumMetni:
+                    'Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. '),
+            SizedBox(
+              height: 10,
             ),
-            SizedBox(height: 10,),
             GestureDetector(
-              onTap: (){print('tapped3');},
-              child: Text('TÜM YORUMLARI GÖR',
-              style: TextStyle(
-                color: Colors.orange,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-                fontSize: 15,
-              ),),
+              onTap: () {
+                print('tapped3');
+              },
+              child: Text(
+                'TÜM YORUMLARI GÖR',
+                style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  fontSize: 15,
+                ),
+              ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
 
 /*İletişim bilgilerinin bulunduğu kart widget.*/
 class MyCard extends StatelessWidget {
@@ -374,7 +416,13 @@ class YorumKart extends StatelessWidget {
   final String tarih;
   final String yorumMetni;
 
-  const YorumKart({Key? key, this.puan = 5, this.username = '', this.tarih = '', this.yorumMetni = ''}) : super(key: key);
+  const YorumKart(
+      {Key? key,
+      this.puan = 5,
+      this.username = '',
+      this.tarih = '',
+      this.yorumMetni = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +443,8 @@ class YorumKart extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(width: 10),
-                    Text('Kullanıcı adı: ',
+                    Text(
+                      'Kullanıcı adı: ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -403,27 +452,48 @@ class YorumKart extends StatelessWidget {
                     Text(username),
                   ],
                 ),
-                Row(
-                    children: [
-                      Text(tarih),
-                      SizedBox(width: 10),
-                    ]
-                ),
+                Row(children: [
+                  Text(tarih),
+                  SizedBox(width: 10),
+                ]),
               ],
             ),
             SizedBox(height: 5),
             Row(
               children: [
                 SizedBox(width: 10),
-                Text('Puanı: ', style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ), ),
+                Text(
+                  'Puanı: ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 SizedBox(width: 5),
-                (puan<1)? Icon(Icons.star_border, color: Colors.yellow) :(puan==1)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                (puan<=2)? Icon(Icons.star_border, color: Colors.yellow) :(puan==3)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                (puan<=4)? Icon(Icons.star_border, color: Colors.yellow) :(puan==5)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                (puan<=6)? Icon(Icons.star_border, color: Colors.yellow) :(puan==7)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
-                (puan<=8)? Icon(Icons.star_border, color: Colors.yellow) :(puan==9)? Icon(Icons.star_half, color: Colors.yellow) : Icon(Icons.star, color: Colors.yellow),
+                (puan < 1)
+                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    : (puan == 1)
+                        ? Icon(Icons.star_half, color: Colors.yellow)
+                        : Icon(Icons.star, color: Colors.yellow),
+                (puan <= 2)
+                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    : (puan == 3)
+                        ? Icon(Icons.star_half, color: Colors.yellow)
+                        : Icon(Icons.star, color: Colors.yellow),
+                (puan <= 4)
+                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    : (puan == 5)
+                        ? Icon(Icons.star_half, color: Colors.yellow)
+                        : Icon(Icons.star, color: Colors.yellow),
+                (puan <= 6)
+                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    : (puan == 7)
+                        ? Icon(Icons.star_half, color: Colors.yellow)
+                        : Icon(Icons.star, color: Colors.yellow),
+                (puan <= 8)
+                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    : (puan == 9)
+                        ? Icon(Icons.star_half, color: Colors.yellow)
+                        : Icon(Icons.star, color: Colors.yellow),
               ],
             ),
             SizedBox(height: 5),
@@ -433,8 +503,7 @@ class YorumKart extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 10),
-                Flexible(
-                    child: Text('"$yorumMetni"')),
+                Flexible(child: Text('"$yorumMetni"')),
               ],
             ),
             SizedBox(height: 10),
@@ -444,4 +513,3 @@ class YorumKart extends StatelessWidget {
     );
   }
 }
-
