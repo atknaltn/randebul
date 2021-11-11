@@ -13,13 +13,19 @@ class ProfilePage extends StatelessWidget {
           title: Text('My Profile'),
           actions: [
             IconButton(
-              icon: Icon(
-                Icons.edit,
-              ),
+              icon: const Icon(Icons.edit,),
               onPressed: () {
                 print('Editbutton');
               },
             ),
+            IconButton(
+                icon: const Icon(Icons.arrow_back),
+                padding: const EdgeInsets.only(right: 15, left: 15),
+                tooltip: 'Back',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
           ],
         ),
         drawer: Drawer(
