@@ -59,7 +59,7 @@ class ProfilePage extends StatelessWidget {
                 children: const [
                   UstKart(
                     puan: 8.5,
-                    resimAdresi: 'images/savascebeci.jpg',
+                    resimAdresi: 'assets/testProfile.jpg',
                     verified: true,
                     isim: 'Savaş Cebeci',
                     username: 'savascebeci',
@@ -69,7 +69,7 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(height: 30),
                   Hakkinda(
                       hakkindaYazisi:
-                          'Merhaba ben Savaş Cebeci hepinizi döverim.Merhaba ben Savaş Cebeci hepinizi döverim.Merhaba ben Savaş Cebeci hepinizi döverim.Merhaba ben Savaş Cebeci hepinizi döverim.'),
+                          'İş yaşamında efektif ve hızlı olmak konusunda son derece özverili ve hevesli olduğumu, pozisyonun gerektirdiği sorumluluğu merak ve istekle üzerime almak istediğimi belirtmek isterim. İstekli, özenli ve dikkatli çalışmanın mutlaka başarı ile sonuçlanacağının bilincindeyim. Bu nedenle size yeteneklerim ve çalışma disiplinim ile katkı sağlayabileceğim noktasında şüphem yok.'),
                   SizedBox(height: 30),
                   IletisimBilgileri(
                     telNo: '599 999 99 99',

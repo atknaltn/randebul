@@ -64,7 +64,7 @@ class _HomeScreenState extends State<MyHomePage> {
                         title: TextField(
                           autofocus: true,
                           decoration: InputDecoration(
-                            hintText: ' Aramak için kelime giriniz...',
+                            hintText: 'Search in Services ...',
                             hintStyle: TextStyle(
                               color: Colors.white,
                               fontSize: 17,
@@ -162,17 +162,17 @@ class _HomeScreenState extends State<MyHomePage> {
                       height: 222,
                       color: Colors.red[500],
                       child: Center(
-                        child: Text('Eğitim A'),
+                        child: Text('Service A'),
                       )),
                   Container(
                     height: 222,
                     color: Colors.amber[500],
-                    child: const Center(child: Text('Eğitim B')),
+                    child: const Center(child: Text('Service B')),
                   ),
                   Container(
                     height: 222,
                     color: Colors.green[100],
-                    child: const Center(child: Text('Eğitim C')),
+                    child: const Center(child: Text('Service C')),
                   ),
                 ],
               ),
@@ -196,16 +196,28 @@ class _HomeScreenState extends State<MyHomePage> {
                   decoration: BoxDecoration(
                     color: Colors.blue,
                   ),
-                  child: Text('Randebul'),
+                  child: Text('Categories'),
                 ),
                 ListTile(
-                  title: const Text('Sen Makinasın Makina'),
+                  title: const Text('Health'),
                   onTap: () {
                     Navigator.pop(context);
                   },
                 ),
                 ListTile(
-                  title: const Text('Mahmut'),
+                  title: const Text('Education'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Sports'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Music'),
                   onTap: () {
                     Navigator.pop(context);
                   },
