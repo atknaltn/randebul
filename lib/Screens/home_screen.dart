@@ -161,7 +161,7 @@ class _HomeScreenState extends State<MyHomePage> {
                   Container(
                       height: 222,
                       color: Colors.red[500],
-                      child: Center(
+                      child: const Center(
                         child: Text('Service A'),
                       )),
                   Container(
@@ -176,11 +176,13 @@ class _HomeScreenState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              Center(child: Icon(Icons.calendar_today_outlined)),
-              Center(
+              const Center(
+                child: Icon(Icons.calendar_today_outlined),
+              ),
+              const Center(
                 child: Icon(Icons.shopping_basket),
               ),
-              Center(
+              const Center(
                 child: Icon(Icons.settings),
               ),
             ],

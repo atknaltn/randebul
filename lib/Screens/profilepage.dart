@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:randebul/Screens/home_screen.dart';
+//import 'package:randebul/Screens/home_screen.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -10,64 +10,66 @@ class ProfilePage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('My Profile'),
+          title: const Text('My Profile'),
           actions: [
             IconButton(
-              icon: const Icon(Icons.edit,),
+              icon: const Icon(
+                Icons.edit,
+              ),
               onPressed: () {
                 print('Editbutton');
               },
             ),
             IconButton(
-                icon: const Icon(Icons.arrow_back),
-                padding: const EdgeInsets.only(right: 15, left: 15),
-                tooltip: 'Back',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+              icon: const Icon(Icons.arrow_back),
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              tooltip: 'Back',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
         drawer: Drawer(
-            // Add a ListView to the drawer. This ensures the user can scroll
-            // through the options in the drawer if there isn't enough vertical
-            // space to fit everything.
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Text('Categories'),
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
                 ),
-                ListTile(
-                  title: const Text('Health'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: const Text('Education'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: const Text('Sports'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: const Text('Music'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
+                child: Text('Categories'),
+              ),
+              ListTile(
+                title: const Text('Health'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Education'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Sports'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Music'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -107,19 +109,20 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                        onTap: () {
-                          print('tapped1');
-                        },
-                        child:
-                            IconText(icon: Icons.comment, text: 'Yorum Yap')),
+                      onTap: () {
+                        print('tapped1');
+                      },
+                      child: const IconText(
+                          icon: Icons.comment, text: 'Yorum Yap'),
+                    ),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Expanded(
                     child: GestureDetector(
                         onTap: () {
                           print('tapped2');
                         },
-                        child: IconText(
+                        child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
                   ),
                 ],
@@ -160,7 +163,7 @@ class UstKart extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             child: Image.asset(
               resimAdresi,
               height: 150,
@@ -188,10 +191,10 @@ class UstKart extends StatelessWidget {
                 ],
               ),
               Text('@$username'),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(proffession),
               Text(location),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   Text('Puan: $puan '),
@@ -242,13 +245,13 @@ class Hakkinda extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Hakkında',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(hakkindaYazisi),
@@ -306,41 +309,41 @@ class Yorumlar extends StatelessWidget {
         ),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text(
+            const Text(
               'Son Yorumlar',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            YorumKart(
+            const YorumKart(
                 username: 'xyz123',
                 tarih: '30 Ekim 2021',
                 puan: 9,
                 yorumMetni:
                     'Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. Savaş Hoca çok iyiydi. '),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            YorumKart(
+            const YorumKart(
                 username: 'Anonim',
                 tarih: '28 Ekim 2021',
                 puan: 4,
                 yorumMetni:
                     'Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. Savaş Hoca pek iyi değildi. '),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             GestureDetector(
               onTap: () {
                 print('tapped3');
               },
-              child: Text(
+              child: const Text(
                 'TÜM YORUMLARI GÖR',
                 style: TextStyle(
                   color: Colors.orange,
@@ -350,7 +353,7 @@ class Yorumlar extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
           ],
@@ -381,9 +384,9 @@ class MyCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Icon(cardIcon),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               cardText,
             ),
@@ -413,10 +416,10 @@ class IconText extends StatelessWidget {
             icon,
             size: 35,
           ),
-          SizedBox(height: 5.0),
+          const SizedBox(height: 5.0),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -445,7 +448,7 @@ class YorumKart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -454,13 +457,13 @@ class YorumKart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       'Kullanıcı adı: ',
                       style: TextStyle(
@@ -472,14 +475,14 @@ class YorumKart extends StatelessWidget {
                 ),
                 Row(children: [
                   Text(tarih),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                 ]),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(
               children: [
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Text(
                   'Puanı: ',
                   style: TextStyle(
@@ -514,17 +517,17 @@ class YorumKart extends StatelessWidget {
                         : Icon(Icons.star, color: Colors.yellow),
               ],
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Flexible(child: Text('"$yorumMetni"')),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
