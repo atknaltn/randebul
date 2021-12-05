@@ -9,6 +9,7 @@ class ProfilePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           centerTitle: true,
           title: const Text('My Profile'),
           actions: [

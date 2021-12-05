@@ -41,6 +41,7 @@ class _HomeScreenState extends State<MyHomePage> {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
+            elevation: 0,
             automaticallyImplyLeading: leading,
             title: customSearchBar,
             actions: <Widget>[
@@ -150,9 +151,11 @@ class _HomeScreenState extends State<MyHomePage> {
             scrollDirection: Axis.horizontal,
             controller: controller,
             onPageChanged: (page) {
-              setState(() {
-                index = page;
-              });
+              setState(
+                () {
+                  index = page;
+                },
+              );
             },
             children: <Widget>[
               ListView(
