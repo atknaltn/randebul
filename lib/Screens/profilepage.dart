@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'appointment_screen.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -121,7 +123,12 @@ class ProfilePage extends StatelessWidget {
                   Expanded(
                     child: GestureDetector(
                         onTap: () {
-                          print('tapped2');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AppointmentScreen(isim: 'Savaş Cebeci', proffession: 'Personal Trainer', puan: 8)
+                              )
+                          );
                         },
                         child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
@@ -180,14 +187,14 @@ class UstKart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   (verified == true)
-                      ? Icon(
+                      ? const Icon(
                           Icons.verified,
                           color: Colors.blue,
                         )
-                      : Text(''),
+                      : const Text(''),
                   Text(
                     isim,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -200,30 +207,30 @@ class UstKart extends StatelessWidget {
                 children: [
                   Text('Puan: $puan '),
                   (puan < 1)
-                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 1)
-                          ? Icon(Icons.star_half, color: Colors.yellow)
-                          : Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 2)
-                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 3)
-                          ? Icon(Icons.star_half, color: Colors.yellow)
-                          : Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 4)
-                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 5)
-                          ? Icon(Icons.star_half, color: Colors.yellow)
-                          : Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 6)
-                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 7)
-                          ? Icon(Icons.star_half, color: Colors.yellow)
-                          : Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 8)
-                      ? Icon(Icons.star_border, color: Colors.yellow)
+                      ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 9)
-                          ? Icon(Icons.star_half, color: Colors.yellow)
-                          : Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                 ],
               ),
             ],
@@ -465,7 +472,7 @@ class YorumKart extends StatelessWidget {
                 Row(
                   children: [
                     const SizedBox(width: 10),
-                    Text(
+                    const Text(
                       'Kullanıcı adı: ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -484,38 +491,38 @@ class YorumKart extends StatelessWidget {
             Row(
               children: [
                 const SizedBox(width: 10),
-                Text(
+                const Text(
                   'Puanı: ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 (puan < 1)
-                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 1)
-                        ? Icon(Icons.star_half, color: Colors.yellow)
-                        : Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 2)
-                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 3)
-                        ? Icon(Icons.star_half, color: Colors.yellow)
-                        : Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 4)
-                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 5)
-                        ? Icon(Icons.star_half, color: Colors.yellow)
-                        : Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 6)
-                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 7)
-                        ? Icon(Icons.star_half, color: Colors.yellow)
-                        : Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 8)
-                    ? Icon(Icons.star_border, color: Colors.yellow)
+                    ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 9)
-                        ? Icon(Icons.star_half, color: Colors.yellow)
-                        : Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
               ],
             ),
             const SizedBox(height: 5),
