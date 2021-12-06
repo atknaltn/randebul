@@ -21,13 +21,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // string for displaying the error Message
   String? errorMessage;
 
+  final userNameController = TextEditingController();
   final firstNameController = TextEditingController();
   final surnameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final adressController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final userName = TextFormField(
+      autofocus: false,
+      controller: userNameController,
+      keyboardType: TextInputType.name,
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{3,}$');
+        if (value!.isEmpty) {
+          return ("Username cannot be Empty");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Enter Valid username(Min. 3 Character)");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        firstNameController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.person),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Username",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
     //first name field
     final firstNameField = TextFormField(
       autofocus: false,
@@ -150,6 +179,54 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           )),
     );
+    final phoneNumber = TextFormField(
+      autofocus: false,
+      controller: phoneNumberController,
+      keyboardType: TextInputType.phone,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("Please Enter Your Phone number");
+        }
+        // reg expression for email validation
+        if (!RegExp("^[0-9]").hasMatch(value)) {
+          return ("Please Enter a valid phone number");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        phoneNumberController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.phone),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Phone Number",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
+    final adress = TextFormField(
+      autofocus: false,
+      controller: adressController,
+      keyboardType: TextInputType.streetAddress,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return ("Please Enter Your adress");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        adressController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.home),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Adress",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
     final signUpButton = Material(
       elevation: 5,
       color: Colors.red,
@@ -209,6 +286,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    userName,
+                    const SizedBox(
+                      height: 10,
+                    ),
                     firstNameField,
                     const SizedBox(
                       height: 10,
@@ -226,6 +307,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       height: 10,
                     ),
                     confirmPasswordField,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    phoneNumber,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    adress,
                     const SizedBox(
                       height: 10,
                     ),
@@ -293,6 +382,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.uid = user.uid;
     userModel.firstName = firstNameController.text;
     userModel.surName = surnameController.text;
+    userModel.phoneNumber = phoneNumberController.text;
+    userModel.userName = userNameController.text;
+    userModel.adress = adressController.text;
 
     await firebaseFirestore
         .collection("users")

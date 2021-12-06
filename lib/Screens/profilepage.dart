@@ -1,13 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'appointment_screen.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
+  HomePage createState() => HomePage();
+}
+
+class HomePage extends State<ProfilePage> {
+  //User user = FirebaseAuth.instance.currentUser!;
+  String firstname = "";
+  String lastname = "";
+  String mail = "";
+  String phoneNumber = "";
+  String address = "";
+  String userName = "";
+  Future<void> _getUserName() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc((await FirebaseAuth.instance.currentUser)!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        firstname = value.data()!['firstName'].toString();
+        lastname = value.data()!['surName'].toString();
+        mail = value.data()!['email'].toString();
+        phoneNumber = value.data()!['phoneNumber'].toString();
+        address = value.data()!['adress'].toString();
+        userName = value.data()!['userName'].toString();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    _getUserName();
+    print(firstname);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -79,30 +109,28 @@ class ProfilePage extends StatelessWidget {
             Expanded(
               flex: 5,
               child: ListView(
-                children: const [
+                children: [
                   UstKart(
                     puan: 8.5,
-                    resimAdresi: 'assets/testProfile.jpg',
+                    resimAdresi: 'assets/blankprofile.png',
                     verified: true,
-                    isim: 'Savaş Cebeci',
-                    username: 'savascebeci',
-                    proffession: 'Personal Trainer',
-                    location: 'İstanbul',
+                    isim: firstname + " " + lastname,
+                    username: userName,
+                    proffession: '',
+                    location: address,
                   ),
                   SizedBox(height: 30),
-                  Hakkinda(
-                      hakkindaYazisi:
-                          'İş yaşamında efektif ve hızlı olmak konusunda son derece özverili ve hevesli olduğumu, pozisyonun gerektirdiği sorumluluğu merak ve istekle üzerime almak istediğimi belirtmek isterim. İstekli, özenli ve dikkatli çalışmanın mutlaka başarı ile sonuçlanacağının bilincindeyim. Bu nedenle size yeteneklerim ve çalışma disiplinim ile katkı sağlayabileceğim noktasında şüphem yok.'),
+                  const Hakkinda(hakkindaYazisi: ''),
                   SizedBox(height: 30),
                   IletisimBilgileri(
-                    telNo: '599 999 99 99',
-                    email: 'savascebeci@gmail.com',
-                    website: 'savascebeci.com',
-                    address: 'Kaslı Mah. Demir Sok. 93/3',
+                    telNo: phoneNumber,
+                    email: mail,
+                    website: '',
+                    address: address,
                   ),
-                  SizedBox(height: 30),
-                  Yorumlar(),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
+                  const Yorumlar(),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
@@ -126,9 +154,10 @@ class ProfilePage extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AppointmentScreen(isim: 'Savaş Cebeci', proffession: 'Personal Trainer', puan: 8)
-                              )
-                          );
+                                  builder: (context) => const AppointmentScreen(
+                                      isim: 'Savaş Cebeci',
+                                      proffession: 'Personal Trainer',
+                                      puan: 8)));
                         },
                         child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
@@ -140,7 +169,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
     );
-  }
+  } //Your code here
 }
 
 /*Sayfanın üstünde profil resmi, isim, username, meslek ve konum bulunan bölüm.*/

@@ -91,10 +91,8 @@ class _HomeScreenState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProfilePage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()));
                   },
                 ),
               if (!hide)
