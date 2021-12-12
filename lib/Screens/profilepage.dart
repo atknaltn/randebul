@@ -119,9 +119,9 @@ class HomePage extends State<ProfilePage> {
                     proffession: '',
                     location: address,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   const Hakkinda(hakkindaYazisi: ''),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   IletisimBilgileri(
                     telNo: phoneNumber,
                     email: mail,

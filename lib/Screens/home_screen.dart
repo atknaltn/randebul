@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/profilepage.dart';
+import 'package:randebul/model/service_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -159,21 +162,69 @@ class _HomeScreenState extends State<MyHomePage> {
               ListView(
                 padding: const EdgeInsets.all(8),
                 children: <Widget>[
-                  Container(
-                      height: 222,
-                      color: Colors.red[500],
-                      child: const Center(
-                        child: Text('Service A'),
-                      )),
-                  Container(
-                    height: 222,
-                    color: Colors.amber[500],
-                    child: const Center(child: Text('Service B')),
+                  RichText(
+                    text: const TextSpan(
+                      text: ' Most Popular Services ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Container(
-                    height: 222,
-                    color: Colors.green[100],
-                    child: const Center(child: Text('Service C')),
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: const <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Service(filePath: "assets/fitness1.jpg"),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Service(filePath: "assets/fitness2.jpg"),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: const <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Service(filePath: "assets/healty.jpg"),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Service(filePath: "assets/yoga.jpg"),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      children: const <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Service(filePath: "assets/baglama.jpg"),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Service(filePath: "assets/gitar.jpg"),
+                      ],
+                    ),
                   ),
                 ],
               ),
