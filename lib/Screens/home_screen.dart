@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/profilepage.dart';
+import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -178,15 +180,23 @@ class _HomeScreenState extends State<MyHomePage> {
                   Container(
                     alignment: Alignment.topRight,
                     child: Row(
-                      children: const <Widget>[
-                        SizedBox(
+                      children: <Widget>[
+                        const SizedBox(
                           width: 10,
                         ),
-                        Service(filePath: "assets/fitness1.jpg"),
-                        SizedBox(
+                        Flexible(
+                          child: GestureDetector(
+                            child: const Service(filePath: "assets/fitness1.jpg"),
+                            onTap: () {
+                              Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => const SportProfessionals()));
+                            },
+                          ),
+                        ),
+                        const SizedBox(
                           width: 30,
                         ),
-                        Service(filePath: "assets/fitness2.jpg"),
+                        const Service(filePath: "assets/fitness2.jpg"),
                       ],
                     ),
                   ),
