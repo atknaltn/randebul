@@ -6,6 +6,89 @@ import 'package:randebul/model/user_model.dart';
 
 import 'home_screen.dart';
 
+class UsernameFieldValidator{
+  static String? validate(String? value){
+    RegExp regex = RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      return ("Username cannot be Empty");
+    }
+    if (!regex.hasMatch(value)) {
+      return ("Enter Valid username(Min. 3 Character)");
+    }
+    return null;
+  }
+}
+
+class FirstNameFieldValidator{
+  static String? validate(String? value){
+    RegExp regex = RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      return ("First Name cannot be Empty");
+    }
+    if (!regex.hasMatch(value)) {
+      return ("Enter Valid name(Min. 3 Character)");
+    }
+    return null;
+  }
+}
+
+class SurnameFieldValidator{
+  static String? validate(String? value){
+    if (value!.isEmpty) {
+      return ("Second Name cannot be Empty");
+    }
+    return null;
+  }
+}
+
+class EmailFieldValidator{
+  static String? validate(String? value){
+    if (value!.isEmpty) {
+      return ("Please Enter Your Email");
+    }
+    // reg expression for email validation
+    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+      return ("Please Enter a valid email");
+    }
+    return null;
+  }
+}
+
+class PasswordFieldValidator{
+  static String? validate(String? value){
+    RegExp regex = RegExp(r'^.{6,}$');
+    if (value!.isEmpty) {
+      return ("Password is required for login");
+    }
+    if (!regex.hasMatch(value)) {
+      return ("Enter Valid Password(Min. 6 Character)");
+    }
+  }
+}
+
+class PhoneNumberFieldValidator{
+  static String? validate(String? value){
+    if (value!.isEmpty) {
+      return ("Please Enter Your Phone number");
+    }
+    // reg expression for email validation
+    if (!RegExp("^[0-9]").hasMatch(value)) {
+      return ("Please Enter a valid phone number");
+    }
+    return null;
+  }
+}
+
+class AddressFieldValidator{
+  static String? validate(String? value){
+    if (value!.isEmpty) {
+      return ("Please Enter Your adress");
+    }
+    return null;
+  }
+}
+
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -35,16 +118,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: userNameController,
       keyboardType: TextInputType.name,
-      validator: (value) {
-        RegExp regex = RegExp(r'^.{3,}$');
-        if (value!.isEmpty) {
-          return ("Username cannot be Empty");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("Enter Valid username(Min. 3 Character)");
-        }
-        return null;
-      },
+      validator: UsernameFieldValidator.validate,
       onSaved: (value) {
         firstNameController.text = value!;
       },
@@ -62,16 +136,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: firstNameController,
       keyboardType: TextInputType.name,
-      validator: (value) {
-        RegExp regex = RegExp(r'^.{3,}$');
-        if (value!.isEmpty) {
-          return ("First Name cannot be Empty");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("Enter Valid name(Min. 3 Character)");
-        }
-        return null;
-      },
+      validator: FirstNameFieldValidator.validate,
       onSaved: (value) {
         firstNameController.text = value!;
       },
@@ -88,12 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: surnameController,
       keyboardType: TextInputType.name,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Second Name cannot be Empty");
-        }
-        return null;
-      },
+      validator: SurnameFieldValidator.validate,
       onSaved: (value) {
         surnameController.text = value!;
       },
@@ -110,16 +170,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please Enter Your Email");
-        }
-        // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
-        }
-        return null;
-      },
+      validator: EmailFieldValidator.validate,
       onSaved: (value) {
         emailController.text = value!;
       },
@@ -183,16 +234,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       autofocus: false,
       controller: phoneNumberController,
       keyboardType: TextInputType.phone,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please Enter Your Phone number");
-        }
-        // reg expression for email validation
-        if (!RegExp("^[0-9]").hasMatch(value)) {
-          return ("Please Enter a valid phone number");
-        }
-        return null;
-      },
+      validator: PhoneNumberFieldValidator.validate,
       onSaved: (value) {
         phoneNumberController.text = value!;
       },

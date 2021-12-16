@@ -4,6 +4,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:randebul/Screens/home_screen.dart';
 import 'package:randebul/Screens/registration_screen.dart';
 
+class EmailFieldValidator{
+  static String? validate(String? value){
+
+    if (value!.isEmpty) {
+      return ("Please Enter Your Email");
+    }
+    // reg expression for email validation
+    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+      return ("Please Enter a valid email");
+    }
+    return null;
+  }
+}
+
+class PasswordFieldValidator{
+  static String? validate(String? value){
+    RegExp regex = RegExp(r'^.{6,}$');
+    if (value!.isEmpty) {
+      return ("Password is required for login");
+    }
+    if (!regex.hasMatch(value)) {
+      return ("Enter Valid Password(Min. 6 Character)");
+    }
+  }
+}
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -30,16 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       autofocus: false,
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please Enter Your Email");
-        }
-        // reg expression for email validation
-        if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
-        }
-        return null;
-      },
+      validator: EmailFieldValidator.validate,
       onSaved: (value) {
         emailController.text = value!;
       },
@@ -58,15 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
       autofocus: false,
       controller: passwordController,
       obscureText: true,
-      validator: (value) {
-        RegExp regex = RegExp(r'^.{6,}$');
-        if (value!.isEmpty) {
-          return ("Password is required for login");
-        }
-        if (!regex.hasMatch(value)) {
-          return ("Enter Valid Password(Min. 6 Character)");
-        }
-      },
+      validator: PasswordFieldValidator.validate,
       onSaved: (value) {
         passwordController.text = value!;
       },
