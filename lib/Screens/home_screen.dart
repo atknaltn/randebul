@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
+import 'package:randebul/Screens/my_profile.dart';
 import 'package:randebul/Screens/profilepage.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -96,8 +96,10 @@ class _HomeScreenState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ProfilePage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyProfilePage()));
                   },
                 ),
               if (!hide)
@@ -186,17 +188,26 @@ class _HomeScreenState extends State<MyHomePage> {
                         ),
                         Flexible(
                           child: GestureDetector(
-                            child: const Service(filePath: "assets/fitness1.jpg"),
+                            child: const Service(
+                              filePath: "assets/fitness1.jpg",
+                              serviceName: "Fitness",
+                            ),
                             onTap: () {
-                              Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => const SportProfessionals()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SportProfessionals()));
                             },
                           ),
                         ),
                         const SizedBox(
                           width: 30,
                         ),
-                        const Service(filePath: "assets/fitness2.jpg"),
+                        const Service(
+                          filePath: "assets/fitness2.jpg",
+                          serviceName: "Fitness",
+                        ),
                       ],
                     ),
                   ),
@@ -210,11 +221,17 @@ class _HomeScreenState extends State<MyHomePage> {
                         SizedBox(
                           width: 10,
                         ),
-                        Service(filePath: "assets/healty.jpg"),
+                        Service(
+                          filePath: "assets/healty.jpg",
+                          serviceName: "Nutrition",
+                        ),
                         SizedBox(
                           width: 30,
                         ),
-                        Service(filePath: "assets/yoga.jpg"),
+                        Service(
+                          filePath: "assets/yoga.jpg",
+                          serviceName: "Yoga",
+                        ),
                       ],
                     ),
                   ),
@@ -228,11 +245,17 @@ class _HomeScreenState extends State<MyHomePage> {
                         SizedBox(
                           width: 10,
                         ),
-                        Service(filePath: "assets/baglama.jpg"),
+                        Service(
+                          filePath: "assets/baglama.jpg",
+                          serviceName: "Baglama",
+                        ),
                         SizedBox(
                           width: 30,
                         ),
-                        Service(filePath: "assets/gitar.jpg"),
+                        Service(
+                          filePath: "assets/gitar.jpg",
+                          serviceName: "Guitar",
+                        ),
                       ],
                     ),
                   ),
