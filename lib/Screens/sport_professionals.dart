@@ -60,9 +60,16 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                             title: Text(
                                 '${hocaList[index].data()['name']} ${hocaList[index].data()['surname']}',
                                 style: const TextStyle(fontSize: 28),),
-                            subtitle: Text(
-                              'Puan: ${hocaList[index].data()['puan']}',
-                              style: const TextStyle(fontSize: 20),),
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('${hocaList[index].data()['profession']}',
+                                  style: const TextStyle(fontSize: 20),),
+                                Text(
+                                  'Puan: ${hocaList[index].data()['puan']}',
+                                  style: const TextStyle(fontSize: 20),),
+                              ],
+                            ),
                             onTap: () async{
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) => ProfessionalProfile(hocaRef: hocaList[index].data(),)));

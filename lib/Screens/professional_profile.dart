@@ -21,6 +21,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String userName = "";
   String website = "";
   String hakkinda = "";
+  String profession = "";
   int puan = 5;
   bool verified = false;
   Future<void> _getUserName() async {
@@ -40,6 +41,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
         puan = widget.hocaRef['puan'];
         hakkinda = '${widget.hocaRef['hakkinda']}';
         verified = widget.hocaRef['verified'];
+        profession = '${widget.hocaRef['profession']}';
       });
     });
   }
@@ -117,7 +119,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                     verified: verified,
                     isim: firstname + " " + lastname,
                     username: userName,
-                    proffession: 'Sports Trainer',
+                    proffession: profession,
                     location: address,
                   ),
                   const SizedBox(height: 30),
@@ -130,7 +132,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                     address: address,
                   ),
                   const SizedBox(height: 30),
-                  const Yorumlar(),
+                  Yorumlar(hocaRef: widget.hocaRef,),
                   const SizedBox(height: 30),
                 ],
               ),
@@ -142,7 +144,6 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        print('tapped1');
                       },
                       child: const IconText(
                           icon: Icons.comment, text: 'Yorum Yap'),
@@ -155,10 +156,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AppointmentScreen(
-                                      isim: firstname + " " + lastname,
-                                      proffession: 'Sports Trainer',
-                                      puan: puan)));
+                                  builder: (context) => AppointmentScreen(hocaRef: widget.hocaRef,)));
                         },
                         child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
@@ -332,13 +330,17 @@ class IletisimBilgileri extends StatelessWidget {
 
 /*2 yorum kartından oluşan son yorumlar bölümü.*/
 class Yorumlar extends StatelessWidget {
+  final dynamic hocaRef;
 
   const Yorumlar(
-      {Key? key,})
+      {Key? key, required this.hocaRef})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    dynamic yorumlar = <Map>[];
+    yorumlar = hocaRef['yorumlar'];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
@@ -360,27 +362,28 @@ class Yorumlar extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const YorumKart(
-                username: 'xyz123',
-                tarih: '30 Ekim 2021',
-                puan: 9,
-                yorumMetni:
-                'Bu eğitmen çok iyiydi.'),
+            (yorumlar.isEmpty)
+                ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
+                : YorumKart(
+                username: yorumlar[0]['kullaniciadi'],
+                tarih: yorumlar[0]['tarih'],
+                puan: yorumlar[0]['puan'],
+                yorumMetni: yorumlar[0]['yorum']),
             const SizedBox(
               height: 5,
             ),
-            const YorumKart(
-                username: 'Anonim',
-                tarih: '28 Ekim 2021',
-                puan: 5,
-                yorumMetni:
-                'Bu eğitmen idare eder.'),
+            (yorumlar.length < 2)
+            ? const SizedBox(height: 5)
+            : YorumKart(
+                username: yorumlar[1]['kullaniciadi'],
+                tarih: yorumlar[1]['tarih'],
+                puan: yorumlar[1]['puan'],
+                yorumMetni: yorumlar[1]['yorum']),
             const SizedBox(
               height: 10,
             ),
             GestureDetector(
               onTap: () {
-                print('tapped3');
               },
               child: const Text(
                 'TÜM YORUMLARI GÖR',

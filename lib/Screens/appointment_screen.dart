@@ -1,17 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class AppointmentScreen extends StatefulWidget {
-  final String isim;
-  final String proffession;
-  final int puan;
+  final dynamic hocaRef;
 
   const AppointmentScreen({
     Key? key,
-    this.isim = '',
-    this.proffession = '',
-    this.puan = 5,
+    required this.hocaRef
   }) : super(key: key);
 
   @override
@@ -19,11 +14,10 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
-  final _firestore = FirebaseFirestore.instance;
-
+  dynamic hizmetList = <Map>[];
   @override
   Widget build(BuildContext context) {
-    CollectionReference hizmetlerRef = _firestore.collection('hasan-hizmetler');
+  hizmetList = widget.hocaRef['hizmetler'];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -74,7 +68,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             Container(
                               margin: const EdgeInsets.only(top: 30),
                               child: Text(
-                                widget.isim,
+                                '${widget.hocaRef['name']} ${widget.hocaRef['surname']}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,
@@ -85,7 +79,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             Container(
                               margin: const EdgeInsets.only(top: 10),
                               child: Text(
-                                widget.proffession,
+                                '${widget.hocaRef['profession']}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -95,7 +89,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                             Container(
                               margin: const EdgeInsets.only(top: 15),
                               child: Text(
-                                'Puan: ${widget.puan}',
+                                'Puan: ${widget.hocaRef['puan']}',
                                 style: const TextStyle(
                                   color: Colors.yellow,
                                   fontSize: 15,
@@ -122,35 +116,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 ],
               ),
             ),
-            StreamBuilder<QuerySnapshot>(
-                stream: hizmetlerRef.snapshots(),
-                builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
-                  if (asyncSnapshot.hasError) {
-                    return const Center(
-                        child: Text('Bir Hata Oluştu. Lütfen Tekrar Deneyin.'));
-                  } else {
-                    if (asyncSnapshot.hasData) {
-                      dynamic hizmetList = asyncSnapshot.data.docs;
-                      return Flexible(
-                        child: ColumnBuilder(
-
-                            itemCount: hizmetList.length,
-                            itemBuilder: (context, index) {
-                              return ServiceBox(
-                                serviceName: '${hizmetList[index].data()['name']}',
-                                duration: '${hizmetList[index].data()['sure']}',
-                                icerik: '${hizmetList[index].data()['icerik']}',
-                                fiyat: '${hizmetList[index].data()['fiyat']}',
-                              );
-                            }),
-                      );
-                    } else {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }
-                }),
+            if (hizmetList.isEmpty) const Text('Zort')
+            else
+              for(int index = 0; index < hizmetList.length; index++)
+              ServiceBox(
+              serviceName: '${hizmetList[index]['başlık']}',
+              duration: '${hizmetList[index]['sure']}',
+              icerik: '${hizmetList[index]['icerik']}',
+              fiyat: '${hizmetList[index]['fiyat']}',
+              ),
           ],
         ),
       ),
