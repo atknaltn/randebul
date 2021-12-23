@@ -116,7 +116,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 ],
               ),
             ),
-            if (hizmetList.isEmpty) const Text('Zort')
+            if (hizmetList.isEmpty) const Text('Bu profesyonel henüz hizmet vermemektedir.')
             else
               for(int index = 0; index < hizmetList.length; index++)
               ServiceBox(
