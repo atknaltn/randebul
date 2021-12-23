@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
+import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
 
@@ -283,6 +284,16 @@ class _HomeScreenState extends State<MyHomePage> {
                     color: Colors.blue,
                   ),
                   child: Text('Categories'),
+                ),
+                ListTile(
+                  title: const Text('Create a Service'),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                UploadService()));
+                  },
                 ),
                 ListTile(
                   title: const Text('Health'),
