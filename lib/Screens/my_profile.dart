@@ -57,7 +57,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
             imagePath: user.imagePath,
             onClicked: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditProfile()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        EditProfile(firstname, lastname, mail, uid)),
               );
             },
           ),
