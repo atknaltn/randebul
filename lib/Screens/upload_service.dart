@@ -21,7 +21,7 @@ class _UploadServiceState extends State<UploadService> {
       backgroundColor: Color(0xff000725),
       appBar: AppBar(
         backgroundColor: Color(0xffff2fc3),
-        title: Text(
+        title: const Text(
           "Create a Service",
           style: TextStyle(color: Color(0xffffffff)),
         ),
