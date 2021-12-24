@@ -50,6 +50,12 @@ class _MyProfilePageState extends State<MyProfilePage> {
             height: 24,
           ),
           buildAbout(user),
+          const SizedBox(
+            height: 24,
+          ),
+          Center(
+            child: buildCreateAppointmentButton(),
+          ),
         ],
       ),
     );
@@ -89,5 +95,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
             style: const TextStyle(fontSize: 16, height: 1.4),
           ),
         ],
+      );
+
+  Widget buildCreateAppointmentButton() => ButtonWidget(
+        text: 'Create Appointment',
+        onClicked: () {},
       );
 }
