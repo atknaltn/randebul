@@ -6,8 +6,8 @@ import 'package:randebul/model/user_model.dart';
 
 import 'home_screen.dart';
 
-class UsernameFieldValidator{
-  static String? validate(String? value){
+class UsernameFieldValidator {
+  static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{3,}$');
     if (value!.isEmpty) {
       return ("Username cannot be Empty");
@@ -19,8 +19,8 @@ class UsernameFieldValidator{
   }
 }
 
-class FirstNameFieldValidator{
-  static String? validate(String? value){
+class FirstNameFieldValidator {
+  static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{3,}$');
     if (value!.isEmpty) {
       return ("First Name cannot be Empty");
@@ -32,8 +32,8 @@ class FirstNameFieldValidator{
   }
 }
 
-class SurnameFieldValidator{
-  static String? validate(String? value){
+class SurnameFieldValidator {
+  static String? validate(String? value) {
     if (value!.isEmpty) {
       return ("Second Name cannot be Empty");
     }
@@ -41,8 +41,8 @@ class SurnameFieldValidator{
   }
 }
 
-class EmailFieldValidator{
-  static String? validate(String? value){
+class EmailFieldValidator {
+  static String? validate(String? value) {
     if (value!.isEmpty) {
       return ("Please Enter Your Email");
     }
@@ -54,8 +54,8 @@ class EmailFieldValidator{
   }
 }
 
-class PasswordFieldValidator{
-  static String? validate(String? value){
+class PasswordFieldValidator {
+  static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{6,}$');
     if (value!.isEmpty) {
       return ("Password is required for login");
@@ -66,8 +66,8 @@ class PasswordFieldValidator{
   }
 }
 
-class PhoneNumberFieldValidator{
-  static String? validate(String? value){
+class PhoneNumberFieldValidator {
+  static String? validate(String? value) {
     if (value!.isEmpty) {
       return ("Please Enter Your Phone number");
     }
@@ -79,15 +79,14 @@ class PhoneNumberFieldValidator{
   }
 }
 
-class AddressFieldValidator{
-  static String? validate(String? value){
+class AddressFieldValidator {
+  static String? validate(String? value) {
     if (value!.isEmpty) {
       return ("Please Enter Your adress");
     }
     return null;
   }
 }
-
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -427,7 +426,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.phoneNumber = phoneNumberController.text;
     userModel.userName = userNameController.text;
     userModel.adress = adressController.text;
-
+    userModel.isProfessional = false;
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)
