@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randebul/Screens/confirm_appointment.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class AppointmentScreen extends StatefulWidget {
@@ -15,6 +16,9 @@ class AppointmentScreen extends StatefulWidget {
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
   dynamic hizmetList = <Map>[];
+  bool isSelected = false;
+  int selectedIndex = 0;
+  Map selectedHizmet = {'başlık' : '', 'sure' : 0, 'icerik' : '', 'fiyat' : 0};
   @override
   Widget build(BuildContext context) {
   hizmetList = widget.hocaRef['hizmetler'];
@@ -106,7 +110,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     height: 5,
                   ),
                   const Text(
-                    'Hizmetler',
+                    'Hizmet Seçiniz',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -119,25 +123,48 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             if (hizmetList.isEmpty) const Text('Bu profesyonel henüz hizmet vermemektedir.')
             else
               for(int index = 0; index < hizmetList.length; index++)
-              ServiceBox(
-              serviceName: '${hizmetList[index]['başlık']}',
-              duration: '${hizmetList[index]['sure']}',
-              icerik: '${hizmetList[index]['icerik']}',
-              fiyat: '${hizmetList[index]['fiyat']}',
+              GestureDetector(
+                child: ServiceBox(
+                  serviceName: '${hizmetList[index]['başlık']}',
+                  duration: '${hizmetList[index]['sure']}',
+                  icerik: '${hizmetList[index]['icerik']}',
+                  fiyat: '${hizmetList[index]['fiyat']}',
+                  isSelected: (selectedIndex == index && isSelected) ? true : false,
+                ),
+                onTap: (){
+                  selectedHizmet = hizmetList[index];
+                  selectedIndex = index;
+                  setState(() {
+                    isSelected = !isSelected;
+                  });
+                },
               ),
           ],
         ),
+        floatingActionButton: (isSelected) ? FloatingActionButton.extended(
+            label: const Text('İlerle'),
+            icon: const Icon(Icons.arrow_forward),
+            onPressed: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConfirmAppointmentPage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef,)));
+
+            })
+            : null,
       ),
     );
   }
 }
 
-// Yeşil kutucuklar
+/*Hizmetlerin yer aldığı yeşil kutucuklar.*/
 class ServiceBox extends StatelessWidget {
   final String serviceName;
   final String duration;
   final String icerik;
   final String fiyat;
+  final bool isSelected;
+  final int index;
 
   const ServiceBox({
     Key? key,
@@ -145,6 +172,8 @@ class ServiceBox extends StatelessWidget {
     this.duration = '',
     this.icerik = '',
     this.fiyat = '',
+    this.isSelected = false,
+    this.index = 0,
   }) : super(key: key);
 
   @override
@@ -152,9 +181,9 @@ class ServiceBox extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       height: 200,
-      decoration: const BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+          color: (!isSelected) ? Colors.green : Colors.lime,
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       child: Column(
         children: [
           const SizedBox(height: 5),
@@ -188,6 +217,7 @@ class ServiceBox extends StatelessWidget {
     );
   }
 }
+
 
 // Yeşil kutucukların içindeki satır satır yazılar.
 class MyCard extends StatelessWidget {
@@ -229,30 +259,3 @@ class MyCard extends StatelessWidget {
   }
 }
 
-// Bunu internettem buldum tüm sayfayı birden kaydırabilmek için gerekliydi
-class ColumnBuilder extends StatelessWidget {
-  final IndexedWidgetBuilder itemBuilder;
-  final MainAxisAlignment mainAxisAlignment;
-  final MainAxisSize mainAxisSize;
-  final CrossAxisAlignment crossAxisAlignment;
-  final VerticalDirection verticalDirection;
-  final int itemCount;
-
-  const ColumnBuilder({
-    Key? key,
-    required this.itemBuilder,
-    required this.itemCount,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    this.mainAxisSize = MainAxisSize.max,
-    this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.verticalDirection = VerticalDirection.down,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(itemCount,
-              (index) => itemBuilder(context, index)).toList(),
-    );
-  }
-}
