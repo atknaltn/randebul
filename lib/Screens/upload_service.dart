@@ -2,12 +2,15 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:randebul/Screens/home_screen.dart';
+import 'package:randebul/model/service_model_last.dart';
 
 class UploadService extends StatefulWidget {
   const UploadService({Key? key}) : super(key: key);
@@ -20,12 +23,25 @@ class _UploadServiceState extends State<UploadService> {
   File? imageFile;
   var formKey = GlobalKey<FormState>();
   var serviceName, serviceCategory, servicePrice;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xff000725),
         appBar: AppBar(
           backgroundColor: Color(0xffff2fc3),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => HomeScreen()));
+            },
+          ),
           title: Text(
             "Create a Service",
             style: TextStyle(color: Color(0xffffffff)),
@@ -259,9 +275,7 @@ class _UploadServiceState extends State<UploadService> {
               "." +
               imageFile!.path);
       UploadTask uploadTask = reference.putFile(imageFile!);
-      uploadTask.then((imageurl) {
-        imageURL = imageurl.ref.getDownloadURL().toString();
-      });
+      imageURL = await (await uploadTask).ref.getDownloadURL();
       DatabaseReference databaseReference =
           FirebaseDatabase.instance.ref().child("Data");
       String? uploadID = databaseReference.push().key;
@@ -270,8 +284,19 @@ class _UploadServiceState extends State<UploadService> {
       map["serviceCategory"] = serviceCategory;
       map["servicePrice"] = servicePrice;
       map["imageURL"] = imageURL;
-
       databaseReference.child(uploadID!).set(map);
+
+      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+      User? user = _auth.currentUser;
+      ServiceModel serviceModel = ServiceModel(
+          serviceName: serviceName,
+          serviceCategory: serviceCategory,
+          servicePrice: servicePrice,
+          imageURL: imageURL);
+      await firebaseFirestore
+          .collection("Services")
+          .doc(user!.uid)
+          .set(serviceModel.toMap());
     }
   }
 }

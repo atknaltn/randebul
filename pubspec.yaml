@@ -35,7 +35,6 @@ dependencies:
   firebase_analytics: ^5.0.6
   firebase_database: ^9.0.4
   image_picker: ^0.8.4+4
-  firebase_database: ^9.0.4
   flutter:
     sdk: flutter
   fluttertoast: ^8.0.8

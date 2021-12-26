@@ -24,13 +24,13 @@ class HomeScreen extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   final String title;
-
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<MyHomePage> {
+  final _firestore = FirebaseFirestore.instance;
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Randebul');
   final String title = 'Randebul';
@@ -55,6 +55,7 @@ class _HomeScreenState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     _getProf();
+    CollectionReference services = _firestore.collection('Services');
     return MaterialApp(
       home: DefaultTabController(
         length: 4,
@@ -164,6 +165,58 @@ class _HomeScreenState extends State<MyHomePage> {
               ),
             ],
           ),
+          body: StreamBuilder<QuerySnapshot>(
+              stream: services.snapshots(),
+              builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
+                if (asyncSnapshot.hasError) {
+                  return const Center(
+                      child: Text('Bir Hata Oluştu. Lütfen Tekrar Deneyin.'));
+                } else {
+                  if (asyncSnapshot.hasData) {
+                    dynamic services = asyncSnapshot.data.docs;
+                    return ListView.builder(
+                        itemCount: services.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 10),
+                            color: Colors.yellow,
+                            child: ListTile(
+                              title: Text(
+                                '${services[index].data()['serviceName']}',
+                                style: const TextStyle(fontSize: 28),
+                              ),
+                              subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.network(
+                                    services[index].data()['imageURL'],
+                                    fit: BoxFit.cover,
+                                    height: 175,
+                                  ),
+                                  Text(
+                                    'Category: ${services[index].data()['serviceCategory']}',
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  Text(
+                                    'Price: ${services[index].data()['servicePrice']}',
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                              onTap: () async {},
+                            ),
+                          );
+                        });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }
+              }),
+          /*
           body: PageView(
             /// [PageView.scrollDirection] defaults to [Axis.horizontal].
             /// Use [Axis.vertical] to scroll vertically.
@@ -286,6 +339,7 @@ class _HomeScreenState extends State<MyHomePage> {
               ),
             ],
           ),
+          */
           drawer: Drawer(
             // Add a ListView to the drawer. This ensures the user can scroll
             // through the options in the drawer if there isn't enough vertical
