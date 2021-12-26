@@ -6,6 +6,7 @@ class UserModel {
   String? phoneNumber;
   String? userName;
   String? adress;
+  bool? isProfessional;
   UserModel(
       {this.uid,
       this.email,
@@ -13,7 +14,8 @@ class UserModel {
       this.surName,
       this.phoneNumber,
       this.userName,
-      this.adress});
+      this.adress,
+      this.isProfessional});
 
   // receiving data from server
   factory UserModel.fromMap(map) {
@@ -24,7 +26,8 @@ class UserModel {
         surName: map['surName'],
         phoneNumber: map['phoneNumber'],
         userName: map['userName'],
-        adress: map['adress']);
+        adress: map['adress'],
+        isProfessional: map['isProfessional']);
   }
 
   // sending data to our server
@@ -36,7 +39,8 @@ class UserModel {
       'surName': surName,
       'phoneNumber': phoneNumber,
       'userName': userName,
-      'adress': adress
+      'adress': adress,
+      'isProfessional': isProfessional
     };
   }
 }

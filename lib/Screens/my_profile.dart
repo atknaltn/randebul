@@ -6,6 +6,8 @@ import 'package:randebul/widget/appbar_widget.dart';
 import 'package:randebul/widget/button_widget.dart';
 import 'package:randebul/widget/numbers_widget.dart';
 import 'package:randebul/widget/profile_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
@@ -15,10 +17,37 @@ class MyProfilePage extends StatefulWidget {
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
+  String firstname = "";
+  String lastname = "";
+  String mail = "";
+  String phoneNumber = "";
+  String address = "";
+  String userName = "";
+  String uid = "";
+  bool isProf = false;
+  Future<void> _getUserName() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc((await FirebaseAuth.instance.currentUser)!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        uid = value.data()!['uid'].toString();
+        firstname = value.data()!['firstName'].toString();
+        lastname = value.data()!['surName'].toString();
+        mail = value.data()!['email'].toString();
+        phoneNumber = value.data()!['phoneNumber'].toString();
+        address = value.data()!['adress'].toString();
+        userName = value.data()!['userName'].toString();
+        isProf = value.data()!['isProfessional'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = UserPreferences.myUser;
-
+    _getUserName();
     return Scaffold(
       appBar: buildAppBar(context),
       body: ListView(
@@ -28,19 +57,21 @@ class _MyProfilePageState extends State<MyProfilePage> {
             imagePath: user.imagePath,
             onClicked: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => EditProfile()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        EditProfile(firstname, lastname, mail, uid)),
               );
             },
           ),
           const SizedBox(
             height: 24,
           ),
-          buildName(user),
+          buildName(firstname + " " + lastname, mail),
           const SizedBox(
             height: 24,
           ),
           Center(
-            child: buildUpgradeButton(),
+            child: buildUpgradeButton(uid),
           ),
           const SizedBox(
             height: 24,
@@ -50,27 +81,38 @@ class _MyProfilePageState extends State<MyProfilePage> {
             height: 24,
           ),
           buildAbout(user),
+          const SizedBox(
+            height: 24,
+          ),
+          Center(
+            child: buildCreateAppointmentButton(),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildName(Userr user) => Column(
+  Widget buildName(String name, String mail) => Column(
         children: [
           Text(
-            user.name,
+            name,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
           Text(
-            user.email,
+            mail,
             style: const TextStyle(color: Colors.grey),
           )
         ],
       );
-  Widget buildUpgradeButton() => ButtonWidget(
+  Widget buildUpgradeButton(String uid) => ButtonWidget(
         text: 'Upgrade To PRO',
-        onClicked: () {},
+        onClicked: () {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .update({'isProfessional': true});
+        },
       );
 
   Widget buildAbout(Userr user) => Column(
@@ -89,5 +131,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
             style: const TextStyle(fontSize: 16, height: 1.4),
           ),
         ],
+      );
+
+  Widget buildCreateAppointmentButton() => ButtonWidget(
+        text: 'Create Appointment',
+        onClicked: () {},
       );
 }

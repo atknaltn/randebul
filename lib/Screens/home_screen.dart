@@ -1,5 +1,6 @@
 import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
@@ -38,9 +39,22 @@ class _HomeScreenState extends State<MyHomePage> {
   int index = 0, page = 0;
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
+  bool isProf = false;
+  Future<void> _getProf() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc((await FirebaseAuth.instance.currentUser)!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        isProf = value.data()!['isProfessional'];
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    _getProf();
     return MaterialApp(
       home: DefaultTabController(
         length: 4,
@@ -285,16 +299,17 @@ class _HomeScreenState extends State<MyHomePage> {
                   ),
                   child: Text('Categories'),
                 ),
-                ListTile(
-                  title: const Text('Create a Service'),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                UploadService()));
-                  },
-                ),
+                if (isProf == true)
+                  ListTile(
+                    title: const Text('Create a Service'),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  UploadService()));
+                    },
+                  ),
                 ListTile(
                   title: const Text('Health'),
                   onTap: () {
