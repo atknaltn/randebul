@@ -296,8 +296,9 @@ class _HomeScreenState extends State<MyHomePage> {
                 ),
                 ListTile(
                   title: const Text('Sports'),
-                  onTap: () {
-                    Navigator.pop(context);
+                  onTap: () async{
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SportProfessionals()));
                   },
                 ),
                 ListTile(
