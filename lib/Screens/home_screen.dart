@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
+import 'package:randebul/Screens/payment.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
@@ -134,12 +135,10 @@ class _HomeScreenState extends State<MyHomePage> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: index,
             onTap: (int index) {
-              setState(() {
-                this.index = index;
-                controller.animateToPage(index,
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease);
-              });
+              if (index == 1) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Payment()));
+              }
             },
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue[700],
@@ -152,16 +151,8 @@ class _HomeScreenState extends State<MyHomePage> {
                 icon: Icon(Icons.home),
               ),
               BottomNavigationBarItem(
-                label: "Calendar",
-                icon: Icon(Icons.calendar_today_outlined),
-              ),
-              BottomNavigationBarItem(
-                label: "Cart",
-                icon: Icon(Icons.shopping_cart),
-              ),
-              BottomNavigationBarItem(
-                label: "Settings",
-                icon: Icon(Icons.settings),
+                label: "Add Fund",
+                icon: Icon(Icons.wallet_giftcard),
               ),
             ],
           ),
