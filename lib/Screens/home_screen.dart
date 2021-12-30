@@ -171,8 +171,59 @@ class _HomeScreenState extends State<MyHomePage> {
                           return Card(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 10),
-                            color: Colors.yellow,
-                            child: ListTile(
+                            color: Colors.transparent,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50.0),
+                                      child: const Image(
+                                          image: ResizeImage(
+                                              AssetImage(
+                                                  'assets/testProfile.jpg'),
+                                              width: 100,
+                                              height: 100)),
+                                    ),
+                                    const SizedBox(
+                                      width: 75,
+                                    ),
+                                    Image.network(
+                                      services[index].data()['imageURL'],
+                                      fit: BoxFit.cover,
+                                      height: 175,
+                                    ),
+                                    const SizedBox(
+                                      width: 1,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      '${services[index].data()['serviceName']}',
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      width: 150,
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        'Price: ${services[index].data()['servicePrice']} \$',
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            /*child: ListTile(
                               title: Text(
                                 '${services[index].data()['serviceName']}',
                                 style: const TextStyle(fontSize: 28),
@@ -197,7 +248,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                 ],
                               ),
                               onTap: () async {},
-                            ),
+                            ),*/
                           );
                         });
                   } else {
@@ -207,130 +258,6 @@ class _HomeScreenState extends State<MyHomePage> {
                   }
                 }
               }),
-          /*
-          body: PageView(
-            /// [PageView.scrollDirection] defaults to [Axis.horizontal].
-            /// Use [Axis.vertical] to scroll vertically.
-            scrollDirection: Axis.horizontal,
-            controller: controller,
-            onPageChanged: (page) {
-              setState(
-                () {
-                  index = page;
-                },
-              );
-            },
-            children: <Widget>[
-              ListView(
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  RichText(
-                    text: const TextSpan(
-                      text: ' Most Popular Services ',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      children: <Widget>[
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          child: GestureDetector(
-                            child: const Service(
-                              filePath: "assets/fitness1.jpg",
-                              serviceName: "Fitness",
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SportProfessionals()));
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        const Service(
-                          filePath: "assets/fitness2.jpg",
-                          serviceName: "Fitness",
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      children: const <Widget>[
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Service(
-                          filePath: "assets/healty.jpg",
-                          serviceName: "Nutrition",
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Service(
-                          filePath: "assets/yoga.jpg",
-                          serviceName: "Yoga",
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      children: const <Widget>[
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Service(
-                          filePath: "assets/baglama.jpg",
-                          serviceName: "Baglama",
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Service(
-                          filePath: "assets/gitar.jpg",
-                          serviceName: "Guitar",
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Center(
-                child: Icon(Icons.calendar_today_outlined),
-              ),
-              const Center(
-                child: Icon(Icons.shopping_basket),
-              ),
-              const Center(
-                child: Icon(Icons.settings),
-              ),
-            ],
-          ),
-          */
           drawer: Drawer(
             // Add a ListView to the drawer. This ensures the user can scroll
             // through the options in the drawer if there isn't enough vertical
