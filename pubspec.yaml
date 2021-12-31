@@ -39,6 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   fluttertoast: ^8.0.8
+  syncfusion_flutter_calendar: ^19.4.40
 
 dev_dependencies:
   flutter_lints: ^1.0.0
