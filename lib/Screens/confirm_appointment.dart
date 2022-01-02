@@ -19,6 +19,7 @@ class ConfirmAppointmentPage extends StatefulWidget {
 class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
   DateTime selectedDate = DateTime.now();
   bool validTime = true;
+  dynamic randevuList = <Map>[];
 
   String? _subjectText = '',
       _startTimeText = '',
@@ -28,6 +29,27 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    randevuList = widget.hocaRef['Randevular'];
+    for (int i = 0; i < randevuList.length; i++) {
+      if ((selectedDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+              selectedDate.isBefore(randevuList[i]['startTime']
+                  .toDate()
+                  .add(Duration(minutes: randevuList[i]['duration'])))) ||
+          (selectedDate
+                  .add(Duration(minutes: widget.selectedHizmet['sure']))
+                  .isAfter(randevuList[i]['startTime'].toDate()) &&
+              selectedDate
+                  .add(Duration(minutes: widget.selectedHizmet['sure']))
+                  .isBefore(randevuList[i]['startTime']
+                      .toDate()
+                      .add(Duration(minutes: randevuList[i]['duration']))))) {
+        setState(() {
+          validTime = false;
+        });
+        break;
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -127,6 +149,10 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
   }
 
   _openDatePicker(BuildContext context) async {
+    dynamic randevuList = <Map>[];
+    bool conflict = false;
+    randevuList = widget.hocaRef['Randevular'];
+
     final DateTime? date = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -135,11 +161,43 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
     );
 
     if (date != null) {
-      setState(() {
-        validTime = true;
-        selectedDate = DateTime(date.year, date.month, date.day,
-            DateTime.now().hour, DateTime.now().minute + 5);
-      });
+      DateTime fullDate = DateTime(date.year, date.month, date.day,
+          selectedDate.hour, selectedDate.minute);
+
+      if (fullDate.isBefore(DateTime.now())) {
+        setState(() {
+          validTime = false;
+        });
+        conflict = true;
+      }
+
+      for (int i = 0; i < randevuList.length; i++) {
+        if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+                fullDate.isBefore(randevuList[i]['startTime']
+                    .toDate()
+                    .add(Duration(minutes: randevuList[i]['duration'])))) ||
+            (fullDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isAfter(randevuList[i]['startTime'].toDate()) &&
+                fullDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isBefore(randevuList[i]['startTime']
+                        .toDate()
+                        .add(Duration(minutes: randevuList[i]['duration']))))) {
+          conflict = true;
+          setState(() {
+            validTime = false;
+          });
+          break;
+        }
+      }
+
+      if (!conflict) {
+        setState(() {
+          validTime = true;
+          selectedDate = fullDate;
+        });
+      }
     }
   }
 
@@ -156,8 +214,8 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
 
     if (time != null) {
       DateTime fullDate = DateTime(selectedDate.year, selectedDate.month,
-          selectedDate.day, time.hour, time.minute);
-      
+          selectedDate.day, time.hour, roundTo5(time.minute));
+
       if (fullDate.isBefore(DateTime.now())) {
         setState(() {
           validTime = false;
@@ -165,10 +223,19 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
         });
       }
 
-      for(int i = 0; i < randevuList.length; i++){
-        if(fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
-          fullDate.isBefore(randevuList[i]['startTime'].toDate().add(Duration(minutes: randevuList[i]['duration'])))
-        ) {
+      for (int i = 0; i < randevuList.length; i++) {
+        if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+                fullDate.isBefore(randevuList[i]['startTime']
+                    .toDate()
+                    .add(Duration(minutes: randevuList[i]['duration'])))) ||
+            (fullDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isAfter(randevuList[i]['startTime'].toDate()) &&
+                fullDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isBefore(randevuList[i]['startTime']
+                        .toDate()
+                        .add(Duration(minutes: randevuList[i]['duration']))))) {
           conflict = true;
           setState(() {
             validTime = false;
@@ -177,13 +244,21 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
         }
       }
 
-      if(!conflict) {
+      if (!conflict) {
         setState(() {
-          selectedDate = DateTime(selectedDate.year, selectedDate.month,
-              selectedDate.day, time.hour, time.minute);
+          selectedDate = fullDate;
           validTime = true;
         });
       }
+    }
+  }
+
+  int roundTo5(int num) {
+    int remainder = num % 5;
+    if (remainder < 3) {
+      return num - remainder;
+    } else {
+      return num + (5 - remainder);
     }
   }
 
@@ -192,21 +267,23 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
     dynamic randevuList = <Map>[];
     randevuList = widget.hocaRef['Randevular'];
 
-    for(int i = 0; i < randevuList.length; i++){
+    for (int i = 0; i < randevuList.length; i++) {
       meetings.add(Appointment(
           startTime: randevuList[i]['startTime'].toDate(),
-          endTime: randevuList[i]['startTime'].toDate().add(Duration(minutes: randevuList[i]['duration'])),
+          endTime: randevuList[i]['startTime']
+              .toDate()
+              .add(Duration(minutes: randevuList[i]['duration'])),
           subject: 'Dolu',
           color: Colors.red,
           isAllDay: false));
     }
     meetings.add(Appointment(
         startTime: selectedDate,
-        endTime: selectedDate.add(Duration(minutes: widget.selectedHizmet['sure'])),
+        endTime:
+            selectedDate.add(Duration(minutes: widget.selectedHizmet['sure'])),
         subject: 'Seçilen Tarih',
         color: Colors.blue,
         isAllDay: false));
-
 
     return meetings;
   }
@@ -274,18 +351,20 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
           });
     }
   }
-
 }
 
-List<Appointment> getAppointments(dynamic hocaRef, DateTime selectedDate, Map selectedHizmet) {
+List<Appointment> getAppointments(
+    dynamic hocaRef, DateTime selectedDate, Map selectedHizmet) {
   List<Appointment> meetings = <Appointment>[];
   dynamic randevuList = <Map>[];
   randevuList = hocaRef['Randevular'];
 
-  for(int i = 0; i < randevuList.length; i++){
+  for (int i = 0; i < randevuList.length; i++) {
     meetings.add(Appointment(
         startTime: randevuList[i]['startTime'].toDate(),
-        endTime: randevuList[i]['startTime'].toDate().add(Duration(minutes: randevuList[i]['duration'])),
+        endTime: randevuList[i]['startTime']
+            .toDate()
+            .add(Duration(minutes: randevuList[i]['duration'])),
         subject: 'Dolu',
         color: Colors.red,
         isAllDay: false));
@@ -296,7 +375,6 @@ List<Appointment> getAppointments(dynamic hocaRef, DateTime selectedDate, Map se
       subject: 'Seçilen Tarih',
       color: Colors.blue,
       isAllDay: false));
-
 
   return meetings;
 }
