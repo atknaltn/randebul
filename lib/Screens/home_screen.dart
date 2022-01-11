@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
+import 'package:randebul/Screens/credit_card.dart';
 import 'package:randebul/Screens/payment.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
@@ -151,7 +152,7 @@ class _HomeScreenState extends State<MyHomePage> {
                 icon: Icon(Icons.home),
               ),
               BottomNavigationBarItem(
-                label: "Add Fund",
+                label: "My Wallet",
                 icon: Icon(Icons.wallet_giftcard),
               ),
             ],
@@ -296,9 +297,11 @@ class _HomeScreenState extends State<MyHomePage> {
                 ),
                 ListTile(
                   title: const Text('Sports'),
-                  onTap: () async{
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SportProfessionals()));
+                  onTap: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SportProfessionals()));
                   },
                 ),
                 ListTile(
