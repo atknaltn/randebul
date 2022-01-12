@@ -139,7 +139,7 @@ class CreditCardState extends State<CreditCard> {
                         CreditCardForm(
                           formKey: formKey,
                           obscureCvv: true,
-                          obscureNumber: true,
+                          obscureNumber: false,
                           cardNumber: cardNumber,
                           cvvCode: cvvCode,
                           isHolderNameVisible: true,
