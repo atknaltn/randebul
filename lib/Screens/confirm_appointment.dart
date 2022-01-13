@@ -50,6 +50,10 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
       }
     }
 
+    if(selectedDate.hour > 17 || selectedDate.hour < 9){
+      validTime = false;
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -145,6 +149,15 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
           ),
         ],
       ),
+      floatingActionButton: (validTime) ? FloatingActionButton.extended(
+        onPressed: (){print('zort');},
+        label: const Text('Onayla'),
+        icon: const Icon(Icons.check_circle,
+              color: Colors.white,),
+        backgroundColor: Colors.green,
+
+      )
+      : null,
     );
   }
 
@@ -242,6 +255,13 @@ class _ConfirmAppointmentPageState extends State<ConfirmAppointmentPage> {
           });
           break;
         }
+      }
+
+      if(fullDate.hour > 17 || fullDate.hour < 9){
+        conflict = true;
+        setState(() {
+          validTime = false;
+        });
       }
 
       if (!conflict) {
@@ -384,3 +404,4 @@ class MeetingDataSource extends CalendarDataSource {
     appointments = source;
   }
 }
+
