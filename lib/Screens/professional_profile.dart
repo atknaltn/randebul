@@ -8,7 +8,9 @@ class ProfessionalProfile extends StatefulWidget {
   final dynamic hocaRef;
   final DocumentSnapshot hocaSnapshot;
 
-  const ProfessionalProfile({Key? key, required this.hocaRef, required this.hocaSnapshot}) : super(key: key);
+  const ProfessionalProfile(
+      {Key? key, required this.hocaRef, required this.hocaSnapshot})
+      : super(key: key);
   @override
   State<ProfessionalProfile> createState() => _ProfessionalProfileState();
 }
@@ -23,6 +25,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String website = "";
   String hakkinda = "";
   String profession = "";
+  String image = "";
   int puan = 5;
   bool verified = false;
   Future<void> _getUserName() async {
@@ -43,6 +46,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
         hakkinda = '${widget.hocaRef['hakkinda']}';
         verified = widget.hocaRef['verified'];
         profession = '${widget.hocaRef['profession']}';
+        image = '${widget.hocaRef['imageURL']}';
       });
     });
   }
@@ -50,6 +54,9 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   @override
   Widget build(BuildContext context) {
     _getUserName();
+    /*if (image == "") {
+      image = 'assets/blankprofile.png';
+    }*/
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -133,7 +140,9 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                     address: address,
                   ),
                   const SizedBox(height: 30),
-                  Yorumlar(hocaRef: widget.hocaRef,),
+                  Yorumlar(
+                    hocaRef: widget.hocaRef,
+                  ),
                   const SizedBox(height: 30),
                 ],
               ),
@@ -144,8 +153,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: const IconText(
                           icon: Icons.comment, text: 'Yorum Yap'),
                     ),
@@ -153,11 +161,13 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   const SizedBox(width: 5),
                   Expanded(
                     child: GestureDetector(
-                        onTap: () async{
+                        onTap: () async {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AppointmentScreen(hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
+                                  builder: (context) => AppointmentScreen(
+                                      hocaRef: widget.hocaRef,
+                                      hocaSnapshot: widget.hocaSnapshot)));
                         },
                         child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
@@ -198,13 +208,11 @@ class UstKart extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.all(10.0),
-            child: Image.asset(
-              resimAdresi,
-              height: 150,
-            ),
+        Container(
+          margin: const EdgeInsets.all(10.0),
+          child: Image.asset(
+            resimAdresi,
+            height: 150,
           ),
         ),
         Expanded(
@@ -217,9 +225,9 @@ class UstKart extends StatelessWidget {
                 children: [
                   (verified == true)
                       ? const Icon(
-                    Icons.verified,
-                    color: Colors.blue,
-                  )
+                          Icons.verified,
+                          color: Colors.blue,
+                        )
                       : const Text(''),
                   Text(
                     isim,
@@ -238,28 +246,28 @@ class UstKart extends StatelessWidget {
                   (puan < 1)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 1)
-                      ? const Icon(Icons.star_half, color: Colors.yellow)
-                      : const Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 2)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 3)
-                      ? const Icon(Icons.star_half, color: Colors.yellow)
-                      : const Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 4)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 5)
-                      ? const Icon(Icons.star_half, color: Colors.yellow)
-                      : const Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 6)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 7)
-                      ? const Icon(Icons.star_half, color: Colors.yellow)
-                      : const Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                   (puan <= 8)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 9)
-                      ? const Icon(Icons.star_half, color: Colors.yellow)
-                      : const Icon(Icons.star, color: Colors.yellow),
+                          ? const Icon(Icons.star_half, color: Colors.yellow)
+                          : const Icon(Icons.star, color: Colors.yellow),
                 ],
               ),
             ],
@@ -307,10 +315,10 @@ class IletisimBilgileri extends StatelessWidget {
 
   const IletisimBilgileri(
       {Key? key,
-        this.telNo = '',
-        this.email = '',
-        this.website = '',
-        this.address = ''})
+      this.telNo = '',
+      this.email = '',
+      this.website = '',
+      this.address = ''})
       : super(key: key);
 
   @override
@@ -333,9 +341,7 @@ class IletisimBilgileri extends StatelessWidget {
 class Yorumlar extends StatelessWidget {
   final dynamic hocaRef;
 
-  const Yorumlar(
-      {Key? key, required this.hocaRef})
-      : super(key: key);
+  const Yorumlar({Key? key, required this.hocaRef}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -366,26 +372,25 @@ class Yorumlar extends StatelessWidget {
             (yorumlar.isEmpty)
                 ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
                 : YorumKart(
-                username: yorumlar[0]['kullaniciadi'],
-                tarih: yorumlar[0]['tarih'],
-                puan: yorumlar[0]['puan'],
-                yorumMetni: yorumlar[0]['yorum']),
+                    username: yorumlar[0]['kullaniciadi'],
+                    tarih: yorumlar[0]['tarih'],
+                    puan: yorumlar[0]['puan'],
+                    yorumMetni: yorumlar[0]['yorum']),
             const SizedBox(
               height: 5,
             ),
             (yorumlar.length < 2)
-            ? const SizedBox(height: 5)
-            : YorumKart(
-                username: yorumlar[1]['kullaniciadi'],
-                tarih: yorumlar[1]['tarih'],
-                puan: yorumlar[1]['puan'],
-                yorumMetni: yorumlar[1]['yorum']),
+                ? const SizedBox(height: 5)
+                : YorumKart(
+                    username: yorumlar[1]['kullaniciadi'],
+                    tarih: yorumlar[1]['tarih'],
+                    puan: yorumlar[1]['puan'],
+                    yorumMetni: yorumlar[1]['yorum']),
             const SizedBox(
               height: 10,
             ),
             GestureDetector(
-              onTap: () {
-              },
+              onTap: () {},
               child: const Text(
                 'TÜM YORUMLARI GÖR',
                 style: TextStyle(
@@ -482,10 +487,10 @@ class YorumKart extends StatelessWidget {
 
   const YorumKart(
       {Key? key,
-        this.puan = 5,
-        this.username = '',
-        this.tarih = '',
-        this.yorumMetni = ''})
+      this.puan = 5,
+      this.username = '',
+      this.tarih = '',
+      this.yorumMetni = ''})
       : super(key: key);
 
   @override
@@ -536,28 +541,28 @@ class YorumKart extends StatelessWidget {
                 (puan < 1)
                     ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 1)
-                    ? const Icon(Icons.star_half, color: Colors.yellow)
-                    : const Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 2)
                     ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 3)
-                    ? const Icon(Icons.star_half, color: Colors.yellow)
-                    : const Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 4)
                     ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 5)
-                    ? const Icon(Icons.star_half, color: Colors.yellow)
-                    : const Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 6)
                     ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 7)
-                    ? const Icon(Icons.star_half, color: Colors.yellow)
-                    : const Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
                 (puan <= 8)
                     ? const Icon(Icons.star_border, color: Colors.yellow)
                     : (puan == 9)
-                    ? const Icon(Icons.star_half, color: Colors.yellow)
-                    : const Icon(Icons.star, color: Colors.yellow),
+                        ? const Icon(Icons.star_half, color: Colors.yellow)
+                        : const Icon(Icons.star, color: Colors.yellow),
               ],
             ),
             const SizedBox(height: 5),

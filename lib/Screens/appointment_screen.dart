@@ -6,7 +6,6 @@ import 'package:randebul/Screens/selectdate.dart';
 class AppointmentScreen extends StatefulWidget {
   final dynamic hocaRef;
   final DocumentSnapshot hocaSnapshot;
-
   const AppointmentScreen({
     Key? key,
     required this.hocaRef,
@@ -21,10 +20,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   dynamic hizmetList = <Map>[];
   bool isSelected = false;
   int selectedIndex = 0;
-  Map selectedHizmet = {'başlık' : '', 'sure' : 0, 'icerik' : '', 'fiyat' : 0};
+  Map selectedHizmet = {'başlık': '', 'sure': 0, 'icerik': '', 'fiyat': 0};
   @override
   Widget build(BuildContext context) {
-  hizmetList = widget.hocaRef['hizmetler'];
+    hizmetList = widget.hocaRef['hizmetler'];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -60,10 +59,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       const SizedBox(width: 30),
                       Container(
                         margin: const EdgeInsets.only(bottom: 10, top: 10),
-                        child: Image.asset(
-                          "assets/testProfile.jpg",
-                          height: 150,
-                          width: 150,
+                        child: Image.network(
+                          '${widget.hocaRef['imageURL']}',
+                          height: 100.0,
+                          width: 100.0,
                         ),
                       ),
                       Container(
@@ -123,37 +122,42 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 ],
               ),
             ),
-            if (hizmetList.isEmpty) const Text('Bu profesyonel henüz hizmet vermemektedir.')
+            if (hizmetList.isEmpty)
+              const Text('Bu profesyonel henüz hizmet vermemektedir.')
             else
-              for(int index = 0; index < hizmetList.length; index++)
-              GestureDetector(
-                child: ServiceBox(
-                  serviceName: '${hizmetList[index]['başlık']}',
-                  duration: '${hizmetList[index]['sure']}',
-                  icerik: '${hizmetList[index]['icerik']}',
-                  fiyat: '${hizmetList[index]['fiyat']}',
-                  isSelected: (selectedIndex == index && isSelected) ? true : false,
+              for (int index = 0; index < hizmetList.length; index++)
+                GestureDetector(
+                  child: ServiceBox(
+                    serviceName: '${hizmetList[index]['başlık']}',
+                    duration: '${hizmetList[index]['sure']}',
+                    icerik: '${hizmetList[index]['icerik']}',
+                    fiyat: '${hizmetList[index]['fiyat']}',
+                    isSelected:
+                        (selectedIndex == index && isSelected) ? true : false,
+                  ),
+                  onTap: () {
+                    selectedHizmet = hizmetList[index];
+                    selectedIndex = index;
+                    setState(() {
+                      isSelected = !isSelected;
+                    });
+                  },
                 ),
-                onTap: (){
-                  selectedHizmet = hizmetList[index];
-                  selectedIndex = index;
-                  setState(() {
-                    isSelected = !isSelected;
-                  });
-                },
-              ),
           ],
         ),
-        floatingActionButton: (isSelected) ? FloatingActionButton.extended(
-            label: const Text('İlerle'),
-            icon: const Icon(Icons.arrow_forward),
-            onPressed: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SelectDatePage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
-
-            })
+        floatingActionButton: (isSelected)
+            ? FloatingActionButton.extended(
+                label: const Text('İlerle'),
+                icon: const Icon(Icons.arrow_forward),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SelectDatePage(
+                              selectedHizmet: selectedHizmet,
+                              hocaRef: widget.hocaRef,
+                              hocaSnapshot: widget.hocaSnapshot)));
+                })
             : null,
       ),
     );
@@ -221,7 +225,6 @@ class ServiceBox extends StatelessWidget {
   }
 }
 
-
 // Yeşil kutucukların içindeki satır satır yazılar.
 class MyCard extends StatelessWidget {
   final IconData cardIcon;
@@ -261,4 +264,3 @@ class MyCard extends StatelessWidget {
     );
   }
 }
-
