@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:randebul/Screens/confirm_appointment.dart';
+import 'package:randebul/Screens/selectdate.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class AppointmentScreen extends StatefulWidget {
@@ -151,7 +151,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ConfirmAppointmentPage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
+                      builder: (context) => SelectDatePage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
 
             })
             : null,
