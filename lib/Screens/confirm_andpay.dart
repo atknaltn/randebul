@@ -49,8 +49,10 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           'duration': widget.selectedHizmet['sure'],
           'startTime': widget.selectedDate,
           'subject': widget.selectedHizmet['başlık'],
-          'profesyonelName': widget.hocaRef['name'],
-          'profesyonelSurname': widget.hocaRef['surname'],
+          'profesyonel': FirebaseFirestore.instance
+              .collection('spor-hocalari-deneme')
+              .doc(widget.hocaSnapshot.id).
+              path,
         }
       ])
     });
