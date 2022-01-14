@@ -24,8 +24,22 @@ class _UploadServiceState extends State<UploadService> {
   var formKey = GlobalKey<FormState>();
   var serviceName, serviceCategory, servicePrice;
   final _auth = FirebaseAuth.instance;
+  String userImage = "";
+  Future<void> _getUserName() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc((await FirebaseAuth.instance.currentUser)!.uid)
+        .get()
+        .then((value) {
+      setState(() {
+        userImage = value.data()!['imageURL'];
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getUserName();
     return Scaffold(
         backgroundColor: Color(0xff000725),
         appBar: AppBar(
@@ -284,6 +298,7 @@ class _UploadServiceState extends State<UploadService> {
       map["serviceCategory"] = serviceCategory;
       map["servicePrice"] = servicePrice;
       map["imageURL"] = imageURL;
+      map["userImageURL"] = userImage;
       databaseReference.child(uploadID!).set(map);
 
       FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;

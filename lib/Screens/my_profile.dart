@@ -24,6 +24,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
   String address = "";
   String userName = "";
   String uid = "";
+  String image = "";
   bool isProf = false;
   Future<void> _getUserName() async {
     FirebaseFirestore.instance
@@ -40,6 +41,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         address = value.data()!['adress'].toString();
         userName = value.data()!['userName'].toString();
         isProf = value.data()!['isProfessional'];
+        image = value.data()!['imageURL'];
       });
     });
   }
@@ -54,7 +56,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: image,
             onClicked: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

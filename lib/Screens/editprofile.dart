@@ -27,7 +27,7 @@ class EditProfile extends StatefulWidget {
 
   @override
   _EditProfileState createState() =>
-      _EditProfileState(firstname, lastname, mail);
+      _EditProfileState(firstname, lastname, mail, uid);
 }
 
 class _EditProfileState extends State<EditProfile> {
@@ -38,7 +38,8 @@ class _EditProfileState extends State<EditProfile> {
   String uid = "";
   File? imageFile;
   var formKey = GlobalKey<FormState>();
-  _EditProfileState(String firstname, String lastname, String mail) {
+  _EditProfileState(
+      String firstname, String lastname, String mail, String uid) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.mail = mail;
@@ -47,18 +48,28 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: formKey,
       appBar: buildAppBar(context),
       body: ListView(
         padding: const EdgeInsets.all(32),
         physics: const BouncingScrollPhysics(),
         children: [
-          ProfileWidget(
-            imagePath: user.imagePath,
-            isEdit: true,
-            onClicked: () async {
-              _showDialog();
-            },
-          ),
+          Container(
+              child: imageFile == null
+                  ? TextButton(
+                      onPressed: () {
+                        _showDialog();
+                      },
+                      child: Icon(
+                        Icons.add_a_photo_sharp,
+                        size: 80,
+                        color: Color(0xffff2fc3),
+                      ))
+                  : Image.file(
+                      imageFile!,
+                      width: 400,
+                      height: 400,
+                    )),
           const SizedBox(height: 24),
           TextFieldWidget(
             label: 'First Name',
@@ -176,23 +187,21 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<void> uploadImage() async {
     String? imageURL;
-    if (formKey.currentState!.validate()) {
-      Reference reference = FirebaseStorage.instance
-          .ref()
-          .child("images")
-          .child(new DateTime.now().millisecondsSinceEpoch.toString() +
-              "." +
-              imageFile!.path);
-      UploadTask uploadTask = reference.putFile(imageFile!);
-      imageURL = await (await uploadTask).ref.getDownloadURL();
-      DatabaseReference databaseReference =
-          FirebaseDatabase.instance.ref().child("Data");
-      String? uploadID = databaseReference.push().key;
+    //if (formKey.currentState!.validate()) {
+    Reference reference = FirebaseStorage.instance.ref().child("images").child(
+        new DateTime.now().millisecondsSinceEpoch.toString() +
+            "." +
+            imageFile!.path);
+    UploadTask uploadTask = reference.putFile(imageFile!);
+    imageURL = await (await uploadTask).ref.getDownloadURL();
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref().child("Data");
+    String? uploadID = databaseReference.push().key;
 
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .update({'imageURL': imageURL});
-    }
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'imageURL': imageURL});
+    //}
   }
 }

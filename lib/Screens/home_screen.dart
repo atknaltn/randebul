@@ -166,6 +166,7 @@ class _HomeScreenState extends State<MyHomePage> {
                 } else {
                   if (asyncSnapshot.hasData) {
                     dynamic services = asyncSnapshot.data.docs;
+
                     return ListView.builder(
                         itemCount: services.length,
                         itemBuilder: (context, index) {
@@ -179,12 +180,11 @@ class _HomeScreenState extends State<MyHomePage> {
                                   children: <Widget>[
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(50.0),
-                                      child: const Image(
-                                          image: ResizeImage(
-                                              AssetImage(
-                                                  'assets/testProfile.jpg'),
-                                              width: 100,
-                                              height: 100)),
+                                      child: Image.network(
+                                        services[index].data()['userImageURL'],
+                                        height: 100.0,
+                                        width: 100.0,
+                                      ),
                                     ),
                                     const SizedBox(
                                       width: 75,
