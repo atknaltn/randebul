@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/confirm_appointment.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class AppointmentScreen extends StatefulWidget {
   final dynamic hocaRef;
+  final DocumentSnapshot hocaSnapshot;
 
   const AppointmentScreen({
     Key? key,
-    required this.hocaRef
+    required this.hocaRef,
+    required this.hocaSnapshot,
   }) : super(key: key);
 
   @override
@@ -148,7 +151,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ConfirmAppointmentPage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef,)));
+                      builder: (context) => ConfirmAppointmentPage(selectedHizmet: selectedHizmet, hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
 
             })
             : null,

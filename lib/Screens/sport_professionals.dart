@@ -25,21 +25,10 @@ class _SportProfessionalsState extends State<SportProfessionals> {
   @override
   Widget build(BuildContext context) {
     CollectionReference hocaRef = _firestore.collection('spor-hocalari-deneme');
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Sports Professionals'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              padding: const EdgeInsets.only(right: 15, left: 15),
-              tooltip: 'Back',
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: hocaRef.snapshots(),
@@ -72,7 +61,7 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                             ),
                             onTap: () async{
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => ProfessionalProfile(hocaRef: hocaList[index].data(),)));
+                                  MaterialPageRoute(builder: (context) => ProfessionalProfile(hocaRef: hocaList[index].data(),hocaSnapshot: hocaList[index])));
                             },
                           ),
                         );
@@ -84,7 +73,6 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                 }
               }
             }),
-      ),
-    );
+      );
   }
 }

@@ -6,8 +6,9 @@ import 'appointment_screen.dart';
 
 class ProfessionalProfile extends StatefulWidget {
   final dynamic hocaRef;
+  final DocumentSnapshot hocaSnapshot;
 
-  const ProfessionalProfile({Key? key, required this.hocaRef}) : super(key: key);
+  const ProfessionalProfile({Key? key, required this.hocaRef, required this.hocaSnapshot}) : super(key: key);
   @override
   State<ProfessionalProfile> createState() => _ProfessionalProfileState();
 }
@@ -156,7 +157,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AppointmentScreen(hocaRef: widget.hocaRef,)));
+                                  builder: (context) => AppointmentScreen(hocaRef: widget.hocaRef, hocaSnapshot: widget.hocaSnapshot)));
                         },
                         child: const IconText(
                             icon: Icons.calendar_today, text: 'Randevu Al')),
