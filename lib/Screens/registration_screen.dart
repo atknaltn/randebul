@@ -427,6 +427,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.userName = userNameController.text;
     userModel.adress = adressController.text;
     userModel.isProfessional = false;
+    userModel.amount = 0.0;
     await firebaseFirestore
         .collection("users")
         .doc(user.uid)

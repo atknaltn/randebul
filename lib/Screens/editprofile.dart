@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:randebul/model/user.dart';
 import 'package:randebul/utils/user_preferences.dart';
 import 'package:randebul/widget/appbar_widget.dart';
@@ -32,6 +36,8 @@ class _EditProfileState extends State<EditProfile> {
   String lastname = "";
   String mail = "";
   String uid = "";
+  File? imageFile;
+  var formKey = GlobalKey<FormState>();
   _EditProfileState(String firstname, String lastname, String mail) {
     this.firstname = firstname;
     this.lastname = lastname;
@@ -49,7 +55,9 @@ class _EditProfileState extends State<EditProfile> {
           ProfileWidget(
             imagePath: user.imagePath,
             isEdit: true,
-            onClicked: () async {},
+            onClicked: () async {
+              _showDialog();
+            },
           ),
           const SizedBox(height: 24),
           TextFieldWidget(
@@ -91,8 +99,100 @@ class _EditProfileState extends State<EditProfile> {
             maxLines: 5,
             onChanged: (about) {},
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              primary: const Color(0xff1b447b),
+            ),
+            child: Container(
+              margin: const EdgeInsets.all(12),
+              child: const Text(
+                'Update',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'halter',
+                  fontSize: 14,
+                  package: 'flutter_credit_card',
+                ),
+              ),
+            ),
+            onPressed: () {
+              uploadImage();
+            },
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> _showDialog() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext) {
+          return AlertDialog(
+              title: Text("You want take a photo from ?"),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Text("Gallery"),
+                      onTap: () {
+                        openGallery();
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.only(top: 10)),
+                    GestureDetector(
+                      child: Text("Camera"),
+                      onTap: () {
+                        openCamera();
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
+
+  Future<void> openGallery() async {
+    var picture =
+        await ImagePicker.platform.getImage(source: ImageSource.gallery);
+    setState(() {
+      imageFile = File(picture!.path);
+    });
+  }
+
+  Future<void> openCamera() async {
+    var picture =
+        await ImagePicker.platform.getImage(source: ImageSource.camera);
+    setState(() {
+      imageFile = File(picture!.path);
+    });
+  }
+
+  Future<void> uploadImage() async {
+    String? imageURL;
+    if (formKey.currentState!.validate()) {
+      Reference reference = FirebaseStorage.instance
+          .ref()
+          .child("images")
+          .child(new DateTime.now().millisecondsSinceEpoch.toString() +
+              "." +
+              imageFile!.path);
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      imageURL = await (await uploadTask).ref.getDownloadURL();
+      DatabaseReference databaseReference =
+          FirebaseDatabase.instance.ref().child("Data");
+      String? uploadID = databaseReference.push().key;
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'imageURL': imageURL});
+    }
   }
 }
