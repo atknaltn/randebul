@@ -1,5 +1,5 @@
 enum ChatMessageType { text, audio, image, video }
-enum MessageStatus { not_sent, not_view, viewed }
+enum MessageStatus { not_sent, not_viewed, viewed }
 
 class ChatMessage {
   final String text;
@@ -17,45 +17,45 @@ class ChatMessage {
 
 List demeChatMessages = [
   ChatMessage(
-    text: "Hi Sajol,",
+    text: "Selam Dostum!",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
     isSender: false,
   ),
   ChatMessage(
-    text: "Hello, How are you?",
+    text: "Selam, nasılsın?",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
     isSender: true,
   ),
   ChatMessage(
-    text: "",
-    messageType: ChatMessageType.audio,
-    messageStatus: MessageStatus.viewed,
-    isSender: false,
-  ),
-  ChatMessage(
-    text: "",
-    messageType: ChatMessageType.video,
-    messageStatus: MessageStatus.viewed,
-    isSender: true,
-  ),
-  ChatMessage(
-    text: "Error happend",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.not_sent,
-    isSender: true,
-  ),
-  ChatMessage(
-    text: "This looks great man!!",
+    text: "Hadi lan ordan!",
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.viewed,
     isSender: false,
   ),
   ChatMessage(
-    text: "Glad you like it",
+    text: "Hey dude sakin ol",
     messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.not_view,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Neyin var?",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Bu seni hiç alakadar etmez.",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: false,
+  ),
+  ChatMessage(
+    text: "Bana dur",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.not_viewed,
     isSender: true,
   ),
 ];

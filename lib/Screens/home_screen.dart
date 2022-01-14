@@ -9,6 +9,7 @@ import 'package:randebul/Screens/payment.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
+import 'package:randebul/Screens/ChatScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -113,10 +114,9 @@ class _HomeScreenState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyProfilePage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ChatScreen()));
+                    //MyProfilePage()));
                   },
                 ),
               if (!hide)

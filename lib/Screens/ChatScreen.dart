@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:randebul/Screens/my_profile.dart';
+import 'body.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -10,7 +12,7 @@ class ChatScreen extends StatelessWidget {
           children: [
             const BackButton(),
             const CircleAvatar(
-              backgroundImage: AssetImage("assets/testProfile.jpg"),
+              backgroundImage: AssetImage('assets/testProfile.jpg'),
             ),
             const SizedBox(
               width: 20.0,
@@ -32,14 +34,19 @@ class ChatScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
+            icon: const Icon(Icons.accessible_forward_outlined),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MyProfilePage()),
+              );
+            },
           ),
           const SizedBox(
             width: 10.0,
           )
         ],
       ),
+      body: Body(),
     );
   }
 }
