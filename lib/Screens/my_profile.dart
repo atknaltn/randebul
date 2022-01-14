@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/editprofile.dart';
+import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/model/user.dart';
 import 'package:randebul/utils/user_preferences.dart';
 import 'package:randebul/widget/appbar_widget.dart';
@@ -137,6 +138,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
   Widget buildCreateAppointmentButton() => ButtonWidget(
         text: 'Create Appointment',
-        onClicked: () {},
+        onClicked: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => UploadService(),
+          ));
+        },
       );
 }
