@@ -36,11 +36,11 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       address = '${widget.hocaRef['adress']}';
       userName = '${widget.hocaRef['username']}';
       website = '${widget.hocaRef['website']}';
-      puan = widget.hocaRef['puan'];
-      hakkinda = '${widget.hocaRef['hakkinda']}';
+      image = '${widget.hocaRef['imageURL']}';
+      hakkinda = '${widget.hocaRef['about']}';
+      puan = widget.hocaRef['point'];
       verified = widget.hocaRef['verified'];
       profession = '${widget.hocaRef['profession']}';
-      image = '${widget.hocaRef['imageURL']}';
     });
   }
 
@@ -67,7 +67,6 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   isim: firstname + " " + lastname,
                   username: userName,
                   proffession: profession,
-                  location: address,
                 ),
                 const SizedBox(height: 30),
                 Hakkinda(hakkindaYazisi: hakkinda),
@@ -128,7 +127,6 @@ class UstKart extends StatelessWidget {
   final String isim;
   final String username;
   final String proffession;
-  final String location;
 
   const UstKart({
     Key? key,
@@ -138,7 +136,6 @@ class UstKart extends StatelessWidget {
     this.isim = '',
     this.username = '',
     this.proffession = '',
-    this.location = '',
   }) : super(key: key);
 
   @override
@@ -148,10 +145,15 @@ class UstKart extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.all(10.0),
-          child: Image.network(
-            resimAdresi,
-            height: 150,
-          ),
+          child: (resimAdresi != '' && resimAdresi != 'null')
+              ? Image.network(
+                  resimAdresi,
+                  height: 150,
+                )
+              : Image.asset(
+                  'assets/blankprofile.png',
+                  height: 150,
+                ),
         ),
         Expanded(
           child: Column(
@@ -176,9 +178,9 @@ class UstKart extends StatelessWidget {
               Text('@$username'),
               const SizedBox(height: 10),
               Text(proffession),
-              Text(location),
               const SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Puan: $puan '),
                   (puan < 1)
@@ -307,23 +309,23 @@ class Yorumlar extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            (yorumlar.isEmpty)
+            (yorumlar == null || yorumlar.isEmpty)
                 ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
                 : YorumKart(
-                    username: yorumlar[0]['kullaniciadi'],
-                    tarih: yorumlar[0]['tarih'],
-                    puan: yorumlar[0]['puan'],
-                    yorumMetni: yorumlar[0]['yorum']),
+                    username: yorumlar[yorumlar.length-1]['kullaniciadi'],
+                    tarih: yorumlar[yorumlar.length-1]['tarih'],
+                    puan: yorumlar[yorumlar.length-1]['puan'],
+                    yorumMetni: yorumlar[yorumlar.length-1]['yorum']),
             const SizedBox(
               height: 5,
             ),
-            (yorumlar.length < 2)
-                ? const SizedBox(height: 5)
-                : YorumKart(
-                    username: yorumlar[1]['kullaniciadi'],
-                    tarih: yorumlar[1]['tarih'],
-                    puan: yorumlar[1]['puan'],
-                    yorumMetni: yorumlar[1]['yorum']),
+            (yorumlar != null && yorumlar.length >= 2)
+                ? YorumKart(
+                username: yorumlar[yorumlar.length-2]['kullaniciadi'],
+                tarih: yorumlar[yorumlar.length-2]['tarih'],
+                puan: yorumlar[yorumlar.length-2]['puan'],
+                yorumMetni: yorumlar[yorumlar.length-2]['yorum'])
+                : const SizedBox(height: 5),
             const SizedBox(
               height: 10,
             ),

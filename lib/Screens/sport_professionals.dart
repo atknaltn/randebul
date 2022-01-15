@@ -55,7 +55,7 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                                 Text('${hocaList[index].data()['profession']}',
                                   style: const TextStyle(fontSize: 20),),
                                 Text(
-                                  'Puan: ${hocaList[index].data()['puan']}',
+                                  'Puan: ${hocaList[index].data()['point']}',
                                   style: const TextStyle(fontSize: 20),),
                               ],
                             ),
