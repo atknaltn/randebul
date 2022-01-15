@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/editprofile.dart';
+import 'package:randebul/Screens/upgrade_pro.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/model/user.dart';
 import 'package:randebul/utils/user_preferences.dart';
@@ -115,6 +116,9 @@ class _MyProfilePageState extends State<MyProfilePage> {
               .collection('users')
               .doc(uid)
               .update({'isProfessional': true});
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const UpgradePro()),
+          );
         },
       );
 

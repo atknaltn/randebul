@@ -312,6 +312,13 @@ class _UploadServiceState extends State<UploadService> {
           .collection("Services")
           .doc(user!.uid)
           .set(serviceModel.toMap());
+
+      FirebaseFirestore.instance
+          .collection('professionals')
+          .doc((await FirebaseAuth.instance.currentUser)!.uid)
+          .update({
+        'services': FieldValue.arrayUnion([serviceModel.toMap()])
+      });
     }
   }
 }

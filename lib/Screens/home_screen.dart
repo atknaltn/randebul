@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _HomeScreenState extends State<MyHomePage> {
   final _firestore = FirebaseFirestore.instance;
+  String _searchValue = "";
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Randebul');
   final String title = 'Randebul';
@@ -79,15 +80,18 @@ class _HomeScreenState extends State<MyHomePage> {
                     if (customIcon.icon == Icons.search) {
                       // Perform set of instructions.
                       customIcon = const Icon(Icons.cancel);
-                      customSearchBar = const ListTile(
-                        leading: Icon(
+                      customSearchBar = ListTile(
+                        leading: const Icon(
                           Icons.search,
                           color: Colors.white,
                           size: 28,
                         ),
                         title: TextField(
                           autofocus: true,
-                          decoration: InputDecoration(
+                          onSubmitted: (String value) async {
+                            _searchValue = value;
+                          },
+                          decoration: const InputDecoration(
                             hintText: 'Search in Services ...',
                             hintStyle: TextStyle(
                               color: Colors.white,
@@ -96,7 +100,7 @@ class _HomeScreenState extends State<MyHomePage> {
                             ),
                             border: InputBorder.none,
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -178,10 +182,10 @@ class _HomeScreenState extends State<MyHomePage> {
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    ClipRRect(
+                                    InkWell(
                                       borderRadius: BorderRadius.circular(50.0),
-                                      child: Image.network(
-                                        services[index].data()['userImageURL'],
+                                      child: Image.asset(
+                                        "assets/testProfile.jpg",
                                         height: 100.0,
                                         width: 100.0,
                                       ),
@@ -189,8 +193,8 @@ class _HomeScreenState extends State<MyHomePage> {
                                     const SizedBox(
                                       width: 75,
                                     ),
-                                    Image.network(
-                                      services[index].data()['imageURL'],
+                                    Image.asset(
+                                      "assets/fitness2.jpg",
                                       fit: BoxFit.cover,
                                       height: 175,
                                     ),
@@ -205,7 +209,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      '${services[index].data()['serviceName']}',
+                                      _searchValue,
                                       style: const TextStyle(
                                           fontSize: 24,
                                           color: Colors.black,
