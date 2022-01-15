@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'appointment_screen.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
@@ -29,154 +28,93 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   int puan = 5;
   bool verified = false;
   Future<void> _getUserName() async {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc((FirebaseAuth.instance.currentUser)!.uid)
-        .get()
-        .then((value) {
-      setState(() {
-        firstname = '${widget.hocaRef['name']}';
-        lastname = '${widget.hocaRef['surname']}';
-        mail = '${widget.hocaRef['mail']}';
-        phoneNumber = '${widget.hocaRef['phonenumber']}';
-        address = '${widget.hocaRef['adress']}';
-        userName = '${widget.hocaRef['username']}';
-        website = '${widget.hocaRef['website']}';
-        puan = widget.hocaRef['puan'];
-        hakkinda = '${widget.hocaRef['hakkinda']}';
-        verified = widget.hocaRef['verified'];
-        profession = '${widget.hocaRef['profession']}';
-        image = '${widget.hocaRef['imageURL']}';
-      });
+    setState(() {
+      firstname = '${widget.hocaRef['name']}';
+      lastname = '${widget.hocaRef['surname']}';
+      mail = '${widget.hocaRef['mail']}';
+      phoneNumber = '${widget.hocaRef['phonenumber']}';
+      address = '${widget.hocaRef['adress']}';
+      userName = '${widget.hocaRef['username']}';
+      website = '${widget.hocaRef['website']}';
+      puan = widget.hocaRef['puan'];
+      hakkinda = '${widget.hocaRef['hakkinda']}';
+      verified = widget.hocaRef['verified'];
+      profession = '${widget.hocaRef['profession']}';
+      image = '${widget.hocaRef['imageURL']}';
     });
   }
 
   @override
   Widget build(BuildContext context) {
     _getUserName();
-    /*if (image == "") {
-      image = 'assets/blankprofile.png';
-    }*/
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          centerTitle: true,
-          title: const Text('Professional Profile'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              padding: const EdgeInsets.only(right: 15, left: 15),
-              tooltip: 'Back',
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: const Text('Professional Profile'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 5,
+            child: ListView(
+              children: [
+                UstKart(
+                  puan: puan.toDouble(),
+                  resimAdresi: image,
+                  verified: verified,
+                  isim: firstname + " " + lastname,
+                  username: userName,
+                  proffession: profession,
+                  location: address,
                 ),
-                child: Text('Categories'),
-              ),
-              ListTile(
-                title: const Text('Health'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Education'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Sports'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                title: const Text('Music'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                const SizedBox(height: 30),
+                Hakkinda(hakkindaYazisi: hakkinda),
+                const SizedBox(height: 30),
+                IletisimBilgileri(
+                  telNo: phoneNumber,
+                  email: mail,
+                  website: website,
+                  address: address,
+                ),
+                const SizedBox(height: 30),
+                Yorumlar(
+                  hocaRef: widget.hocaRef,
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
           ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              flex: 5,
-              child: ListView(
-                children: [
-                  UstKart(
-                    puan: puan.toDouble(),
-                    resimAdresi: 'assets/blankprofile.png',
-                    verified: verified,
-                    isim: firstname + " " + lastname,
-                    username: userName,
-                    proffession: profession,
-                    location: address,
+          Expanded(
+            flex: 1,
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {},
+                    child:
+                        const IconText(icon: Icons.comment, text: 'Yorum Yap'),
                   ),
-                  const SizedBox(height: 30),
-                  Hakkinda(hakkindaYazisi: hakkinda),
-                  const SizedBox(height: 30),
-                  IletisimBilgileri(
-                    telNo: phoneNumber,
-                    email: mail,
-                    website: website,
-                    address: address,
-                  ),
-                  const SizedBox(height: 30),
-                  Yorumlar(
-                    hocaRef: widget.hocaRef,
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: GestureDetector(
+                      onTap: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AppointmentScreen(
+                                    hocaRef: widget.hocaRef,
+                                    hocaSnapshot: widget.hocaSnapshot)));
+                      },
                       child: const IconText(
-                          icon: Icons.comment, text: 'Yorum Yap'),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: GestureDetector(
-                        onTap: () async {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AppointmentScreen(
-                                      hocaRef: widget.hocaRef,
-                                      hocaSnapshot: widget.hocaSnapshot)));
-                        },
-                        child: const IconText(
-                            icon: Icons.calendar_today, text: 'Randevu Al')),
-                  ),
-                ],
-              ),
+                          icon: Icons.calendar_today, text: 'Randevu Al')),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   } //Your code here
@@ -196,7 +134,7 @@ class UstKart extends StatelessWidget {
     Key? key,
     this.puan = 5,
     this.verified = false,
-    this.resimAdresi = '',
+    this.resimAdresi = 'assets/blankprofile.png',
     this.isim = '',
     this.username = '',
     this.proffession = '',
@@ -210,7 +148,7 @@ class UstKart extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.all(10.0),
-          child: Image.asset(
+          child: Image.network(
             resimAdresi,
             height: 150,
           ),

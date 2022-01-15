@@ -24,21 +24,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     hizmetList = widget.hocaRef['hizmetler'];
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Randevu Al'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              padding: const EdgeInsets.only(right: 15, left: 15),
-              tooltip: 'Back',
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
         ),
         body: ListView(
           children: [
@@ -61,8 +50,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         margin: const EdgeInsets.only(bottom: 10, top: 10),
                         child: Image.network(
                           '${widget.hocaRef['imageURL']}',
-                          height: 100.0,
-                          width: 100.0,
+                          height: 120.0,
+                          width: 120.0,
                         ),
                       ),
                       Container(
@@ -159,8 +148,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                               hocaSnapshot: widget.hocaSnapshot)));
                 })
             : null,
-      ),
-    );
+      );
   }
 }
 
