@@ -41,6 +41,7 @@ class _HomeScreenState extends State<MyHomePage> {
   bool hide = false;
   bool leading = true;
   int index = 0, page = 0;
+  dynamic professionalList = <Map>[];
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
   bool isProf = false;
@@ -118,8 +119,10 @@ class _HomeScreenState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ChatScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SportProfessionals()));
                     //MyProfilePage()));
                   },
                 ),
