@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'appointment_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class ProfessionalProfile extends StatefulWidget {
@@ -15,6 +16,7 @@ class ProfessionalProfile extends StatefulWidget {
 }
 
 class _ProfessionalProfileState extends State<ProfessionalProfile> {
+  final commentController = TextEditingController();
   String firstname = "";
   String lastname = "";
   String mail = "";
@@ -46,7 +48,39 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final comment = TextFormField(
+      autofocus: false,
+      controller: commentController,
+      keyboardType: TextInputType.name,
+      onSaved: (value) {
+        commentController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.person),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Write your comment",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
     _getUserName();
+    Future<void> updateFireBase() async {
+      FirebaseFirestore.instance
+          .collection('professionals')
+          .doc((await FirebaseAuth.instance.currentUser)!.uid)
+          .update({
+        'comments': FieldValue.arrayUnion([
+          {
+            'username': userName,
+            'point': 0,
+            'date': new DateTime.now().toString(),
+            'comment': commentController.text,
+          }
+        ])
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -82,6 +116,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   hocaRef: widget.hocaRef,
                 ),
                 const SizedBox(height: 30),
+                comment,
               ],
             ),
           ),
@@ -91,7 +126,9 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      updateFireBase();
+                    },
                     child:
                         const IconText(icon: Icons.comment, text: 'Yorum Yap'),
                   ),
@@ -312,19 +349,19 @@ class Yorumlar extends StatelessWidget {
             (yorumlar == null || yorumlar.isEmpty)
                 ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
                 : YorumKart(
-                    username: yorumlar[yorumlar.length-1]['kullaniciadi'],
-                    tarih: yorumlar[yorumlar.length-1]['tarih'],
-                    puan: yorumlar[yorumlar.length-1]['puan'],
-                    yorumMetni: yorumlar[yorumlar.length-1]['yorum']),
+                    username: yorumlar[yorumlar.length - 1]['kullaniciadi'],
+                    tarih: yorumlar[yorumlar.length - 1]['tarih'],
+                    puan: yorumlar[yorumlar.length - 1]['puan'],
+                    yorumMetni: yorumlar[yorumlar.length - 1]['yorum']),
             const SizedBox(
               height: 5,
             ),
             (yorumlar != null && yorumlar.length >= 2)
                 ? YorumKart(
-                username: yorumlar[yorumlar.length-2]['kullaniciadi'],
-                tarih: yorumlar[yorumlar.length-2]['tarih'],
-                puan: yorumlar[yorumlar.length-2]['puan'],
-                yorumMetni: yorumlar[yorumlar.length-2]['yorum'])
+                    username: yorumlar[yorumlar.length - 2]['kullaniciadi'],
+                    tarih: yorumlar[yorumlar.length - 2]['tarih'],
+                    puan: yorumlar[yorumlar.length - 2]['puan'],
+                    yorumMetni: yorumlar[yorumlar.length - 2]['yorum'])
                 : const SizedBox(height: 5),
             const SizedBox(
               height: 10,
