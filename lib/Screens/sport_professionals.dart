@@ -24,55 +24,64 @@ class _SportProfessionalsState extends State<SportProfessionals> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference hocaRef = _firestore.collection('spor-hocalari-deneme');
+    CollectionReference hocaRef = _firestore.collection('professionals');
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Sports Professionals'),
-        ),
-        body: StreamBuilder<QuerySnapshot>(
-            stream: hocaRef.snapshots(),
-            builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
-              if (asyncSnapshot.hasError) {
-                return const Center(
-                    child: Text('Bir Hata Oluştu. Lütfen Tekrar Deneyin.'));
-              } else {
-                if (asyncSnapshot.hasData) {
-                  dynamic hocaList = asyncSnapshot.data.docs;
-                  return ListView.builder(
-                      itemCount: hocaList.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                          color: Colors.yellow,
-                          child: ListTile(
-                            title: Text(
-                                '${hocaList[index].data()['name']} ${hocaList[index].data()['surname']}',
-                                style: const TextStyle(fontSize: 28),),
-                            subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('${hocaList[index].data()['profession']}',
-                                  style: const TextStyle(fontSize: 20),),
-                                Text(
-                                  'Puan: ${hocaList[index].data()['point']}',
-                                  style: const TextStyle(fontSize: 20),),
-                              ],
-                            ),
-                            onTap: () async{
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => ProfessionalProfile(hocaRef: hocaList[index].data(),hocaSnapshot: hocaList[index])));
-                            },
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Sports Professionals'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: hocaRef.snapshots(),
+          builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
+            if (asyncSnapshot.hasError) {
+              return const Center(
+                  child: Text('Bir Hata Oluştu. Lütfen Tekrar Deneyin.'));
+            } else {
+              if (asyncSnapshot.hasData) {
+                dynamic hocaList = asyncSnapshot.data.docs;
+                return ListView.builder(
+                    itemCount: hocaList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
+                        color: Colors.yellow,
+                        child: ListTile(
+                          title: Text(
+                            '${hocaList[index].data()['name']} ${hocaList[index].data()['surname']}',
+                            style: const TextStyle(fontSize: 28),
                           ),
-                        );
-                      });
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
+                          subtitle: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${hocaList[index].data()['profession']}',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                'Puan: ${hocaList[index].data()['point']}',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          onTap: () async {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfessionalProfile(
+                                        hocaRef: hocaList[index].data(),
+                                        hocaSnapshot: hocaList[index])));
+                          },
+                        ),
+                      );
+                    });
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
-            }),
-      );
+            }
+          }),
+    );
   }
 }
