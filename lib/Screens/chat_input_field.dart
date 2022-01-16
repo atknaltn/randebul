@@ -18,14 +18,7 @@ class ChatInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController _messageController = TextEditingController();
-    ScrollController _scrollController = ScrollController();
-    void _scrollToBottom() {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
-    }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToBottom());
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
