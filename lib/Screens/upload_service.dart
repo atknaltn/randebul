@@ -309,7 +309,7 @@ class _UploadServiceState extends State<UploadService> {
           servicePrice: servicePrice,
           imageURL: imageURL,
           userImageURL: userImage);
-      await firebaseFirestore.collection("Services").doc(user!.uid).update({
+      await firebaseFirestore.collection("Services").doc('Services').update({
         'Service': FieldValue.arrayUnion([
           {
             'imageURL': imageURL,
