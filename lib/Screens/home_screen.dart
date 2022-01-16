@@ -4,12 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
-import 'package:randebul/Screens/credit_card.dart';
 import 'package:randebul/Screens/payment.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
-import 'package:randebul/Screens/ChatScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,14 +32,12 @@ class MyHomePage extends StatefulWidget {
 
 class _HomeScreenState extends State<MyHomePage> {
   final _firestore = FirebaseFirestore.instance;
-  String _searchValue = "";
   Icon customIcon = const Icon(Icons.search);
   Widget customSearchBar = const Text('Randebul');
   final String title = 'Randebul';
   bool hide = false;
   bool leading = true;
   int index = 0, page = 0;
-  dynamic professionalList = <Map>[];
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
   bool isProf = false;
@@ -60,7 +56,7 @@ class _HomeScreenState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     _getProf();
-    CollectionReference services = _firestore.collection('Services');
+    CollectionReference professionals = _firestore.collection('Services');
     return MaterialApp(
       home: DefaultTabController(
         length: 4,
@@ -81,18 +77,15 @@ class _HomeScreenState extends State<MyHomePage> {
                     if (customIcon.icon == Icons.search) {
                       // Perform set of instructions.
                       customIcon = const Icon(Icons.cancel);
-                      customSearchBar = ListTile(
-                        leading: const Icon(
+                      customSearchBar = const ListTile(
+                        leading: Icon(
                           Icons.search,
                           color: Colors.white,
                           size: 28,
                         ),
                         title: TextField(
                           autofocus: true,
-                          onSubmitted: (String value) async {
-                            _searchValue = value;
-                          },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: 'Search in Services ...',
                             hintStyle: TextStyle(
                               color: Colors.white,
@@ -101,7 +94,7 @@ class _HomeScreenState extends State<MyHomePage> {
                             ),
                             border: InputBorder.none,
                           ),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -122,8 +115,7 @@ class _HomeScreenState extends State<MyHomePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SportProfessionals()));
-                    //MyProfilePage()));
+                            builder: (context) => MyProfilePage()));
                   },
                 ),
               if (!hide)
@@ -159,113 +151,82 @@ class _HomeScreenState extends State<MyHomePage> {
                 icon: Icon(Icons.home),
               ),
               BottomNavigationBarItem(
-                label: "My Wallet",
+                label: "Add Fund",
                 icon: Icon(Icons.wallet_giftcard),
               ),
             ],
           ),
-          body: StreamBuilder<QuerySnapshot>(
-              stream: services.snapshots(),
-              builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
-                if (asyncSnapshot.hasError) {
-                  return const Center(
-                      child: Text('Bir Hata Oluştu. Lütfen Tekrar Deneyin.'));
-                } else {
-                  if (asyncSnapshot.hasData) {
-                    dynamic services = asyncSnapshot.data.docs;
-
-                    return ListView.builder(
-                        itemCount: services.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 10),
-                            color: Colors.transparent,
-                            child: Column(
+          body: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream:
+                _firestore.collection('Services').doc('Services').snapshots(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+              if (snapshot.hasData) {
+                var output = snapshot.data!.data();
+                var services = output!['Service']; // <-- Your value
+                return ListView.builder(
+                  itemCount: services.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        color: Colors.transparent,
+                        child: Column(
+                          children: <Widget>[
+                            Row(
                               children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    InkWell(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      child: Image.asset(
-                                        "assets/testProfile.jpg",
-                                        height: 100.0,
-                                        width: 100.0,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 75,
-                                    ),
-                                    Image.asset(
-                                      "assets/fitness2.jpg",
-                                      fit: BoxFit.cover,
-                                      height: 175,
-                                    ),
-                                    const SizedBox(
-                                      width: 1,
-                                    ),
-                                  ],
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  child: Image.network(
+                                    services[index]['userImageURL'],
+                                    height: 100.0,
+                                    width: 100.0,
+                                  ),
                                 ),
                                 const SizedBox(
-                                  height: 50,
+                                  width: 75,
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      _searchValue,
-                                      style: const TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(
-                                      width: 150,
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        'Price: ${services[index].data()['servicePrice']} \$',
-                                        style: const TextStyle(fontSize: 20),
-                                      ),
-                                    )
-                                  ],
-                                )
+                                Image.network(
+                                  services[index]['imageURL'],
+                                  fit: BoxFit.cover,
+                                  height: 175,
+                                ),
+                                const SizedBox(
+                                  width: 1,
+                                ),
                               ],
                             ),
-                            /*child: ListTile(
-                              title: Text(
-                                '${services[index].data()['serviceName']}',
-                                style: const TextStyle(fontSize: 28),
-                              ),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.network(
-                                    services[index].data()['imageURL'],
-                                    fit: BoxFit.cover,
-                                    height: 175,
-                                  ),
-                                  Text(
-                                    'Category: ${services[index].data()['serviceCategory']}',
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '${services[index]['serviceName']}',
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  width: 150,
+                                ),
+                                Container(
+                                  child: Text(
+                                    'Price: ${services[index]['servicePrice']} \$',
                                     style: const TextStyle(fontSize: 20),
                                   ),
-                                  Text(
-                                    'Price: ${services[index].data()['servicePrice']}',
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              onTap: () async {},
-                            ),*/
-                          );
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                }
-              }),
+                                )
+                              ],
+                            )
+                          ],
+                        ));
+                  },
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
           drawer: Drawer(
             // Add a ListView to the drawer. This ensures the user can scroll
             // through the options in the drawer if there isn't enough vertical
