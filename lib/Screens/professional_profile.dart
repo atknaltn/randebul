@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'appointment_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class ProfessionalProfile extends StatefulWidget {
@@ -27,12 +28,10 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String hakkinda = "";
   String profession = "";
   String image = "";
-  String user_id = "";
   int puan = 5;
   bool verified = false;
   Future<void> _getUserName() async {
     setState(() {
-      user_id = '${widget.hocaRef['uid']}';
       firstname = '${widget.hocaRef['name']}';
       lastname = '${widget.hocaRef['surname']}';
       mail = '${widget.hocaRef['mail']}';
@@ -68,16 +67,22 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
     );
     _getUserName();
     Future<void> updateFireBase() async {
-      print(user_id);
+      CollectionReference temp1 = FirebaseFirestore.instance
+          .collection('users');
+      DocumentReference temp2 = temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
+      var response = await temp2.get();
+      dynamic veri = response.data();
+
+
       FirebaseFirestore.instance
           .collection('professionals')
           .doc(widget.hocaSnapshot.id)
           .update({
         'comments': FieldValue.arrayUnion([
           {
-            'username': userName,
+            'username': veri['userName'],
             'point': 0,
-            'date': new DateTime.now().toString(),
+            'date': DateFormat('dd.MM.y').format(DateTime.now()),
             'comment': commentController.text,
           }
         ])
