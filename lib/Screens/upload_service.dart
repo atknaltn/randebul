@@ -307,17 +307,18 @@ class _UploadServiceState extends State<UploadService> {
           serviceName: serviceName,
           serviceCategory: serviceCategory,
           servicePrice: servicePrice,
-          imageURL: imageURL);
-      await firebaseFirestore
-          .collection("Services")
-          .doc(user!.uid)
-          .set(serviceModel.toMap());
-
-      FirebaseFirestore.instance
-          .collection('professionals')
-          .doc((await FirebaseAuth.instance.currentUser)!.uid)
-          .update({
-        'services': FieldValue.arrayUnion([serviceModel.toMap()])
+          imageURL: imageURL,
+          userImageURL: userImage);
+      await firebaseFirestore.collection("Services").doc(user!.uid).update({
+        'Service': FieldValue.arrayUnion([
+          {
+            'imageURL': imageURL,
+            'serviceCategory': serviceCategory,
+            'serviceName': serviceName,
+            'servicePrice': servicePrice,
+            'userImageURL': userImage
+          }
+        ])
       });
     }
   }
