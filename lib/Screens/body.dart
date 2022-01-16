@@ -13,10 +13,14 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final _firestore = FirebaseFirestore.instance;
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 1000.0);
 
   @override
   Widget build(BuildContext context) {
     CollectionReference mesajlarRef = _firestore.collection('mesajlar');
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _scrollToBottom());
     return StreamBuilder<QuerySnapshot>(
         stream: mesajlarRef.snapshots(),
         builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
@@ -33,6 +37,8 @@ class _BodyState extends State<Body> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ListView.builder(
+                    reverse: true,
+                    controller: _scrollController,
                     itemCount: mesajList[0].data()['mesajlar'].length,
                     itemBuilder: (context, index) => Message(
                       message: ChatMessage(
@@ -50,5 +56,13 @@ class _BodyState extends State<Body> {
             ],
           );
         });
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      Future.delayed(Duration(milliseconds: 500), () {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      });
+    }
   }
 }
