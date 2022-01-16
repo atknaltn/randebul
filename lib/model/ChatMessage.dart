@@ -6,16 +6,18 @@ class ChatMessage {
   final ChatMessageType messageType;
   final MessageStatus messageStatus;
   final bool isSender;
+  final String date;
 
   ChatMessage({
     this.text = '',
     required this.messageType,
     required this.messageStatus,
     required this.isSender,
+    required this.date,
   });
 }
 
-List demeChatMessages = [
+/*List demeChatMessages = [
   ChatMessage(
     text: "Selam Dostum!",
     messageType: ChatMessageType.text,
@@ -57,5 +59,5 @@ List demeChatMessages = [
     messageType: ChatMessageType.text,
     messageStatus: MessageStatus.not_viewed,
     isSender: true,
-  ),
-];
+  ),*/
+

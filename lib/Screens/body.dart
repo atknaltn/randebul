@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:randebul/Screens/chat_input_field.dart';
 import 'package:randebul/model/ChatMessage.dart';
 import 'package:randebul/Screens/message.dart';
+import 'package:intl/intl.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _BodyState extends State<Body> {
                         messageType: ChatMessageType.text,
                         isSender: mesajArr[index]['issender'],
                         text: mesajArr[index]['mesajmetni'],
+                        date: DateFormat('dd.MM.y').format(DateTime.now()),
                       ),
                     ),
                   ),
