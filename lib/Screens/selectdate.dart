@@ -109,11 +109,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ConfirmAndPay(
-                              selectedHizmet: widget.selectedHizmet,
-                              hocaRef: widget.hocaRef,
-                              selectedDate: selectedDate,
-                              hocaSnapshot: widget.hocaSnapshot
-                            )));
+                            selectedHizmet: widget.selectedHizmet,
+                            hocaRef: widget.hocaRef,
+                            selectedDate: selectedDate,
+                            hocaSnapshot: widget.hocaSnapshot)));
               },
               label: const Text('Onayla'),
               icon: const Icon(
@@ -130,26 +129,27 @@ class _SelectDatePageState extends State<SelectDatePage> {
     selectedDate = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, selectedDate.hour, roundTo5(selectedDate.minute));
     randevuList = widget.hocaRef['Randevular'];
-    for (int i = 0; i < randevuList.length; i++) {
-      if ((selectedDate.isAfter(randevuList[i]['startTime'].toDate()) &&
-              selectedDate.isBefore(randevuList[i]['startTime']
-                  .toDate()
-                  .add(Duration(minutes: randevuList[i]['duration'])))) ||
-          (selectedDate
-                  .add(Duration(minutes: widget.selectedHizmet['sure']))
-                  .isAfter(randevuList[i]['startTime'].toDate()) &&
-              selectedDate
-                  .add(Duration(minutes: widget.selectedHizmet['sure']))
-                  .isBefore(randevuList[i]['startTime']
-                      .toDate()
-                      .add(Duration(minutes: randevuList[i]['duration'])))) ||
-          selectedDate.isAtSameMomentAs(randevuList[i]['startTime'].toDate())
-      
-      ) {
-        setState(() {
-          validTime = false;
-        });
-        break;
+    if (widget.hocaRef['Randevular'] != null) {
+      for (int i = 0; i < randevuList.length; i++) {
+        if ((selectedDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+                selectedDate.isBefore(randevuList[i]['startTime']
+                    .toDate()
+                    .add(Duration(minutes: randevuList[i]['duration'])))) ||
+            (selectedDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isAfter(randevuList[i]['startTime'].toDate()) &&
+                selectedDate
+                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .isBefore(randevuList[i]['startTime']
+                        .toDate()
+                        .add(Duration(minutes: randevuList[i]['duration'])))) ||
+            selectedDate
+                .isAtSameMomentAs(randevuList[i]['startTime'].toDate())) {
+          setState(() {
+            validTime = false;
+          });
+          break;
+        }
       }
     }
 
@@ -181,24 +181,25 @@ class _SelectDatePageState extends State<SelectDatePage> {
         conflict = true;
       }
 
-      for (int i = 0; i < randevuList.length; i++) {
-        if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
-                fullDate.isBefore(randevuList[i]['startTime']
-                    .toDate()
-                    .add(Duration(minutes: randevuList[i]['duration'])))) ||
-            (fullDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
-                    .isAfter(randevuList[i]['startTime'].toDate()) &&
-                fullDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
-                    .isBefore(randevuList[i]['startTime']
-                        .toDate()
-                        .add(Duration(minutes: randevuList[i]['duration']))))) {
-          conflict = true;
-          setState(() {
-            validTime = false;
-          });
-          break;
+      if (widget.hocaRef['Randevular'] != null) {
+        for (int i = 0; i < randevuList.length; i++) {
+          if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+                  fullDate.isBefore(randevuList[i]['startTime']
+                      .toDate()
+                      .add(Duration(minutes: randevuList[i]['duration'])))) ||
+              (fullDate
+                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .isAfter(randevuList[i]['startTime'].toDate()) &&
+                  fullDate
+                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .isBefore(randevuList[i]['startTime'].toDate().add(
+                          Duration(minutes: randevuList[i]['duration']))))) {
+            conflict = true;
+            setState(() {
+              validTime = false;
+            });
+            break;
+          }
         }
       }
 
@@ -233,24 +234,25 @@ class _SelectDatePageState extends State<SelectDatePage> {
         });
       }
 
-      for (int i = 0; i < randevuList.length; i++) {
-        if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
-                fullDate.isBefore(randevuList[i]['startTime']
-                    .toDate()
-                    .add(Duration(minutes: randevuList[i]['duration'])))) ||
-            (fullDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
-                    .isAfter(randevuList[i]['startTime'].toDate()) &&
-                fullDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
-                    .isBefore(randevuList[i]['startTime']
-                        .toDate()
-                        .add(Duration(minutes: randevuList[i]['duration']))))) {
-          conflict = true;
-          setState(() {
-            validTime = false;
-          });
-          break;
+      if (widget.hocaRef['Randevular'] != null) {
+        for (int i = 0; i < randevuList.length; i++) {
+          if ((fullDate.isAfter(randevuList[i]['startTime'].toDate()) &&
+                  fullDate.isBefore(randevuList[i]['startTime']
+                      .toDate()
+                      .add(Duration(minutes: randevuList[i]['duration'])))) ||
+              (fullDate
+                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .isAfter(randevuList[i]['startTime'].toDate()) &&
+                  fullDate
+                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .isBefore(randevuList[i]['startTime'].toDate().add(
+                          Duration(minutes: randevuList[i]['duration']))))) {
+            conflict = true;
+            setState(() {
+              validTime = false;
+            });
+            break;
+          }
         }
       }
 
@@ -284,15 +286,17 @@ class _SelectDatePageState extends State<SelectDatePage> {
     dynamic randevuList = <Map>[];
     randevuList = widget.hocaRef['Randevular'];
 
-    for (int i = 0; i < randevuList.length; i++) {
-      meetings.add(Appointment(
-          startTime: randevuList[i]['startTime'].toDate(),
-          endTime: randevuList[i]['startTime']
-              .toDate()
-              .add(Duration(minutes: randevuList[i]['duration'])),
-          subject: 'Dolu',
-          color: Colors.red,
-          isAllDay: false));
+    if (widget.hocaRef['Randevular'] != null) {
+      for (int i = 0; i < randevuList.length; i++) {
+        meetings.add(Appointment(
+            startTime: randevuList[i]['startTime'].toDate(),
+            endTime: randevuList[i]['startTime']
+                .toDate()
+                .add(Duration(minutes: randevuList[i]['duration'])),
+            subject: 'Dolu',
+            color: Colors.red,
+            isAllDay: false));
+      }
     }
     meetings.add(Appointment(
         startTime: selectedDate,

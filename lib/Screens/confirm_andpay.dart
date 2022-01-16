@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -51,20 +50,20 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           'subject': widget.selectedHizmet['başlık'],
           'profesyonel': FirebaseFirestore.instance
               .collection('spor-hocalari-deneme')
-              .doc(widget.hocaSnapshot.id).
-              path,
+              .doc(widget.hocaSnapshot.id)
+              .path,
         }
       ])
     });
   }
 
-  Future<void> updateProfProfile() async{
+  Future<void> updateProfProfile() async {
     DocumentReference musteriRef = FirebaseFirestore.instance
         .collection('users')
         .doc((FirebaseAuth.instance.currentUser)!.uid);
 
     FirebaseFirestore.instance
-        .collection('spor-hocalari-deneme')
+        .collection('professionals')
         .doc(widget.hocaSnapshot.id)
         .update({
       'amount': FieldValue.increment(widget.selectedHizmet['fiyat']),
@@ -120,7 +119,8 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
             icerik: '${widget.selectedHizmet['icerik']}',
             fiyat: '${widget.selectedHizmet['fiyat']}',
             tarih: widget.selectedDate,
-            profesyonel: '${widget.hocaRef['name']} ${widget.hocaRef['surname']}',
+            profesyonel:
+                '${widget.hocaRef['name']} ${widget.hocaRef['surname']}',
             isSelected: true,
             index: 0,
           ),
@@ -146,69 +146,71 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           ),
           (enoughMoney)
               ? const Center(
-              child: Text('Bu randevuyu alabilirsiniz.',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  )))
+                  child: Text('Bu randevuyu alabilirsiniz.',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      )))
               : const Center(
-              child: Text('Hesabınızda yeterli bakiye bulunmamaktadır.',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ))),
+                  child: Text('Hesabınızda yeterli bakiye bulunmamaktadır.',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ))),
           const SizedBox(height: 20),
           (enoughMoney)
               ? TextButton(
-            child: Container(
-              color: Colors.blue,
-              height: 100,
-              width: 10000,
-              child: const Center(
-                child: Text(
-                  'Randevuyu Onayla',
-                  style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-              ),
-            ),
-            onPressed: () {
-              updateUserProfile();
-              updateProfProfile();
-              showDialog(
-                context: contextt,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Başarılı'),
-                    content: const SizedBox(
-                      height: 80,
-                      child: Text('Randevu Başarıyla Alındı!'),
+                  child: Container(
+                    color: Colors.blue,
+                    height: 100,
+                    width: 10000,
+                    child: const Center(
+                      child: Text(
+                        'Randevuyu Onayla',
+                        style: TextStyle(
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
                     ),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            Navigator.pop(contextt);
-                            Navigator.pop(contextt);
-                            Navigator.pop(contextt);
-                            Navigator.pop(contextt);
-                            Navigator.pop(contextt);
-                          },
-                          child: const Text('Ana Sayfaya Dön'))
-                    ],
-                  );
-                },
-              );
-            },
-          )
+                  ),
+                  onPressed: () {
+                    updateUserProfile();
+                    updateProfProfile();
+                    showDialog(
+                      context: contextt,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Başarılı'),
+                          content: const SizedBox(
+                            height: 80,
+                            child: Text('Randevu Başarıyla Alındı!'),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.pop(contextt);
+                                  Navigator.pop(contextt);
+                                  Navigator.pop(contextt);
+                                  Navigator.pop(contextt);
+                                  Navigator.pop(contextt);
+                                },
+                                child: const Text('Ana Sayfaya Dön'))
+                          ],
+                        );
+                      },
+                    );
+                  },
+                )
               : const SizedBox(height: 20),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: (){print('x');}),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        print('x');
+      }),
     );
   }
 }
@@ -289,4 +291,3 @@ class ServiceBox extends StatelessWidget {
     );
   }
 }
-
