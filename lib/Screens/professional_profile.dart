@@ -118,7 +118,8 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ChatScreen())),
+                              builder: (context) =>
+                                  ChatScreen(messageRef: widget.hocaRef))),
                     )),
                 const SizedBox(height: 30),
                 Hakkinda(hakkindaYazisi: hakkinda),

@@ -274,13 +274,8 @@ class _HomeScreenState extends State<MyHomePage> {
                   },
                 ),
                 ListTile(
-                    title: const Text('Music'),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChatScreen()));
-                    }),
+                  title: const Text('Music'),
+                )
               ],
             ),
           ),
