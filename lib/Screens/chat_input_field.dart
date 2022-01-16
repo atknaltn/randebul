@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:randebul/model/ChatMessage.dart';
+import 'package:randebul/model/message_dao.dart';
+//import 'package:randebul/model/message_widget.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'body.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatInputField extends StatelessWidget {
+  final CollectionReference messagesRef;
+  final AsyncSnapshot asyncSnapshot;
   const ChatInputField({
+    required this.messagesRef,
+    required this.asyncSnapshot,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _messageController = TextEditingController();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -44,8 +56,21 @@ class ChatInputField extends StatelessWidget {
                         ?.withOpacity(0.6),
                   ),
                   const SizedBox(width: 5.0),
-                  const Expanded(
+                  Expanded(
                     child: TextField(
+                      keyboardType: TextInputType.text,
+                      controller: _messageController,
+                      //onChanged: (text) => {},
+                      onSubmitted: (input) {
+                        messagesRef.doc('mesaj1').update({
+                          'mesajlar': FieldValue.arrayUnion([
+                            {
+                              'mesajmetni': input,
+                              'issender': true,
+                            }
+                          ])
+                        });
+                      },
                       decoration: InputDecoration(
                         hintText: "Type a message",
                         border: InputBorder.none,

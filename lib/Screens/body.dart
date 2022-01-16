@@ -18,33 +18,37 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     CollectionReference mesajlarRef = _firestore.collection('mesajlar');
     return StreamBuilder<QuerySnapshot>(
-      stream: mesajlarRef.snapshots(),
-      builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
-        dynamic mesajList = asyncSnapshot.data.docs;
-        dynamic mesajArr = <Map>[];
-        mesajArr = mesajList[0].data()['mesajlar'];
-        return Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: ListView.builder(
-                  itemCount: mesajList[0].data()['mesajlar'].length,
-                  itemBuilder: (context, index) => Message(
-                    message: ChatMessage(
-                      messageStatus: MessageStatus.viewed,
-                      messageType: ChatMessageType.text,
-                      isSender: mesajArr[index]['issender'],
-                      text: mesajArr[index]['mesajmetni']
+        stream: mesajlarRef.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
+          if (asyncSnapshot.data == null)
+            return const CircularProgressIndicator();
+          dynamic mesajList = asyncSnapshot.data.docs;
+
+          dynamic mesajArr = <Map>[];
+          mesajArr = mesajList[0].data()['mesajlar'];
+          mesajlarRef.doc('mesaj1').collection('mesajlar');
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: ListView.builder(
+                    itemCount: mesajList[0].data()['mesajlar'].length,
+                    itemBuilder: (context, index) => Message(
+                      message: ChatMessage(
+                        messageStatus: MessageStatus.viewed,
+                        messageType: ChatMessageType.text,
+                        isSender: mesajArr[index]['issender'],
+                        text: mesajArr[index]['mesajmetni'],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            ChatInputField(),
-          ],
-        );
-      }
-    );
+              ChatInputField(
+                  messagesRef: mesajlarRef, asyncSnapshot: asyncSnapshot),
+            ],
+          );
+        });
   }
 }
