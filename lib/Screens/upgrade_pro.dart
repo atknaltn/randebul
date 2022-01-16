@@ -86,6 +86,7 @@ class _UpgaredeProState extends State<UpgradePro> {
         .collection('professionals')
         .doc((await FirebaseAuth.instance.currentUser)!.uid)
         .set({
+      'uid': uid,
       'adress': address,
       'about': aboutController.text,
       'imageURL': image,

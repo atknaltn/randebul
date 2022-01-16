@@ -27,10 +27,12 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String hakkinda = "";
   String profession = "";
   String image = "";
+  String user_id = "";
   int puan = 5;
   bool verified = false;
   Future<void> _getUserName() async {
     setState(() {
+      user_id = '${widget.hocaRef['uid']}';
       firstname = '${widget.hocaRef['name']}';
       lastname = '${widget.hocaRef['surname']}';
       mail = '${widget.hocaRef['mail']}';
@@ -66,9 +68,10 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
     );
     _getUserName();
     Future<void> updateFireBase() async {
+      print(user_id);
       FirebaseFirestore.instance
           .collection('professionals')
-          .doc((await FirebaseAuth.instance.currentUser)!.uid)
+          .doc(widget.hocaSnapshot.id)
           .update({
         'comments': FieldValue.arrayUnion([
           {
@@ -323,7 +326,7 @@ class Yorumlar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dynamic yorumlar = <Map>[];
-    yorumlar = hocaRef['yorumlar'];
+    yorumlar = hocaRef['comments'];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -349,19 +352,19 @@ class Yorumlar extends StatelessWidget {
             (yorumlar == null || yorumlar.isEmpty)
                 ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
                 : YorumKart(
-                    username: yorumlar[yorumlar.length - 1]['kullaniciadi'],
-                    tarih: yorumlar[yorumlar.length - 1]['tarih'],
-                    puan: yorumlar[yorumlar.length - 1]['puan'],
-                    yorumMetni: yorumlar[yorumlar.length - 1]['yorum']),
+                    username: yorumlar[yorumlar.length - 1]['username'],
+                    tarih: yorumlar[yorumlar.length - 1]['date'],
+                    puan: yorumlar[yorumlar.length - 1]['point'],
+                    yorumMetni: yorumlar[yorumlar.length - 1]['comment']),
             const SizedBox(
               height: 5,
             ),
             (yorumlar != null && yorumlar.length >= 2)
                 ? YorumKart(
-                    username: yorumlar[yorumlar.length - 2]['kullaniciadi'],
-                    tarih: yorumlar[yorumlar.length - 2]['tarih'],
-                    puan: yorumlar[yorumlar.length - 2]['puan'],
-                    yorumMetni: yorumlar[yorumlar.length - 2]['yorum'])
+                    username: yorumlar[yorumlar.length - 2]['username'],
+                    tarih: yorumlar[yorumlar.length - 2]['date'],
+                    puan: yorumlar[yorumlar.length - 2]['point'],
+                    yorumMetni: yorumlar[yorumlar.length - 2]['comment'])
                 : const SizedBox(height: 5),
             const SizedBox(
               height: 10,
