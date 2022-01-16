@@ -312,11 +312,13 @@ class _HomeScreenState extends State<MyHomePage> {
                   },
                 ),
                 ListTile(
-                  title: const Text('Music'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                    title: const Text('Music'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen()));
+                    }),
               ],
             ),
           ),
