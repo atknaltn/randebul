@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'appointment_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:randebul/Screens/ChatScreen.dart';
 //import 'package:randebul/Screens/home_screen.dart';
 
 class ProfessionalProfile extends StatefulWidget {
@@ -67,12 +68,12 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
     );
     _getUserName();
     Future<void> updateFireBase() async {
-      CollectionReference temp1 = FirebaseFirestore.instance
-          .collection('users');
-      DocumentReference temp2 = temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
+      CollectionReference temp1 =
+          FirebaseFirestore.instance.collection('users');
+      DocumentReference temp2 =
+          temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
       var response = await temp2.get();
       dynamic veri = response.data();
-
 
       FirebaseFirestore.instance
           .collection('professionals')
@@ -110,6 +111,15 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   username: userName,
                   proffession: profession,
                 ),
+                Container(
+                    padding: EdgeInsets.all(8),
+                    child: GestureDetector(
+                      child: Icon(Icons.message),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatScreen())),
+                    )),
                 const SizedBox(height: 30),
                 Hakkinda(hakkindaYazisi: hakkinda),
                 const SizedBox(height: 30),

@@ -37,7 +37,6 @@ class _BodyState extends State<Body> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ListView.builder(
-                    reverse: true,
                     controller: _scrollController,
                     itemCount: mesajList[0].data()['mesajlar'].length,
                     itemBuilder: (context, index) => Message(

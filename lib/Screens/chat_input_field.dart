@@ -5,6 +5,7 @@ import 'package:randebul/model/ChatMessage.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ChatInputField extends StatelessWidget {
   final CollectionReference messagesRef;
@@ -67,6 +68,8 @@ class ChatInputField extends StatelessWidget {
                             {
                               'mesajmetni': input,
                               'issender': true,
+                              'date':
+                                  DateFormat('dd.MM.y').format(DateTime.now()),
                             }
                           ])
                         });
