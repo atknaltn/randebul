@@ -88,7 +88,9 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           Container(
                             margin: const EdgeInsets.only(top: 15),
                             child: Text(
-                              'Rating: ${widget.hocaRef['point']}',
+                              (widget.hocaRef['comments'] != null)
+                              ? 'Rating: ${(widget.hocaRef['point'] / widget.hocaRef['comments'].length).toStringAsFixed(1)}'
+                              : 'Rating: N/A',
                               style: const TextStyle(
                                 color: Colors.yellow,
                                 fontSize: 15,

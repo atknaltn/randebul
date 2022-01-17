@@ -19,6 +19,7 @@ class ProfessionalProfile extends StatefulWidget {
 
 class _ProfessionalProfileState extends State<ProfessionalProfile> {
   final commentController = TextEditingController();
+  final ratingController = TextEditingController();
   String firstname = "";
   String lastname = "";
   String mail = "";
@@ -29,7 +30,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String hakkinda = "";
   String profession = "";
   String image = "";
-  int puan = 5;
+  double puan = 0;
   bool verified = false;
   Future<void> _getUserName() async {
     setState(() {
@@ -42,14 +43,20 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       website = '${widget.hocaRef['website']}';
       image = '${widget.hocaRef['imageURL']}';
       hakkinda = '${widget.hocaRef['about']}';
-      puan = widget.hocaRef['point'];
       verified = widget.hocaRef['verified'];
       profession = '${widget.hocaRef['profession']}';
+      if(widget.hocaRef['comments'] != null){
+        puan = widget.hocaRef['point'] / widget.hocaRef['comments'].length;
+      }
+      else{
+        puan = -1;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _getUserName();
     final comment = TextFormField(
       autofocus: false,
       controller: commentController,
@@ -66,7 +73,26 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
             borderRadius: BorderRadius.circular(10),
           )),
     );
-    _getUserName();
+
+    final rating = TextFormField(
+      autofocus: false,
+      controller: ratingController,
+      keyboardType: TextInputType.number,
+      onSaved: (value) {
+        if (value != null) {
+              commentController.text = value;
+        }
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.star),
+          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Write your rating",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
+
     Future<void> updateFireBase() async {
       CollectionReference temp1 =
           FirebaseFirestore.instance.collection('users');
@@ -75,19 +101,65 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       var response = await temp2.get();
       dynamic veri = response.data();
 
-      FirebaseFirestore.instance
-          .collection('professionals')
-          .doc(widget.hocaSnapshot.id)
-          .update({
-        'comments': FieldValue.arrayUnion([
-          {
-            'username': veri['userName'],
-            'point': 0,
-            'date': DateFormat('dd.MM.y').format(DateTime.now()),
-            'comment': commentController.text,
-          }
-        ])
-      });
+      bool validComment = int.parse(ratingController.text) <= 10 && int.parse(ratingController.text) >= 0 && commentController.text.isNotEmpty && ratingController.text.isNotEmpty;
+
+      if (validComment) {
+        FirebaseFirestore.instance
+            .collection('professionals')
+            .doc(widget.hocaSnapshot.id)
+            .update({
+          'point': FieldValue.increment(int.parse(ratingController.text)),
+          'comments': FieldValue.arrayUnion([
+            {
+              'username': veri['userName'],
+              'point': int.parse(ratingController.text),
+              'date': DateFormat('dd.MM.y').format(DateTime.now()),
+              'comment': commentController.text,
+            }
+          ])
+        });
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Success'),
+              content: const SizedBox(
+                height: 80,
+                child: Text('Comment was made successfully.'),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Return'))
+              ],
+            );
+          },
+        );
+      }
+      else{
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Failed'),
+              content: const SizedBox(
+                height: 80,
+                child: Text('Please enter a valid comment and rating.'),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Return'))
+              ],
+            );
+          },
+        );
+      }
+
     }
 
     return Scaffold(
@@ -136,6 +208,8 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                 ),
                 const SizedBox(height: 30),
                 comment,
+                rating,
+                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -238,7 +312,9 @@ class UstKart extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Rating: $puan '),
+                  (puan != -1)
+                  ? Text('Rating: ${puan.toStringAsFixed(1)} ')
+                  : const Text('Rating: N/A'),
                   (puan < 1)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 1)

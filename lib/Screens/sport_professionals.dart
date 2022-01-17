@@ -59,7 +59,9 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                'Rating: ${hocaList[index].data()['point']}',
+                                  (hocaList[index].data()['comments'] != null)
+                                ? 'Rating: ${(hocaList[index].data()['point'] / hocaList[index].data()['comments'].length).toStringAsFixed(1)}'
+                                  : 'Rating: N/A',
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ],

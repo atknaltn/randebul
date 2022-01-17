@@ -111,10 +111,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
       );
   Widget buildUpgradeButton(String uid) => ButtonWidget(
         text: 'Upgrade To PRO',
-        onClicked: () {
+        onClicked: () async {
           FirebaseFirestore.instance
               .collection('users')
-              .doc(uid)
+              .doc((FirebaseAuth.instance.currentUser)!.uid)
               .update({'isProfessional': true});
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const UpgradePro()),
