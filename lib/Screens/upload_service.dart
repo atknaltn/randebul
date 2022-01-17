@@ -398,7 +398,10 @@ class _UploadServiceState extends State<UploadService> {
             'serviceCategory': serviceCategory,
             'serviceName': serviceName,
             'servicePrice': int.parse(servicePrice),
-            'userImageURL': userImage
+            'userImageURL': userImage,
+            'professionalUid': (await FirebaseAuth.instance.currentUser)!.uid,
+            'serviceDuration': int.parse(serviceDuration),
+            'serviceContent': serviceDefinition,
           }
         ])
       });
