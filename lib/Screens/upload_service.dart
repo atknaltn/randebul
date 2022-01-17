@@ -22,7 +22,7 @@ class UploadService extends StatefulWidget {
 class _UploadServiceState extends State<UploadService> {
   File? imageFile;
   var formKey = GlobalKey<FormState>();
-  var serviceName, serviceCategory, servicePrice;
+  var serviceName, serviceCategory, servicePrice, serviceDuration, serviceDefinition;
   final _auth = FirebaseAuth.instance;
   String userImage = "";
   Future<void> _getUserName() async {
@@ -64,8 +64,7 @@ class _UploadServiceState extends State<UploadService> {
         body: Form(
           key: formKey,
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: ListView(
               children: <Widget>[
                 Padding(padding: EdgeInsets.only(top: 15)),
                 Container(
@@ -170,6 +169,11 @@ class _UploadServiceState extends State<UploadService> {
                     SizedBox(
                       width: 5,
                     ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
                     Expanded(
                       flex: 1,
                       child: Theme(
@@ -209,11 +213,85 @@ class _UploadServiceState extends State<UploadService> {
                     SizedBox(
                       width: 5,
                     ),
+                    Expanded(
+                      flex: 1,
+                      child: Theme(
+                          data: ThemeData(
+                            hintColor: Colors.blue,
+                          ),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please write the duration of service";
+                              } else {
+                                serviceDuration = value;
+                              }
+                            },
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              labelText: "Service Duration",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                      color: Color(0xffff2fc3), width: 1)),
+                              disabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                      color: Color(0xffff2fc3), width: 1)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                      color: Color(0xffff2fc3), width: 1)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                      color: Color(0xffff2fc3), width: 1)),
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
                   ],
                 ),
-                SizedBox(
-                  height: 10,
+                SizedBox(height: 10),
+                Expanded(
+                  flex: 1,
+                  child: Theme(
+                      data: ThemeData(
+                        hintColor: Colors.blue,
+                      ),
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please write the definition of service";
+                          } else {
+                            serviceDefinition = value;
+                          }
+                        },
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          labelText: "Service Definition",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                  color: Color(0xffff2fc3), width: 1)),
+                          disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                  color: Color(0xffff2fc3), width: 1)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                  color: Color(0xffff2fc3), width: 1)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                  color: Color(0xffff2fc3), width: 1)),
+                        ),
+                      )),
                 ),
+                SizedBox(height: 50),
                 ElevatedButton(
                     onPressed: () {
                       if (imageFile == null) {
@@ -225,9 +303,13 @@ class _UploadServiceState extends State<UploadService> {
                         uploadImage();
                       }
                     },
-                    child: Icon(
-                      Icons.upload_sharp,
-                      size: 150,
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      child: Icon(
+                        Icons.upload_sharp,
+                        size: 150,
+                      ),
                     ))
               ],
             ),
@@ -315,8 +397,21 @@ class _UploadServiceState extends State<UploadService> {
             'imageURL': imageURL,
             'serviceCategory': serviceCategory,
             'serviceName': serviceName,
-            'servicePrice': servicePrice,
+            'servicePrice': int.parse(servicePrice),
             'userImageURL': userImage
+          }
+        ])
+      });
+      FirebaseFirestore.instance
+          .collection('professionals')
+          .doc((await FirebaseAuth.instance.currentUser)!.uid)
+          .update({
+        'hizmetler': FieldValue.arrayUnion([
+          {
+            'sure': int.parse(serviceDuration),
+            'fiyat': int.parse(servicePrice),
+            'icerik': serviceDefinition,
+            'başlık': serviceName,
           }
         ])
       });

@@ -178,11 +178,19 @@ class _HomeScreenState extends State<MyHomePage> {
                               children: <Widget>[
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(50.0),
-                                  child: Image.network(
-                                    services[index]['userImageURL'],
-                                    height: 100.0,
-                                    width: 100.0,
-                                  ),
+                                  child: (services[index]['userImageURL'] ==
+                                              null ||
+                                          services[index]['userImageURL'] == '')
+                                      ? Image.asset(
+                                          'assets/blankprofile.png',
+                                          height: 100.0,
+                                          width: 100.0,
+                                        )
+                                      : Image.network(
+                                          services[index]['userImageURL'],
+                                          height: 100.0,
+                                          width: 100.0,
+                                        ),
                                 ),
                                 const SizedBox(
                                   width: 75,
