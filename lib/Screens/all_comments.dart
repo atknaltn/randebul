@@ -11,10 +11,11 @@ class AllCommentsPage extends StatefulWidget {
 
 class _AllCommentsPageState extends State<AllCommentsPage> {
   dynamic yorumlar = <Map>[];
+  int yorumSayisi = 0;
   @override
   Widget build(BuildContext context) {
     yorumlar = widget.hocaRef['comments'];
-
+    yorumSayisi = yorumlar.length;
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Comments'),
@@ -46,13 +47,13 @@ class _AllCommentsPageState extends State<AllCommentsPage> {
               if (yorumlar == null || yorumlar.isEmpty)
                 const Text('This professional haven\'t got any comments yet.')
               else
-                for(int index = 0; index < yorumlar.length; index++)
+                for(int index = 1; index <= yorumSayisi; index++)
                     Column(
                       children: [
-                        YorumKart(username: yorumlar[index]['username'],
-                            tarih: yorumlar[index]['date'],
-                            puan: yorumlar[index]['point'],
-                            yorumMetni: yorumlar[index]['comment']),
+                        YorumKart(username: yorumlar[yorumSayisi - index]['username'],
+                            tarih: yorumlar[yorumSayisi - index]['date'],
+                            puan: yorumlar[yorumSayisi - index]['point'],
+                            yorumMetni: yorumlar[yorumSayisi - index]['comment']),
                         const SizedBox(height: 10)
                       ],
                     ),
