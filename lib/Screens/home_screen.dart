@@ -11,6 +11,8 @@ import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
 import 'package:randebul/Screens/ChatScreen.dart';
 
+import 'calendar_page.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -141,6 +143,11 @@ class _HomeScreenState extends State<MyHomePage> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Payment()));
               }
+              if (index == 2) {
+                print('taped');
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CalendarPage()));
+              }
             },
             type: BottomNavigationBarType.fixed,
             selectedItemColor: Colors.blue[700],
@@ -155,6 +162,10 @@ class _HomeScreenState extends State<MyHomePage> {
               BottomNavigationBarItem(
                 label: "Add Fund",
                 icon: Icon(Icons.wallet_giftcard),
+              ),
+              BottomNavigationBarItem(
+                label: "Calendar",
+                icon: Icon(Icons.calendar_today),
               ),
             ],
           ),

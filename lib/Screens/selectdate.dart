@@ -377,31 +377,6 @@ class _SelectDatePageState extends State<SelectDatePage> {
   }
 }
 
-List<Appointment> getAppointments(
-    dynamic hocaRef, DateTime selectedDate, Map selectedHizmet) {
-  List<Appointment> meetings = <Appointment>[];
-  dynamic randevuList = <Map>[];
-  randevuList = hocaRef['Randevular'];
-
-  for (int i = 0; i < randevuList.length; i++) {
-    meetings.add(Appointment(
-        startTime: randevuList[i]['startTime'].toDate(),
-        endTime: randevuList[i]['startTime']
-            .toDate()
-            .add(Duration(minutes: randevuList[i]['duration'])),
-        subject: 'Dolu',
-        color: Colors.red,
-        isAllDay: false));
-  }
-  meetings.add(Appointment(
-      startTime: selectedDate,
-      endTime: selectedDate.add(Duration(minutes: selectedHizmet['serviceDuration'])),
-      subject: 'Seçilen Tarih',
-      color: Colors.blue,
-      isAllDay: false));
-
-  return meetings;
-}
 
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Appointment> source) {
