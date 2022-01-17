@@ -42,6 +42,9 @@ class _HomeScreenState extends State<MyHomePage> {
   bool hide = false;
   bool leading = true;
   int index = 0, page = 0;
+  String _searchValue = "";
+  bool _isSearching = false;
+  final TextEditingController _controller = new TextEditingController();
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
   bool isProf = false;
@@ -54,6 +57,22 @@ class _HomeScreenState extends State<MyHomePage> {
       setState(() {
         isProf = value.data()!['isProfessional'];
       });
+    });
+  }
+
+  _HomeScreenState() {
+    _controller.addListener(() {
+      if (_controller.text.isEmpty) {
+        setState(() {
+          _isSearching = false;
+          _searchValue = "";
+        });
+      } else {
+        setState(() {
+          _isSearching = true;
+          _searchValue = _controller.text;
+        });
+      }
     });
   }
 
@@ -81,15 +100,16 @@ class _HomeScreenState extends State<MyHomePage> {
                     if (customIcon.icon == Icons.search) {
                       // Perform set of instructions.
                       customIcon = const Icon(Icons.cancel);
-                      customSearchBar = const ListTile(
-                        leading: Icon(
+                      customSearchBar = ListTile(
+                        leading: const Icon(
                           Icons.search,
                           color: Colors.white,
                           size: 28,
                         ),
                         title: TextField(
                           autofocus: true,
-                          decoration: InputDecoration(
+                          controller: _controller,
+                          decoration: const InputDecoration(
                             hintText: 'Search in Services ...',
                             hintStyle: TextStyle(
                               color: Colors.white,
@@ -98,7 +118,7 @@ class _HomeScreenState extends State<MyHomePage> {
                             ),
                             border: InputBorder.none,
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -177,8 +197,26 @@ class _HomeScreenState extends State<MyHomePage> {
               if (snapshot.hasData) {
                 var output = snapshot.data!.data();
                 var services = output!['Service']; // <-- Your value
+                List list = List.filled(services.length, null, growable: false);
+                int i = 0;
+                int j = 0;
+                if (_isSearching == false) {
+                  while (i < services.length) {
+                    list[i] = services[i];
+                    i++;
+                  }
+                } else {
+                  while (j < services.length) {
+                    if ('${services[j]['serviceName']}'
+                        .contains(_searchValue)) {
+                      list[i] = services[j];
+                      i++;
+                    }
+                    j++;
+                  }
+                }
                 return ListView.builder(
-                  itemCount: services.length,
+                  itemCount: i,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                         margin: const EdgeInsets.symmetric(
@@ -195,10 +233,10 @@ class _HomeScreenState extends State<MyHomePage> {
                             DocumentReference docRef = FirebaseFirestore
                                 .instance
                                 .collection('professionals')
-                                .doc(services[index]['professionalUid']);
+                                .doc(list[index]['professionalUid']);
                             var response = await docRef.get();
                             dynamic veri = response.data();
-                            selectedHizmet = services[index];
+                            selectedHizmet = list[index];
 
                             Navigator.push(
                                 context,
@@ -219,17 +257,16 @@ class _HomeScreenState extends State<MyHomePage> {
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: (services[index]['userImageURL'] ==
+                                    child: (list[index]['userImageURL'] ==
                                                 null ||
-                                            services[index]['userImageURL'] ==
-                                                '')
+                                            list[index]['userImageURL'] == '')
                                         ? Image.asset(
                                             'assets/blankprofile.png',
                                             height: 100.0,
                                             width: 100.0,
                                           )
                                         : Image.network(
-                                            services[index]['userImageURL'],
+                                            list[index]['userImageURL'],
                                             height: 100.0,
                                             width: 100.0,
                                           ),
@@ -238,7 +275,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                     width: 75,
                                   ),
                                   Image.network(
-                                    services[index]['imageURL'],
+                                    list[index]['imageURL'],
                                     fit: BoxFit.cover,
                                     height: 175,
                                   ),
@@ -255,7 +292,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      '${services[index]['serviceName']}',
+                                      '${list[index]['serviceName']}',
                                       style: const TextStyle(
                                           fontSize: 24,
                                           color: Colors.black,
@@ -265,7 +302,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                   Expanded(
                                     flex: 1,
                                     child: Text(
-                                      'Price: ${services[index]['servicePrice']} \$',
+                                      'Price: ${list[index]['servicePrice']} \$',
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   )
