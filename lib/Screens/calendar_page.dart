@@ -22,7 +22,7 @@ class _CalendarPageState extends State<CalendarPage> {
       _endTimeText = '',
       _dateText = '',
       _timeDetails = '',
-      _contetText = '';
+      _contentText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +31,6 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-            if(gorunum == CalendarView.week){
-              print('x');
-              gorunum = CalendarView.day;
-            }
-            else if(gorunum == CalendarView.day){
-              gorunum = CalendarView.week;
-              print('y');
-            }
-            setState(() {});
         },
       ),
       appBar: AppBar(
@@ -119,6 +110,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
               color: Colors.red,
+              notes: randevuList[i]['profName'] + ' ' + randevuList[i]['profSurname'],
               isAllDay: false));
         }
       }
@@ -135,6 +127,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
               color: Colors.blue,
+              notes: randevuList[i]['musteriName'] + ' ' + randevuList[i]['musteriSurame'],
               isAllDay: false));
         }
       }
@@ -142,10 +135,21 @@ class _CalendarPageState extends State<CalendarPage> {
     return meetings;
   }
 
-  void calendarTapped(CalendarTapDetails details) {
+  Future<void> getName(String? path) async{
+    CollectionReference temp1 = FirebaseFirestore.instance
+        .collection('users');
+    DocumentReference temp2 = temp1.doc(path);
+    var response = await temp2.get();
+    dynamic temp = response.data();
+    _contentText = temp['name'];
+    setState(() {});
+  }
+
+  Future<void> calendarTapped(CalendarTapDetails details) async {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Appointment appointmentDetails = details.appointments![0];
+      _contentText= appointmentDetails.notes;
       _subjectText = appointmentDetails.subject;
       _dateText = DateFormat('MMMM dd, yyyy')
           .format(appointmentDetails.startTime)
@@ -169,7 +173,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 child: Column(
                   children: [
                     Text(
-                      '$_contetText',
+                      '$_contentText',
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 20,

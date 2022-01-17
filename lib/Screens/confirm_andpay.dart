@@ -40,6 +40,12 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
   }
 
   Future<void> updateUserProfile() async {
+    CollectionReference temp1 = FirebaseFirestore.instance
+        .collection('users');
+    DocumentReference temp2 = temp1.doc(widget.hocaSnapshot.id);
+    var response = await temp2.get();
+    dynamic veri = response.data();
+
     FirebaseFirestore.instance
         .collection('users')
         .doc((FirebaseAuth.instance.currentUser)!.uid)
@@ -50,19 +56,20 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           'duration': widget.selectedHizmet['serviceDuration'],
           'startTime': widget.selectedDate,
           'subject': widget.selectedHizmet['serviceName'],
-          'profesyonel': FirebaseFirestore.instance
-              .collection('spor-hocalari-deneme')
-              .doc(widget.hocaSnapshot.id)
-              .path,
+          'profesyonel': widget.hocaSnapshot.id,
+          'profName': veri['firstName'],
+          'profSurname': veri['surName']
         }
       ])
     });
   }
 
   Future<void> updateProfProfile() async {
-    DocumentReference musteriRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc((FirebaseAuth.instance.currentUser)!.uid);
+    CollectionReference temp1 = FirebaseFirestore.instance
+        .collection('users');
+    DocumentReference temp2 = temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
+    var response = await temp2.get();
+    dynamic veri = response.data();
 
     FirebaseFirestore.instance
         .collection('professionals')
@@ -74,7 +81,9 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           'duration': widget.selectedHizmet['serviceDuration'],
           'startTime': widget.selectedDate,
           'subject': widget.selectedHizmet['serviceName'],
-          'musteri': musteriRef.path,
+          'musteri': temp2.id,
+          'musteriName': veri['firstName'],
+          'musteriSurname': veri['surName']
         }
       ])
     });
