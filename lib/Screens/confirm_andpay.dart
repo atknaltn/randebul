@@ -10,12 +10,14 @@ class ConfirmAndPay extends StatefulWidget {
   final Map selectedHizmet;
   final DateTime selectedDate;
   final DocumentSnapshot hocaSnapshot;
+  final int sourcePlace;
   const ConfirmAndPay({
     Key? key,
     required this.hocaSnapshot,
     required this.hocaRef,
     required this.selectedHizmet,
     required this.selectedDate,
+    required this.sourcePlace,
   }) : super(key: key);
   @override
   _ConfirmAndPayState createState() => _ConfirmAndPayState();
@@ -42,12 +44,12 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
         .collection('users')
         .doc((FirebaseAuth.instance.currentUser)!.uid)
         .update({
-      'amount': userBalance - widget.selectedHizmet['fiyat'],
+      'amount': userBalance - widget.selectedHizmet['servicePrice'],
       'Randevular': FieldValue.arrayUnion([
         {
-          'duration': widget.selectedHizmet['sure'],
+          'duration': widget.selectedHizmet['serviceDuration'],
           'startTime': widget.selectedDate,
-          'subject': widget.selectedHizmet['başlık'],
+          'subject': widget.selectedHizmet['serviceName'],
           'profesyonel': FirebaseFirestore.instance
               .collection('spor-hocalari-deneme')
               .doc(widget.hocaSnapshot.id)
@@ -66,12 +68,12 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
         .collection('professionals')
         .doc(widget.hocaSnapshot.id)
         .update({
-      'amount': FieldValue.increment(widget.selectedHizmet['fiyat']),
+      'amount': FieldValue.increment(widget.selectedHizmet['servicePrice']),
       'Randevular': FieldValue.arrayUnion([
         {
-          'duration': widget.selectedHizmet['sure'],
+          'duration': widget.selectedHizmet['serviceDuration'],
           'startTime': widget.selectedDate,
-          'subject': widget.selectedHizmet['başlık'],
+          'subject': widget.selectedHizmet['serviceName'],
           'musteri': musteriRef.path,
         }
       ])
@@ -79,7 +81,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
   }
 
   void checkEnoughMoney() {
-    dynamic ucret = widget.selectedHizmet['fiyat'];
+    dynamic ucret = widget.selectedHizmet['servicePrice'];
     if (ucret > userBalance) {
       setState(() {
         enoughMoney = false;
@@ -105,7 +107,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           const SizedBox(height: 10),
           const Center(
             child: Text(
-              'Seçilen Randevu',
+              'Selected Appointment',
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -114,10 +116,10 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
             ),
           ),
           ServiceBox(
-            serviceName: '${widget.selectedHizmet['başlık']}',
-            duration: '${widget.selectedHizmet['sure']}',
-            icerik: '${widget.selectedHizmet['icerik']}',
-            fiyat: '${widget.selectedHizmet['fiyat']}',
+            serviceName: '${widget.selectedHizmet['serviceName']}',
+            duration: '${widget.selectedHizmet['serviceDuration']}',
+            serviceContent: '${widget.selectedHizmet['serviceContent']}',
+            servicePrice: '${widget.selectedHizmet['servicePrice']}',
             tarih: widget.selectedDate,
             profesyonel:
                 '${widget.hocaRef['name']} ${widget.hocaRef['surname']}',
@@ -126,7 +128,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           ),
           Center(
             child: Text(
-              'Hesabınızdaki tutar:   $userBalance',
+              'Your Balance:   $userBalance',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -136,7 +138,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           ),
           Center(
             child: Text(
-              'Randevu ücreti:           ${widget.selectedHizmet['fiyat']}',
+              'Service Price:           ${widget.selectedHizmet['servicePrice']}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -146,14 +148,14 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           ),
           (enoughMoney)
               ? const Center(
-                  child: Text('Bu randevuyu alabilirsiniz.',
+                  child: Text('You can get this appointment.',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       )))
               : const Center(
-                  child: Text('Hesabınızda yeterli bakiye bulunmamaktadır.',
+                  child: Text('You don\'t have enough money on your account.',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -168,7 +170,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
                     width: 10000,
                     child: const Center(
                       child: Text(
-                        'Randevuyu Onayla',
+                        'Confirm Appointment',
                         style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
@@ -183,22 +185,28 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
                       context: contextt,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Başarılı'),
+                          title: const Text('Success'),
                           content: const SizedBox(
                             height: 80,
-                            child: Text('Randevu Başarıyla Alındı!'),
+                            child: Text('Appointment was made successfully.'),
                           ),
                           actions: <Widget>[
                             TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                  Navigator.pop(contextt);
-                                  Navigator.pop(contextt);
-                                  Navigator.pop(contextt);
-                                  Navigator.pop(contextt);
-                                  Navigator.pop(contextt);
+                                  if(widget.sourcePlace == 0) {
+                                    Navigator.pop(contextt);
+                                    Navigator.pop(contextt);
+                                    Navigator.pop(contextt);
+                                    Navigator.pop(contextt);
+                                    Navigator.pop(contextt);
+                                  }
+                                  else if (widget.sourcePlace == 1) {
+                                    Navigator.pop(contextt);
+                                    Navigator.pop(contextt);
+                                  }
                                 },
-                                child: const Text('Ana Sayfaya Dön'))
+                                child: const Text('Go back to Home Page'))
                           ],
                         );
                       },
@@ -207,10 +215,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
                 )
               : const SizedBox(height: 20),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        print('x');
-      }),
+      )
     );
   }
 }
@@ -219,8 +224,8 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
 class ServiceBox extends StatelessWidget {
   final String serviceName;
   final String duration;
-  final String icerik;
-  final String fiyat;
+  final String serviceContent;
+  final String servicePrice;
   final bool isSelected;
   final int index;
   final String profesyonel;
@@ -230,8 +235,8 @@ class ServiceBox extends StatelessWidget {
     Key? key,
     this.serviceName = '',
     this.duration = '',
-    this.icerik = '',
-    this.fiyat = '',
+    this.serviceContent = '',
+    this.servicePrice = '',
     this.isSelected = false,
     this.index = 0,
     this.profesyonel = '',
@@ -259,31 +264,31 @@ class ServiceBox extends StatelessWidget {
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.alarm,
-            tur: 'Süre: ',
+            tur: 'Duration: ',
             cardText: '$duration dk.',
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.home_repair_service_outlined,
-            tur: 'İçerik: ',
-            cardText: icerik,
+            tur: 'Content: ',
+            cardText: serviceContent,
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.attach_money,
-            tur: 'Fiyat: ',
-            cardText: '\$$fiyat',
+            tur: 'Price: ',
+            cardText: '\$$servicePrice',
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.person,
-            tur: 'Profesyonel: ',
+            tur: 'Professional: ',
             cardText: profesyonel,
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.calendar_today,
-            tur: 'Tarih: ',
+            tur: 'Date: ',
             cardText: DateFormat('dd.MM.y - HH:mm').format(tarih),
           ),
         ],

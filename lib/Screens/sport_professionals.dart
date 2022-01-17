@@ -59,7 +59,7 @@ class _SportProfessionalsState extends State<SportProfessionals> {
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                'Puan: ${hocaList[index].data()['point']}',
+                                'Rating: ${hocaList[index].data()['point']}',
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ],

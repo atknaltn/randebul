@@ -409,12 +409,12 @@ class _UploadServiceState extends State<UploadService> {
           .collection('professionals')
           .doc((await FirebaseAuth.instance.currentUser)!.uid)
           .update({
-        'hizmetler': FieldValue.arrayUnion([
+        'Service': FieldValue.arrayUnion([
           {
-            'sure': int.parse(serviceDuration),
-            'fiyat': int.parse(servicePrice),
-            'icerik': serviceDefinition,
-            'başlık': serviceName,
+            'serviceDuration': int.parse(serviceDuration),
+            'servicePrice': int.parse(servicePrice),
+            'serviceContent': serviceDefinition,
+            'serviceName': serviceName,
           }
         ])
       });

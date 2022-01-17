@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:randebul/Screens/login_screen.dart';
 import 'package:randebul/Screens/my_profile.dart';
 import 'package:randebul/Screens/payment.dart';
+import 'package:randebul/Screens/selectdate.dart';
 import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
@@ -172,63 +173,94 @@ class _HomeScreenState extends State<MyHomePage> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         color: Colors.transparent,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  child: (services[index]['userImageURL'] ==
-                                              null ||
-                                          services[index]['userImageURL'] == '')
-                                      ? Image.asset(
-                                          'assets/blankprofile.png',
-                                          height: 100.0,
-                                          width: 100.0,
-                                        )
-                                      : Image.network(
-                                          services[index]['userImageURL'],
-                                          height: 100.0,
-                                          width: 100.0,
-                                        ),
-                                ),
-                                const SizedBox(
-                                  width: 75,
-                                ),
-                                Image.network(
-                                  services[index]['imageURL'],
-                                  fit: BoxFit.cover,
-                                  height: 175,
-                                ),
-                                const SizedBox(
-                                  width: 1,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '${services[index]['serviceName']}',
-                                  style: const TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  width: 150,
-                                ),
-                                Container(
-                                  child: Text(
-                                    'Price: ${services[index]['servicePrice']} \$',
-                                    style: const TextStyle(fontSize: 20),
+                        child: FlatButton(
+                          onPressed: () async {
+                            Map selectedHizmet = {
+                              'serviceName': '',
+                              'serviceDuration': 0,
+                              'serviceContent': '',
+                              'servicePrice': 0
+                            };
+                            DocumentReference docRef = FirebaseFirestore
+                                .instance
+                                .collection('professionals')
+                                .doc(services[index]['professionalUid']);
+                            var response = await docRef.get();
+                            dynamic veri = response.data();
+                            selectedHizmet = services[index];
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SelectDatePage(
+                                          selectedHizmet: selectedHizmet,
+                                          hocaRef: veri,
+                                          hocaSnapshot: response,
+                                          sourcePlace: 1,
+                                        )));
+                            print(docRef);
+                            print(response);
+                            print(veri);
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: (services[index]['userImageURL'] ==
+                                                null ||
+                                            services[index]['userImageURL'] ==
+                                                '')
+                                        ? Image.asset(
+                                            'assets/blankprofile.png',
+                                            height: 100.0,
+                                            width: 100.0,
+                                          )
+                                        : Image.network(
+                                            services[index]['userImageURL'],
+                                            height: 100.0,
+                                            width: 100.0,
+                                          ),
                                   ),
-                                )
-                              ],
-                            )
-                          ],
+                                  const SizedBox(
+                                    width: 75,
+                                  ),
+                                  Image.network(
+                                    services[index]['imageURL'],
+                                    fit: BoxFit.cover,
+                                    height: 175,
+                                  ),
+                                  const SizedBox(
+                                    width: 1,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    '${services[index]['serviceName']}',
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 150,
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      'Price: ${services[index]['servicePrice']} \$',
+                                      style: const TextStyle(fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ));
                   },
                 );

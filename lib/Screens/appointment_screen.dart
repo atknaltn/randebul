@@ -20,14 +20,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   dynamic hizmetList = <Map>[];
   bool isSelected = false;
   int selectedIndex = 0;
-  Map selectedHizmet = {'başlık': '', 'sure': 0, 'icerik': '', 'fiyat': 0};
+  Map selectedHizmet = {'serviceName': '', 'serviceDuration': 0, 'serviceContent': '', 'servicePrice': 0};
   @override
   Widget build(BuildContext context) {
-    hizmetList = widget.hocaRef['hizmetler'];
+    hizmetList = widget.hocaRef['Service'];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Randevu Al'),
+        title: const Text('Get Appointment'),
       ),
       body: ListView(
         children: [
@@ -88,7 +88,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           Container(
                             margin: const EdgeInsets.only(top: 15),
                             child: Text(
-                              'Puan: ${widget.hocaRef['point']}',
+                              'Rating: ${widget.hocaRef['point']}',
                               style: const TextStyle(
                                 color: Colors.yellow,
                                 fontSize: 15,
@@ -105,7 +105,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   height: 5,
                 ),
                 const Text(
-                  'Hizmet Seçiniz',
+                  'Select Service',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               children: const [
                 SizedBox(height: 100),
                 Text(
-                  'Bu profesyonel henüz hizmet vermemektedir.',
+                  'This professional don\'t give any services yet.',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ],
@@ -129,10 +129,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             for (int index = 0; index < hizmetList.length; index++)
               GestureDetector(
                 child: ServiceBox(
-                  serviceName: '${hizmetList[index]['başlık']}',
-                  duration: '${hizmetList[index]['sure']}',
-                  icerik: '${hizmetList[index]['icerik']}',
-                  fiyat: '${hizmetList[index]['fiyat']}',
+                  serviceName: '${hizmetList[index]['serviceName']}',
+                  duration: '${hizmetList[index]['serviceDuration']}',
+                  serviceContent: '${hizmetList[index]['serviceContent']}',
+                  servicePrice: '${hizmetList[index]['servicePrice']}',
                   isSelected:
                       (selectedIndex == index && isSelected) ? true : false,
                 ),
@@ -148,7 +148,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       ),
       floatingActionButton: (isSelected)
           ? FloatingActionButton.extended(
-              label: const Text('İlerle'),
+              label: const Text('Proceed'),
               icon: const Icon(Icons.arrow_forward),
               onPressed: () {
                 Navigator.push(
@@ -157,7 +157,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         builder: (context) => SelectDatePage(
                             selectedHizmet: selectedHizmet,
                             hocaRef: widget.hocaRef,
-                            hocaSnapshot: widget.hocaSnapshot)));
+                            hocaSnapshot: widget.hocaSnapshot,
+                            sourcePlace: 0,)));
               })
           : null,
     );
@@ -168,8 +169,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 class ServiceBox extends StatelessWidget {
   final String serviceName;
   final String duration;
-  final String icerik;
-  final String fiyat;
+  final String serviceContent;
+  final String servicePrice;
   final bool isSelected;
   final int index;
 
@@ -177,8 +178,8 @@ class ServiceBox extends StatelessWidget {
     Key? key,
     this.serviceName = '',
     this.duration = '',
-    this.icerik = '',
-    this.fiyat = '',
+    this.serviceContent = '',
+    this.servicePrice = '',
     this.isSelected = false,
     this.index = 0,
   }) : super(key: key);
@@ -204,20 +205,20 @@ class ServiceBox extends StatelessWidget {
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.alarm,
-            tur: 'Süre: ',
+            tur: 'Duration: ',
             cardText: '$duration dk.',
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.home_repair_service_outlined,
-            tur: 'İçerik: ',
-            cardText: icerik,
+            tur: 'Content: ',
+            cardText: serviceContent,
           ),
           const SizedBox(height: 5),
           MyCard(
             cardIcon: Icons.attach_money,
-            tur: 'Fiyat: ',
-            cardText: '\$$fiyat',
+            tur: 'Price: ',
+            cardText: '\$$servicePrice',
           ),
         ],
       ),

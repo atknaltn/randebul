@@ -9,11 +9,13 @@ class SelectDatePage extends StatefulWidget {
   final dynamic hocaRef;
   final DocumentSnapshot hocaSnapshot;
   final Map selectedHizmet;
+  final int sourcePlace;
   const SelectDatePage({
     Key? key,
     required this.hocaRef,
     required this.selectedHizmet,
     required this.hocaSnapshot,
+    required this.sourcePlace,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Tarih ve Saat Seçimi'),
+        title: const Text('Select Date and Time'),
       ),
       body: ListView(
         children: [
@@ -45,9 +47,9 @@ class _SelectDatePageState extends State<SelectDatePage> {
           (validTime)
               ? const Center(
                   child: Text(
-                    'Tarih ve Saat Seçiniz:',
+                    'Please Select Date and Time:',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -55,7 +57,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
                 )
               : const Center(
                   child: Text(
-                    'Lütfen Geçerli Bir Tarih ve Saat Seçiniz:',
+                    'Please Select a VALID Time:',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -66,16 +68,16 @@ class _SelectDatePageState extends State<SelectDatePage> {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () => _openDatePicker(context),
-            child: const Text('Tarih Seçin.'),
+            child: const Text('Select Date'),
           ),
           ElevatedButton(
             onPressed: () => _openTimePicker(context),
-            child: const Text('Saat Seçin.'),
+            child: const Text('Select Time'),
           ),
           const SizedBox(height: 20),
           Center(
             child: Text(
-              'Seçili Tarih: ${DateFormat('dd.MM.y - HH:mm').format(selectedDate)}',
+              'Selected: ${DateFormat('dd.MM.y - HH:mm').format(selectedDate)}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -112,9 +114,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                             selectedHizmet: widget.selectedHizmet,
                             hocaRef: widget.hocaRef,
                             selectedDate: selectedDate,
-                            hocaSnapshot: widget.hocaSnapshot)));
+                            hocaSnapshot: widget.hocaSnapshot,
+                            sourcePlace: widget.sourcePlace)));
               },
-              label: const Text('Onayla'),
+              label: const Text('Confirm'),
               icon: const Icon(
                 Icons.check_circle,
                 color: Colors.white,
@@ -136,10 +139,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                     .toDate()
                     .add(Duration(minutes: randevuList[i]['duration'])))) ||
             (selectedDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                     .isAfter(randevuList[i]['startTime'].toDate()) &&
                 selectedDate
-                    .add(Duration(minutes: widget.selectedHizmet['sure']))
+                    .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                     .isBefore(randevuList[i]['startTime']
                         .toDate()
                         .add(Duration(minutes: randevuList[i]['duration'])))) ||
@@ -188,10 +191,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                       .toDate()
                       .add(Duration(minutes: randevuList[i]['duration'])))) ||
               (fullDate
-                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                       .isAfter(randevuList[i]['startTime'].toDate()) &&
                   fullDate
-                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                       .isBefore(randevuList[i]['startTime'].toDate().add(
                           Duration(minutes: randevuList[i]['duration']))))) {
             conflict = true;
@@ -241,10 +244,10 @@ class _SelectDatePageState extends State<SelectDatePage> {
                       .toDate()
                       .add(Duration(minutes: randevuList[i]['duration'])))) ||
               (fullDate
-                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                       .isAfter(randevuList[i]['startTime'].toDate()) &&
                   fullDate
-                      .add(Duration(minutes: widget.selectedHizmet['sure']))
+                      .add(Duration(minutes: widget.selectedHizmet['serviceDuration']))
                       .isBefore(randevuList[i]['startTime'].toDate().add(
                           Duration(minutes: randevuList[i]['duration']))))) {
             conflict = true;
@@ -301,7 +304,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
     meetings.add(Appointment(
         startTime: selectedDate,
         endTime:
-            selectedDate.add(Duration(minutes: widget.selectedHizmet['sure'])),
+            selectedDate.add(Duration(minutes: widget.selectedHizmet['serviceDuration'])),
         subject: 'Seçilen Tarih',
         color: Colors.blue,
         isAllDay: false));
@@ -392,7 +395,7 @@ List<Appointment> getAppointments(
   }
   meetings.add(Appointment(
       startTime: selectedDate,
-      endTime: selectedDate.add(Duration(minutes: selectedHizmet['sure'])),
+      endTime: selectedDate.add(Duration(minutes: selectedHizmet['serviceDuration'])),
       subject: 'Seçilen Tarih',
       color: Colors.blue,
       isAllDay: false));

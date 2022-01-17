@@ -112,9 +112,9 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                   proffession: profession,
                 ),
                 Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: GestureDetector(
-                      child: Icon(Icons.message),
+                      child: const Icon(Icons.message),
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -149,7 +149,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                       updateFireBase();
                     },
                     child:
-                        const IconText(icon: Icons.comment, text: 'Yorum Yap'),
+                        const IconText(icon: Icons.comment, text: 'Make Comment'),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -164,7 +164,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                                     hocaSnapshot: widget.hocaSnapshot)));
                       },
                       child: const IconText(
-                          icon: Icons.calendar_today, text: 'Randevu Al')),
+                          icon: Icons.calendar_today, text: 'Get Appointment')),
                 ),
               ],
             ),
@@ -238,7 +238,7 @@ class UstKart extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Puan: $puan '),
+                  Text('Rating: $puan '),
                   (puan < 1)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 1)
@@ -287,7 +287,7 @@ class Hakkinda extends StatelessWidget {
       child: Column(
         children: [
           const Text(
-            'Hakkında',
+            'About',
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -357,7 +357,7 @@ class Yorumlar extends StatelessWidget {
               height: 15,
             ),
             const Text(
-              'Son Yorumlar',
+              'Last Comments',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -366,7 +366,7 @@ class Yorumlar extends StatelessWidget {
               height: 10,
             ),
             (yorumlar == null || yorumlar.isEmpty)
-                ? const Text('Bu kullanıcının yorumu bulunmamaktadır.')
+                ? const Text('This professional haven\'t got any comments yet.')
                 : YorumKart(
                     username: yorumlar[yorumlar.length - 1]['username'],
                     tarih: yorumlar[yorumlar.length - 1]['date'],
@@ -388,7 +388,7 @@ class Yorumlar extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: const Text(
-                'TÜM YORUMLARI GÖR',
+                'SEE ALL COMMENTS',
                 style: TextStyle(
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
@@ -509,7 +509,7 @@ class YorumKart extends StatelessWidget {
                   children: [
                     const SizedBox(width: 10),
                     const Text(
-                      'Kullanıcı adı: ',
+                      'Username: ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -528,7 +528,7 @@ class YorumKart extends StatelessWidget {
               children: [
                 const SizedBox(width: 10),
                 const Text(
-                  'Puanı: ',
+                  'Rating: ',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
