@@ -241,17 +241,18 @@ class _HomeScreenState extends State<MyHomePage> {
                               ),
                               Row(
                                 children: <Widget>[
-                                  Text(
-                                    '${services[index]['serviceName']}',
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      '${services[index]['serviceName']}',
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    width: 150,
-                                  ),
-                                  Container(
+                                  Expanded(
+                                    flex: 1,
                                     child: Text(
                                       'Price: ${services[index]['servicePrice']} \$',
                                       style: const TextStyle(fontSize: 20),
