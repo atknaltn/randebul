@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'all_comments.dart';
 import 'appointment_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:randebul/Screens/ChatScreen.dart';
@@ -462,7 +463,11 @@ class Yorumlar extends StatelessWidget {
               height: 10,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          AllCommentsPage(hocaRef: hocaRef))),
               child: const Text(
                 'SEE ALL COMMENTS',
                 style: TextStyle(
