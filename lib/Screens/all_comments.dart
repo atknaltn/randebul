@@ -15,7 +15,9 @@ class _AllCommentsPageState extends State<AllCommentsPage> {
   @override
   Widget build(BuildContext context) {
     yorumlar = widget.hocaRef['comments'];
-    yorumSayisi = yorumlar.length;
+    if (yorumlar != null) {
+      yorumSayisi = yorumlar.length;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('All Comments'),

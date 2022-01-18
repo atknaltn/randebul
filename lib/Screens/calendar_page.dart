@@ -127,7 +127,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
               color: Colors.blue,
-              notes: randevuList[i]['musteriName'] + ' ' + randevuList[i]['musteriSurame'],
+              notes: randevuList[i]['musteriName'] + ' ' + randevuList[i]['musteriSurname'],
               isAllDay: false));
         }
       }
