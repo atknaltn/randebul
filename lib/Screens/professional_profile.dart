@@ -31,6 +31,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
   String hakkinda = "";
   String profession = "";
   String image = "";
+  String uid = "";
   double puan = 0;
   bool verified = false;
   Future<void> _getUserName() async {
@@ -46,10 +47,11 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       hakkinda = '${widget.hocaRef['about']}';
       verified = widget.hocaRef['verified'];
       profession = '${widget.hocaRef['profession']}';
-      if(widget.hocaRef['comments'] != null){
+      uid = '${widget.hocaRef['uid']}';
+
+      if (widget.hocaRef['comments'] != null) {
         puan = widget.hocaRef['point'] / widget.hocaRef['comments'].length;
-      }
-      else{
+      } else {
         puan = -1;
       }
     });
@@ -81,7 +83,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       keyboardType: TextInputType.number,
       onSaved: (value) {
         if (value != null) {
-              commentController.text = value;
+          commentController.text = value;
         }
       },
       textInputAction: TextInputAction.next,
@@ -102,7 +104,10 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
       var response = await temp2.get();
       dynamic veri = response.data();
 
-      bool validComment = int.parse(ratingController.text) <= 10 && int.parse(ratingController.text) >= 0 && commentController.text.isNotEmpty && ratingController.text.isNotEmpty;
+      bool validComment = int.parse(ratingController.text) <= 10 &&
+          int.parse(ratingController.text) >= 0 &&
+          commentController.text.isNotEmpty &&
+          ratingController.text.isNotEmpty;
 
       if (validComment) {
         FirebaseFirestore.instance
@@ -138,8 +143,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
             );
           },
         );
-      }
-      else{
+      } else {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -160,7 +164,6 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
           },
         );
       }
-
     }
 
     return Scaffold(
@@ -191,8 +194,8 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatScreen(messageRef: widget.hocaRef))),
+                              builder: (context) => ChatScreen(
+                                  messageRef: widget.hocaRef, id: uid))),
                     )),
                 const SizedBox(height: 30),
                 Hakkinda(hakkindaYazisi: hakkinda),
@@ -223,8 +226,8 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
                     onTap: () {
                       updateFireBase();
                     },
-                    child:
-                        const IconText(icon: Icons.comment, text: 'Make Comment'),
+                    child: const IconText(
+                        icon: Icons.comment, text: 'Make Comment'),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -314,8 +317,8 @@ class UstKart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   (puan != -1)
-                  ? Text('Rating: ${puan.toStringAsFixed(1)} ')
-                  : const Text('Rating: N/A'),
+                      ? Text('Rating: ${puan.toStringAsFixed(1)} ')
+                      : const Text('Rating: N/A'),
                   (puan < 1)
                       ? const Icon(Icons.star_border, color: Colors.yellow)
                       : (puan <= 1)
@@ -466,8 +469,7 @@ class Yorumlar extends StatelessWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          AllCommentsPage(hocaRef: hocaRef))),
+                      builder: (context) => AllCommentsPage(hocaRef: hocaRef))),
               child: const Text(
                 'SEE ALL COMMENTS',
                 style: TextStyle(

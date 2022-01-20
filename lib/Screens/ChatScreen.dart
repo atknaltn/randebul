@@ -4,7 +4,9 @@ import 'body.dart';
 
 class ChatScreen extends StatelessWidget {
   final dynamic messageRef;
-  const ChatScreen({Key? key, required this.messageRef}) : super(key: key);
+  final String id;
+  const ChatScreen({Key? key, required this.messageRef, required this.id})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class ChatScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Body(),
+      body: Body(id: id),
     );
   }
 }

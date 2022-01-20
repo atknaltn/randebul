@@ -5,6 +5,7 @@ import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreditCard extends StatefulWidget {
   String amount = "";
@@ -251,6 +252,9 @@ class CreditCardState extends State<CreditCard> {
                           ),
                           onPressed: () {
                             updateFireBase();
+                            Navigator.pop(context, 'OK');
+                            Fluttertoast.showToast(
+                                msg: 'Bakiye başarıyla eklendi.');
                           },
                         ),
                       ],

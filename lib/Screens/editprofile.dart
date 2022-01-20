@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:randebul/model/user.dart';
 import 'package:randebul/utils/user_preferences.dart';
@@ -120,6 +121,9 @@ class _EditProfileState extends State<EditProfile> {
             ),
             onPressed: () {
               uploadImage();
+              Navigator.pop(context, "OK");
+              Fluttertoast.showToast(
+                  msg: 'Bilgileriniz başarıyla güncellendi.');
             },
           ),
         ],

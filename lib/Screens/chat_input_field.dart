@@ -6,18 +6,29 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatInputField extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final CollectionReference messagesRef;
+
+  final CollectionReference profRef;
   final AsyncSnapshot asyncSnapshot;
-  const ChatInputField({
+  final String id;
+  ChatInputField({
     required this.messagesRef,
+    required this.profRef,
     required this.asyncSnapshot,
+    required this.id,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User? user = auth.currentUser;
+    final String uid = user!.uid;
+    print(uid);
+    print(id);
     TextEditingController _messageController = TextEditingController();
 
     return Container(
@@ -68,8 +79,8 @@ class ChatInputField extends StatelessWidget {
                             {
                               'mesajmetni': input,
                               'issender': true,
-                              'date':
-                                  DateFormat('dd.MM.y').format(DateTime.now()),
+                              'idFrom': uid,
+                              'idTo': id,
                             }
                           ])
                         });
