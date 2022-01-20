@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:randebul/Screens/forgot_password.dart';
 import 'package:randebul/Screens/home_screen.dart';
 import 'package:randebul/Screens/registration_screen.dart';
 
-class EmailFieldValidator{
-  static String? validate(String? value){
-
+class EmailFieldValidator {
+  static String? validate(String? value) {
     if (value!.isEmpty) {
       return ("Please Enter Your Email");
     }
@@ -18,8 +18,8 @@ class EmailFieldValidator{
   }
 }
 
-class PasswordFieldValidator{
-  static String? validate(String? value){
+class PasswordFieldValidator {
+  static String? validate(String? value) {
     RegExp regex = RegExp(r'^.{6,}$');
     if (value!.isEmpty) {
       return ("Password is required for login");
@@ -141,7 +141,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     passwordField,
                     const SizedBox(
-                      height: 35,
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Text("Forgot Password ?  "),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPasswordScreen()));
+                          },
+                          child: const Text(
+                            "Reset Password",
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     loginButton,
                     const SizedBox(
@@ -166,9 +191,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
+                    
                   ],
                 ),
               ),
