@@ -254,11 +254,15 @@ class _HomeScreenState extends State<MyHomePage> {
                 return ListView.builder(
                   itemCount: i,
                   itemBuilder: (BuildContext context, int index) {
-                    _getProfessionalImage(list[index]['professionalUid']);
+                    //_getProfessionalImage(list[index]['professionalUid']);
                     return Card(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         color: Colors.transparent,
+                        shadowColor: Colors.deepPurple,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        elevation: 5,
                         child: TextButton(
                           onPressed: () async {
                             Map selectedHizmet = {
@@ -303,7 +307,8 @@ class _HomeScreenState extends State<MyHomePage> {
                                             width: 100.0,
                                           )
                                         : Image.network(
-                                            imageURL,
+                                            list[index]['userImageURL'],
+                                            //list[index]['userImageURL'],
                                             height: 100.0,
                                             width: 100.0,
                                           ),
