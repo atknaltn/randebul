@@ -156,8 +156,7 @@ class _HomeScreenState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => MyProfilePro()));
-                    }
-                    else{
+                    } else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -267,8 +266,7 @@ class _HomeScreenState extends State<MyHomePage> {
                     return Card(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
-                        color: Colors.transparent,
-                        shadowColor: Colors.teal,
+                        color: Colors.blue[200],
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         elevation: 5,
