@@ -157,7 +157,11 @@ class _UploadServiceState extends State<UploadService> {
                               'Health',
                               'Education',
                               'Sports',
-                              'Music'
+                              'Music',
+                              'Life Style',
+                              'Design',
+                              'Self-Improvment',
+                              'Software Development'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -300,7 +304,11 @@ class _UploadServiceState extends State<UploadService> {
                             gravity: ToastGravity.CENTER,
                             toastLength: Toast.LENGTH_LONG);
                       } else {
+                        Navigator.pop(context, 'OK');
+
                         uploadImage();
+                        Fluttertoast.showToast(
+                            msg: "The service has been created.");
                       }
                     },
                     child: Container(

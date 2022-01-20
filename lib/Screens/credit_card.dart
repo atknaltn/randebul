@@ -254,7 +254,7 @@ class CreditCardState extends State<CreditCard> {
                             updateFireBase();
                             Navigator.pop(context, 'OK');
                             Fluttertoast.showToast(
-                                msg: 'Bakiye başarıyla eklendi.');
+                                msg: 'The balance is added successfully.');
                           },
                         ),
                       ],
