@@ -7,7 +7,7 @@ import 'package:randebul/Screens/my_profile.dart';
 import 'package:randebul/Screens/payment.dart';
 import 'package:randebul/Screens/selectdate.dart';
 import 'package:randebul/Screens/upload_service.dart';
-import 'package:randebul/Screens/sport_professionals.dart';
+import 'package:randebul/Screens/all_professionals.dart';
 import 'package:randebul/model/service_model.dart';
 import 'package:randebul/Screens/ChatScreen.dart';
 import 'myprofile_customer.dart';
@@ -460,6 +460,14 @@ class _HomeScreenState extends State<MyHomePage> {
                       _categoryValue = "Software Development";
                       _isSearching = true;
                       _searchValue = _categoryValue;
+                    }),
+                ListTile(
+                    title: const Text('All Professionals'),
+                    onTap: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AllProfessionals()));
                     })
               ],
             ),
