@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class TextFieldWidget extends StatefulWidget {
   final int maxLines;
   final String label;
-  final String text;
+  String text;
   final ValueChanged<String> onChanged;
 
-  const TextFieldWidget({
+  TextFieldWidget({
     Key? key,
     this.maxLines = 1,
     required this.label,
@@ -19,7 +19,7 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  late final TextEditingController controller;
+  TextEditingController controller = new TextEditingController();
 
   @override
   void initState() {
@@ -35,6 +35,14 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     super.dispose();
   }
 
+  _TextFieldWidgetState() {
+    controller.addListener(() {
+      setState(() {
+        widget.text = controller.text;
+        print(widget.text);
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

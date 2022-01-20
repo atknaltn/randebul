@@ -37,6 +37,7 @@ class _EditProfileState extends State<EditProfile> {
   String mail = "";
   String uid = "";
   File? imageFile;
+  bool addImage = false;
   var formKey = GlobalKey<FormState>();
   _EditProfileState(
       String firstname, String lastname, String mail, String uid) {
@@ -74,34 +75,19 @@ class _EditProfileState extends State<EditProfile> {
           TextFieldWidget(
             label: 'First Name',
             text: firstname,
-            onChanged: (name) {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(uid)
-                  .update({'firstName': name});
-            },
+            onChanged: (name) {},
           ),
           const SizedBox(height: 24),
           TextFieldWidget(
             label: 'Last Name',
             text: lastname,
-            onChanged: (name) {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(uid)
-                  .update({'lastName': name});
-            },
+            onChanged: (name) {},
           ),
           const SizedBox(height: 24),
           TextFieldWidget(
             label: 'email',
             text: mail,
-            onChanged: (email) {
-              FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(uid)
-                  .update({'email': email});
-            },
+            onChanged: (email) {},
           ),
           const SizedBox(height: 24),
           TextFieldWidget(
@@ -186,22 +172,26 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> uploadImage() async {
-    String? imageURL;
-    //if (formKey.currentState!.validate()) {
-    Reference reference = FirebaseStorage.instance.ref().child("images").child(
-        new DateTime.now().millisecondsSinceEpoch.toString() +
-            "." +
-            imageFile!.path);
-    UploadTask uploadTask = reference.putFile(imageFile!);
-    imageURL = await (await uploadTask).ref.getDownloadURL();
-    DatabaseReference databaseReference =
-        FirebaseDatabase.instance.ref().child("Data");
-    String? uploadID = databaseReference.push().key;
-
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .update({'imageURL': imageURL});
+    String imageURL = "";
+    if (imageFile != null) {
+      Reference reference = FirebaseStorage.instance
+          .ref()
+          .child("images")
+          .child(new DateTime.now().millisecondsSinceEpoch.toString() +
+              "." +
+              imageFile!.path);
+      UploadTask uploadTask = reference.putFile(imageFile!);
+      imageURL = await (await uploadTask).ref.getDownloadURL();
+      DatabaseReference databaseReference =
+          FirebaseDatabase.instance.ref().child("Data");
+      String? uploadID = databaseReference.push().key;
+    }
+    FirebaseFirestore.instance.collection('users').doc(uid).update({
+      if (imageURL != "") 'imageURL': imageURL,
+      'email': mail,
+      'lastName': lastname,
+      'firstName': firstname
+    });
     //}
   }
 }
