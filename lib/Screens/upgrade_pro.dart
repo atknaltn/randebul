@@ -92,6 +92,8 @@ class _UpgaredeProState extends State<UpgradePro> {
       'imageURL': image,
       'mail': mail,
       'name': firstname,
+      'firstName': firstname,
+      'lastName': lastname,
       'phonenumber': phoneNumber,
       'profession': professionController.text,
       'point': 0,
@@ -103,9 +105,7 @@ class _UpgaredeProState extends State<UpgradePro> {
     FirebaseFirestore.instance
         .collection('users')
         .doc((await FirebaseAuth.instance.currentUser)!.uid)
-        .update({
-      'isProfessional':true
-    });
+        .update({'isProfessional': true});
   }
 
   @override
