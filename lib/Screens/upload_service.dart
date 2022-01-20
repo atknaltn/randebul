@@ -22,11 +22,8 @@ class UploadService extends StatefulWidget {
 class _UploadServiceState extends State<UploadService> {
   File? imageFile;
   var formKey = GlobalKey<FormState>();
-  var serviceName,
-      serviceCategory,
-      servicePrice,
-      serviceDuration,
-      serviceDefinition;
+  var serviceName, servicePrice, serviceDuration, serviceDefinition;
+  String serviceCategory = "Sports";
   final _auth = FirebaseAuth.instance;
   String userImage = "";
   String profName = "";
@@ -142,34 +139,31 @@ class _UploadServiceState extends State<UploadService> {
                           data: ThemeData(
                             hintColor: Colors.blue,
                           ),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Please write a service category";
-                              } else {
-                                serviceCategory = value;
-                              }
-                            },
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              labelText: "Service Category",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
-                              disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                          child: DropdownButton<String>(
+                            value: serviceCategory,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.deepPurpleAccent,
                             ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                serviceCategory = newValue!;
+                              });
+                            },
+                            items: <String>[
+                              'Health',
+                              'Education',
+                              'Sports',
+                              'Music'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           )),
                     ),
                     SizedBox(

@@ -43,6 +43,7 @@ class _HomeScreenState extends State<MyHomePage> {
   bool leading = true;
   int index = 0, page = 0;
   String _searchValue = "";
+  String _categoryValue = "";
   bool _isSearching = false;
   final TextEditingController _controller = new TextEditingController();
   final PageController controller =
@@ -159,6 +160,10 @@ class _HomeScreenState extends State<MyHomePage> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: index,
             onTap: (int index) {
+              if (index == 0) {
+                _isSearching = false;
+                _searchValue = "";
+              }
               if (index == 1) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => Payment()));
@@ -240,7 +245,7 @@ class _HomeScreenState extends State<MyHomePage> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         color: Colors.transparent,
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed: () async {
                             Map selectedHizmet = {
                               'serviceName': '',
@@ -323,7 +328,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                       'Price: ${list[index]['servicePrice']} \$',
                                       style: const TextStyle(fontSize: 20),
                                     ),
-                                  )
+                                  ),
                                 ],
                               )
                             ],
@@ -362,27 +367,38 @@ class _HomeScreenState extends State<MyHomePage> {
                 ListTile(
                   title: const Text('Health'),
                   onTap: () {
-                    Navigator.pop(context);
+                    _categoryValue = "Health";
+                    _isSearching = true;
+                    _searchValue = _categoryValue;
                   },
                 ),
                 ListTile(
                   title: const Text('Education'),
                   onTap: () {
-                    Navigator.pop(context);
+                    _categoryValue = "Education";
+                    _isSearching = true;
+                    _searchValue = _categoryValue;
                   },
                 ),
                 ListTile(
                   title: const Text('Sports'),
                   onTap: () async {
-                    Navigator.push(
+                    _categoryValue = "Sports";
+                    _isSearching = true;
+                    _searchValue = _categoryValue;
+                    /*Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SportProfessionals()));
+                            builder: (context) => SportProfessionals()));*/
                   },
                 ),
                 ListTile(
-                  title: const Text('Music'),
-                )
+                    title: const Text('Music'),
+                    onTap: () async {
+                      _categoryValue = "Music";
+                      _isSearching = true;
+                      _searchValue = _categoryValue;
+                    })
               ],
             ),
           ),
