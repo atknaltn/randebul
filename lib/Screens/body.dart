@@ -8,8 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class Body extends StatefulWidget {
   final String id;
+  final dynamic ref;
   final FirebaseAuth auth = FirebaseAuth.instance;
-  Body({Key? key, required this.id}) : super(key: key);
+  Body({Key? key, required this.id, required this.ref}) : super(key: key);
 
   @override
   State<Body> createState() => _BodyState();
@@ -51,6 +52,7 @@ class _BodyState extends State<Body> {
                                 widget.id &&
                             mesajArr[index]['idFrom'] == uid)
                         ? Message(
+                            ref: widget.ref,
                             message: ChatMessage(
                               messageStatus: MessageStatus.viewed,
                               messageType: ChatMessageType.text,
@@ -63,6 +65,7 @@ class _BodyState extends State<Body> {
                         : (mesajArr[index]['idFrom'] == widget.id &&
                                 mesajArr[index]['idTo'] == uid)
                             ? Message(
+                                ref: widget.ref,
                                 message: ChatMessage(
                                   messageStatus: MessageStatus.viewed,
                                   messageType: ChatMessageType.text,
