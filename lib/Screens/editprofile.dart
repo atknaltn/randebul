@@ -196,6 +196,9 @@ class _EditProfileState extends State<EditProfile> {
       'lastName': lastname,
       'firstName': firstname
     });
+    FirebaseFirestore.instance.collection('professionals').doc(uid).update({
+      if (imageURL != "") 'userImageURL': imageURL,
+    });
     //}
   }
 }
