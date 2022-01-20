@@ -208,7 +208,25 @@ class _HomeScreenState extends State<MyHomePage> {
                 } else {
                   while (j < services.length) {
                     if ('${services[j]['serviceName']}'
-                        .contains(_searchValue)) {
+                            .contains(_searchValue) ||
+                        '${services[j]['serviceName']}'
+                            .toLowerCase()
+                            .contains(_searchValue) ||
+                        '${services[j]['serviceName']}'
+                            .contains(_searchValue.toLowerCase()) ||
+                        '${services[j]['profName']}'.contains(_searchValue) ||
+                        '${services[j]['profName']}'
+                            .toLowerCase()
+                            .contains(_searchValue) ||
+                        '${services[j]['profName']}'
+                            .contains(_searchValue.toLowerCase()) ||
+                        '${services[j]['serviceCategory']}'
+                            .contains(_searchValue) ||
+                        '${services[j]['serviceCategory']}'
+                            .toLowerCase()
+                            .contains(_searchValue) ||
+                        '${services[j]['serviceCategory']}'
+                            .contains(_searchValue.toLowerCase())) {
                       list[i] = services[j];
                       i++;
                     }

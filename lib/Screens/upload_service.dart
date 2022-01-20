@@ -22,9 +22,14 @@ class UploadService extends StatefulWidget {
 class _UploadServiceState extends State<UploadService> {
   File? imageFile;
   var formKey = GlobalKey<FormState>();
-  var serviceName, serviceCategory, servicePrice, serviceDuration, serviceDefinition;
+  var serviceName,
+      serviceCategory,
+      servicePrice,
+      serviceDuration,
+      serviceDefinition;
   final _auth = FirebaseAuth.instance;
   String userImage = "";
+  String profName = "";
   Future<void> _getUserName() async {
     FirebaseFirestore.instance
         .collection('users')
@@ -33,6 +38,7 @@ class _UploadServiceState extends State<UploadService> {
         .then((value) {
       setState(() {
         userImage = value.data()!['imageURL'];
+        profName = value.data()!['firstname'] + " " + value.data()!['lastname'];
       });
     });
   }
@@ -402,6 +408,7 @@ class _UploadServiceState extends State<UploadService> {
             'professionalUid': (await FirebaseAuth.instance.currentUser)!.uid,
             'serviceDuration': int.parse(serviceDuration),
             'serviceContent': serviceDefinition,
+            'profName': profName
           }
         ])
       });
