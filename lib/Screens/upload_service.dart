@@ -35,7 +35,7 @@ class _UploadServiceState extends State<UploadService> {
         .then((value) {
       setState(() {
         userImage = value.data()!['imageURL'];
-        profName = value.data()!['firstname'] + " " + value.data()!['lastname'];
+        profName = value.data()!['firstName'] + " " + value.data()!['lastName'];
       });
     });
   }
