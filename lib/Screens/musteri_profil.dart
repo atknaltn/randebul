@@ -5,9 +5,7 @@ import 'package:randebul/Screens/ChatScreen.dart';
 class MusteriProfil extends StatefulWidget {
   final dynamic musteriRef;
 
-  const MusteriProfil(
-      {Key? key, required this.musteriRef})
-      : super(key: key);
+  const MusteriProfil({Key? key, required this.musteriRef}) : super(key: key);
   @override
   State<MusteriProfil> createState() => _MusteriProfilState();
 }
@@ -33,7 +31,6 @@ class _MusteriProfilState extends State<MusteriProfil> {
       address = '${widget.musteriRef['adress']}';
       userName = '${widget.musteriRef['username']}';
       image = '${widget.musteriRef['imageURL']}';
-      verified = widget.musteriRef['verified'];
       uid = '${widget.musteriRef['uid']}';
     });
   }
@@ -68,8 +65,8 @@ class _MusteriProfilState extends State<MusteriProfil> {
                       onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatScreen(messageRef: widget.musteriRef, id: uid))),
+                              builder: (context) => ChatScreen(
+                                  messageRef: widget.musteriRef, id: uid))),
                     )),
                 const SizedBox(height: 30),
                 const SizedBox(height: 30),
@@ -116,13 +113,13 @@ class UstKart extends StatelessWidget {
           margin: const EdgeInsets.all(10.0),
           child: (resimAdresi != '' && resimAdresi != 'null')
               ? Image.network(
-            resimAdresi,
-            height: 150,
-          )
+                  resimAdresi,
+                  height: 150,
+                )
               : Image.asset(
-            'assets/blankprofile.png',
-            height: 150,
-          ),
+                  'assets/blankprofile.png',
+                  height: 150,
+                ),
         ),
         Expanded(
           child: Column(
@@ -134,9 +131,9 @@ class UstKart extends StatelessWidget {
                 children: [
                   (verified == true)
                       ? const Icon(
-                    Icons.verified,
-                    color: Colors.blue,
-                  )
+                          Icons.verified,
+                          color: Colors.blue,
+                        )
                       : const Text(''),
                   Text(
                     isim,
@@ -163,10 +160,7 @@ class IletisimBilgileri extends StatelessWidget {
   final String address;
 
   const IletisimBilgileri(
-      {Key? key,
-        this.telNo = '',
-        this.email = '',
-        this.address = ''})
+      {Key? key, this.telNo = '', this.email = '', this.address = ''})
       : super(key: key);
 
   @override
@@ -217,4 +211,3 @@ class MyCard extends StatelessWidget {
     );
   }
 }
-

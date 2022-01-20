@@ -45,16 +45,16 @@ class _CalendarPageState extends State<CalendarPage> {
             child: Text(
               'Blue: Taken Appointments',
               style: TextStyle(
-                  fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold),
+                  fontSize: 20,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           const Center(
             child: Text(
               'Red: Given Appointments',
               style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
@@ -125,7 +125,7 @@ class _CalendarPageState extends State<CalendarPage> {
       if (veri2['Randevular'] != null) {
         for (int i = 0; i < randevuList.length; i++) {
           meetings.add(Appointment(
-            id: randevuList[i]['musteri'],
+              id: randevuList[i]['musteri'],
               location: randevuList[i]['subject'],
               startTime: randevuList[i]['startTime'].toDate(),
               endTime: randevuList[i]['startTime']
@@ -143,22 +143,19 @@ class _CalendarPageState extends State<CalendarPage> {
     return meetings;
   }
 
-
   Future<void> calendarTapped(CalendarTapDetails details) async {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Appointment appointmentDetails = details.appointments![0];
       CollectionReference temp1 =
           FirebaseFirestore.instance.collection('professionals');
-      DocumentReference temp2 =
-          temp1.doc(appointmentDetails.id.toString());
+      DocumentReference temp2 = temp1.doc(appointmentDetails.id.toString());
       var response = await temp2.get();
       dynamic hoca = response.data();
 
       CollectionReference temp3 =
-      FirebaseFirestore.instance.collection('users');
-      DocumentReference temp4 =
-      temp3.doc(appointmentDetails.id.toString());
+          FirebaseFirestore.instance.collection('users');
+      DocumentReference temp4 = temp3.doc(appointmentDetails.id.toString());
       var response2 = await temp4.get();
       dynamic musteri = response2.data();
       setState(() {});
@@ -185,36 +182,40 @@ class _CalendarPageState extends State<CalendarPage> {
                 height: 120,
                 child: Column(
                   children: [
-                    (appointmentDetails.color == Colors.red) ?
-                    TextButton(
-                      onPressed: (){Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MusteriProfil(
-                                  musteriRef: musteri)));},
-                      child: Text(
-                        '$_personText',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                      ),
-                    )
-                    : TextButton(
-                        onPressed: (){Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProfessionalProfile(
-                                      hocaRef: hoca,
-                                      hocaSnapshot: response)));},
-                        child:Text(
-                          '$_personText',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
+                    (appointmentDetails.color == Colors.red)
+                        ? TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MusteriProfil(musteriRef: musteri)));
+                            },
+                            child: Text(
+                              '$_personText',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
+                          )
+                        : TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfessionalProfile(
+                                          hocaRef: hoca,
+                                          hocaSnapshot: response)));
+                            },
+                            child: Text(
+                              '$_personText',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
-                        ),
-                    ),
                     const SizedBox(height: 10),
                     Text(
                       '$_dateText',

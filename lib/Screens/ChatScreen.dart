@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  messageRef['name'] + ' ' + messageRef['surname'],
+                  messageRef['firstName'] + ' ' + messageRef['lastName'],
                   style: TextStyle(fontSize: 14),
                 ),
                 const Text(
