@@ -75,7 +75,7 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
         .collection('professionals')
         .doc(widget.hocaSnapshot.id)
         .update({
-      'amount': FieldValue.increment(widget.selectedHizmet['servicePrice']),
+      'amount': FieldValue.increment(widget.selectedHizmet['servicePrice']*90/100),
       'Randevular': FieldValue.arrayUnion([
         {
           'duration': widget.selectedHizmet['serviceDuration'],
@@ -86,6 +86,20 @@ class _ConfirmAndPayState extends State<ConfirmAndPay> {
           'musteriSurname': veri['surName']
         }
       ])
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.hocaSnapshot.id)
+        .update({
+      'amount': FieldValue.increment(widget.selectedHizmet['servicePrice']*90/100),
+    });
+
+    FirebaseFirestore.instance
+        .collection('banka')
+        .doc('banka')
+        .update({
+      'amount': FieldValue.increment(widget.selectedHizmet['servicePrice']*10/100),
     });
   }
 
