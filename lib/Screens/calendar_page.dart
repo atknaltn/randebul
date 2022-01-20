@@ -124,7 +124,7 @@ class _CalendarPageState extends State<CalendarPage> {
       if (veri2['Randevular'] != null) {
         for (int i = 0; i < randevuList.length; i++) {
           meetings.add(Appointment(
-            id: '',
+            id: 'temp',
               location: randevuList[i]['subject'],
               startTime: randevuList[i]['startTime'].toDate(),
               endTime: randevuList[i]['startTime']
@@ -142,14 +142,6 @@ class _CalendarPageState extends State<CalendarPage> {
     return meetings;
   }
 
-  Future<void> getName(String? path) async {
-    CollectionReference temp1 = FirebaseFirestore.instance.collection('users');
-    DocumentReference temp2 = temp1.doc(path);
-    var response = await temp2.get();
-    dynamic temp = response.data();
-    _personText = temp['name'];
-    setState(() {});
-  }
 
   Future<void> calendarTapped(CalendarTapDetails details) async {
     if (details.targetElement == CalendarElement.appointment ||
@@ -185,7 +177,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 height: 120,
                 child: Column(
                   children: [
-                    (appointmentDetails.id.toString() == '') ?
+                    (appointmentDetails.id.toString() == 'temp') ?
                     Text(
                       '$_personText',
                       style: const TextStyle(
