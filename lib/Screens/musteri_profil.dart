@@ -29,7 +29,7 @@ class _MusteriProfilState extends State<MusteriProfil> {
       mail = '${widget.musteriRef['email']}';
       phoneNumber = '${widget.musteriRef['phoneNumber']}';
       address = '${widget.musteriRef['adress']}';
-      userName = '${widget.musteriRef['username']}';
+      userName = '${widget.musteriRef['userName']}';
       image = '${widget.musteriRef['imageURL']}';
       uid = '${widget.musteriRef['uid']}';
     });
