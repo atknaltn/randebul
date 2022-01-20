@@ -100,6 +100,12 @@ class _UpgaredeProState extends State<UpgradePro> {
       'verified': true,
       'website': websiteController.text
     });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc((await FirebaseAuth.instance.currentUser)!.uid)
+        .update({
+      'isProfessional':true
+    });
   }
 
   @override

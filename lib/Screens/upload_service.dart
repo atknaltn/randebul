@@ -53,10 +53,7 @@ class _UploadServiceState extends State<UploadService> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => HomeScreen()));
+              Navigator.of(context).pop();
             },
           ),
           title: Text(

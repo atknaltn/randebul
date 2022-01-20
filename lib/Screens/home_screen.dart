@@ -10,7 +10,8 @@ import 'package:randebul/Screens/upload_service.dart';
 import 'package:randebul/Screens/sport_professionals.dart';
 import 'package:randebul/model/service_model.dart';
 import 'package:randebul/Screens/ChatScreen.dart';
-
+import 'myprofile_customer.dart';
+import 'myprofile_pro.dart';
 import 'calendar_page.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -150,10 +151,18 @@ class _HomeScreenState extends State<MyHomePage> {
                   padding: const EdgeInsets.only(right: 15, left: 15),
                   tooltip: 'My Profile',
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyProfilePage()));
+                    if (isProf) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyProfilePro()));
+                    }
+                    else{
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyProfileCustomer()));
+                    }
                   },
                 ),
               if (!hide)
@@ -382,7 +391,7 @@ class _HomeScreenState extends State<MyHomePage> {
                   ListTile(
                     title: const Text('Create a Service'),
                     onTap: () {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) =>
