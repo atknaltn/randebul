@@ -49,19 +49,6 @@ class ChatScreen extends StatelessWidget {
             )
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.accessible_forward_outlined),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => MyProfilePage()),
-              );
-            },
-          ),
-          const SizedBox(
-            width: 10.0,
-          )
-        ],
       ),
       body: Body(ref: messageRef, id: id),
     );
