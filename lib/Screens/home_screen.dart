@@ -368,13 +368,6 @@ class _HomeScreenState extends State<MyHomePage> {
                     },
                   ),
                 ListTile(
-                  title: const Text('Home Screen'),
-                  onTap: () {
-                    _isSearching = false;
-                    _searchValue = "";
-                  },
-                ),
-                ListTile(
                   title: const Text('Health'),
                   onTap: () {
                     _categoryValue = "Health";
