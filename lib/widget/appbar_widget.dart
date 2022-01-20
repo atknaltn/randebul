@@ -5,14 +5,14 @@ AppBar buildAppBar(BuildContext context) {
 
   return AppBar(
     leading: const BackButton(
-      color: Colors.black,
+      color: Colors.white,
     ),
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.blue,
     elevation: 0,
     actions: [
       IconButton(
         icon: Icon(icon),
-        color: Colors.black,
+        color: Colors.white,
         onPressed: () {},
       )
     ],

@@ -17,7 +17,7 @@ class ChatScreen extends StatelessWidget {
           children: [
             const BackButton(),
             ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(20.0),
               child: (messageRef['imageURL'] != '' &&
                       messageRef['imageURL'] != 'null')
                   ? Image.network(
@@ -63,7 +63,7 @@ class ChatScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Body(id: id),
+      body: Body(ref: messageRef, id: id),
     );
   }
 }
