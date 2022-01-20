@@ -45,6 +45,7 @@ class _HomeScreenState extends State<MyHomePage> {
   String _searchValue = "";
   String _categoryValue = "";
   bool _isSearching = false;
+  String imageURL = "";
   final TextEditingController _controller = new TextEditingController();
   final PageController controller =
       PageController(initialPage: 0, keepPage: true);
@@ -57,6 +58,18 @@ class _HomeScreenState extends State<MyHomePage> {
         .then((value) {
       setState(() {
         isProf = value.data()!['isProfessional'];
+      });
+    });
+  }
+
+  Future<void> _getProfessionalImage(String uid) async {
+    FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get()
+        .then((value) {
+      setState(() {
+        imageURL = value.data()!['userImageURL'].toString();
       });
     });
   }
@@ -241,6 +254,7 @@ class _HomeScreenState extends State<MyHomePage> {
                 return ListView.builder(
                   itemCount: i,
                   itemBuilder: (BuildContext context, int index) {
+                    _getProfessionalImage(list[index]['professionalUid']);
                     return Card(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
@@ -289,7 +303,7 @@ class _HomeScreenState extends State<MyHomePage> {
                                             width: 100.0,
                                           )
                                         : Image.network(
-                                            list[index]['userImageURL'],
+                                            imageURL,
                                             height: 100.0,
                                             width: 100.0,
                                           ),

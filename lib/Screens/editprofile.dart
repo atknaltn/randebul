@@ -191,13 +191,13 @@ class _EditProfileState extends State<EditProfile> {
       String? uploadID = databaseReference.push().key;
     }
     FirebaseFirestore.instance.collection('users').doc(uid).update({
-      if (imageURL != "") 'imageURL': imageURL,
+      'imageURL': imageURL,
       'email': mail,
       'lastName': lastname,
       'firstName': firstname
     });
     FirebaseFirestore.instance.collection('professionals').doc(uid).update({
-      if (imageURL != "") 'userImageURL': imageURL,
+      'userImageURL': imageURL,
     });
     //}
   }
