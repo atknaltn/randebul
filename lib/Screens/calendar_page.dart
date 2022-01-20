@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:randebul/Screens/musteri_profil.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -42,17 +43,17 @@ class _CalendarPageState extends State<CalendarPage> {
         children: [
           const Center(
             child: Text(
-              'Kırmızı: Alınan Randevular',
+              'Blue: Taken Appointments',
               style: TextStyle(
-                  fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
+                  fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold),
             ),
           ),
           const Center(
             child: Text(
-              'Mavi: Verilen Randevular',
+              'Red: Given Appointments',
               style: TextStyle(
                   fontSize: 20,
-                  color: Colors.blue,
+                  color: Colors.red,
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -111,7 +112,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   .toDate()
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
-              color: Colors.red,
+              color: Colors.blue,
               notes: randevuList[i]['profName'] +
                   ' ' +
                   randevuList[i]['profSurname'],
@@ -124,14 +125,14 @@ class _CalendarPageState extends State<CalendarPage> {
       if (veri2['Randevular'] != null) {
         for (int i = 0; i < randevuList.length; i++) {
           meetings.add(Appointment(
-            id: 'temp',
+            id: randevuList[i]['musteri'],
               location: randevuList[i]['subject'],
               startTime: randevuList[i]['startTime'].toDate(),
               endTime: randevuList[i]['startTime']
                   .toDate()
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
-              color: Colors.blue,
+              color: Colors.red,
               notes: randevuList[i]['musteriName'] +
                   ' ' +
                   randevuList[i]['musteriSurname'],
@@ -152,7 +153,14 @@ class _CalendarPageState extends State<CalendarPage> {
       DocumentReference temp2 =
           temp1.doc(appointmentDetails.id.toString());
       var response = await temp2.get();
-      dynamic veri3 = response.data();
+      dynamic hoca = response.data();
+
+      CollectionReference temp3 =
+      FirebaseFirestore.instance.collection('users');
+      DocumentReference temp4 =
+      temp3.doc(appointmentDetails.id.toString());
+      var response2 = await temp4.get();
+      dynamic musteri = response2.data();
       setState(() {});
       _personText = appointmentDetails.notes;
       _subjectText = appointmentDetails.subject;
@@ -177,25 +185,28 @@ class _CalendarPageState extends State<CalendarPage> {
                 height: 120,
                 child: Column(
                   children: [
-                    (appointmentDetails.id.toString() == 'temp') ?
-                    Text(
-                      '$_personText',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
+                    (appointmentDetails.color == Colors.red) ?
+                    TextButton(
+                      onPressed: (){Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MusteriProfil(
+                                  musteriRef: musteri)));},
+                      child: Text(
+                        '$_personText',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                        ),
                       ),
                     )
                     : TextButton(
-                        onPressed: (){
-                          Navigator.push(
+                        onPressed: (){Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProfessionalProfile(
-                                      hocaRef: veri3,
-                                      hocaSnapshot: response)));
-
-                        },
-
+                                      hocaRef: hoca,
+                                      hocaSnapshot: response)));},
                         child:Text(
                           '$_personText',
                           style: const TextStyle(
