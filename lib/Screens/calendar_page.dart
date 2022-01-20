@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:intl/intl.dart';
 
+import 'professional_profile.dart';
+
 class CalendarPage extends StatefulWidget {
   const CalendarPage({
     Key? key,
@@ -22,7 +24,7 @@ class _CalendarPageState extends State<CalendarPage> {
       _endTimeText = '',
       _dateText = '',
       _timeDetails = '',
-      _contentText = '';
+      _personText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,7 @@ class _CalendarPageState extends State<CalendarPage> {
     getProfRandevu();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-        },
+        onPressed: () {},
       ),
       appBar: AppBar(
         title: const Text('Calendar'),
@@ -40,20 +41,20 @@ class _CalendarPageState extends State<CalendarPage> {
       body: Column(
         children: [
           const Center(
-            child: Text('Kırmızı: Alınan Randevular',
+            child: Text(
+              'Kırmızı: Alınan Randevular',
               style: TextStyle(
-                fontSize: 20,
-                color: Colors.red,
-                fontWeight: FontWeight.bold
-              ),),
+                  fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
+            ),
           ),
           const Center(
-            child: Text('Mavi: Verilen Randevular',
+            child: Text(
+              'Mavi: Verilen Randevular',
               style: TextStyle(
                   fontSize: 20,
                   color: Colors.blue,
-                  fontWeight: FontWeight.bold
-              ),),
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           Expanded(
             child: SfCalendar(
@@ -85,32 +86,35 @@ class _CalendarPageState extends State<CalendarPage> {
     setState(() {});
   }
 
-  Future<void> getProfRandevu() async{
-    CollectionReference temp1 = FirebaseFirestore.instance.collection('professionals');
+  Future<void> getProfRandevu() async {
+    CollectionReference temp1 =
+        FirebaseFirestore.instance.collection('professionals');
     DocumentReference temp2 =
-    temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
+        temp1.doc((FirebaseAuth.instance.currentUser)!.uid);
     var response = await temp2.get();
     veri2 = response.data();
     setState(() {});
-}
+  }
 
   List<Appointment> getAppointments() {
     List<Appointment> meetings = <Appointment>[];
     dynamic randevuList = <Map>[];
     if (veri != null) {
       randevuList = veri['Randevular'];
-
       if (veri['Randevular'] != null) {
         for (int i = 0; i < randevuList.length; i++) {
           meetings.add(Appointment(
-            location: randevuList[i]['subject'],
+              id: randevuList[i]['profesyonel'],
+              location: randevuList[i]['subject'],
               startTime: randevuList[i]['startTime'].toDate(),
               endTime: randevuList[i]['startTime']
                   .toDate()
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
               color: Colors.red,
-              notes: randevuList[i]['profName'] + ' ' + randevuList[i]['profSurname'],
+              notes: randevuList[i]['profName'] +
+                  ' ' +
+                  randevuList[i]['profSurname'],
               isAllDay: false));
         }
       }
@@ -120,6 +124,7 @@ class _CalendarPageState extends State<CalendarPage> {
       if (veri2['Randevular'] != null) {
         for (int i = 0; i < randevuList.length; i++) {
           meetings.add(Appointment(
+            id: 'temp',
               location: randevuList[i]['subject'],
               startTime: randevuList[i]['startTime'].toDate(),
               endTime: randevuList[i]['startTime']
@@ -127,7 +132,9 @@ class _CalendarPageState extends State<CalendarPage> {
                   .add(Duration(minutes: randevuList[i]['duration'])),
               subject: randevuList[i]['subject'],
               color: Colors.blue,
-              notes: randevuList[i]['musteriName'] + ' ' + randevuList[i]['musteriSurname'],
+              notes: randevuList[i]['musteriName'] +
+                  ' ' +
+                  randevuList[i]['musteriSurname'],
               isAllDay: false));
         }
       }
@@ -135,21 +142,19 @@ class _CalendarPageState extends State<CalendarPage> {
     return meetings;
   }
 
-  Future<void> getName(String? path) async{
-    CollectionReference temp1 = FirebaseFirestore.instance
-        .collection('users');
-    DocumentReference temp2 = temp1.doc(path);
-    var response = await temp2.get();
-    dynamic temp = response.data();
-    _contentText = temp['name'];
-    setState(() {});
-  }
 
   Future<void> calendarTapped(CalendarTapDetails details) async {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Appointment appointmentDetails = details.appointments![0];
-      _contentText= appointmentDetails.notes;
+      CollectionReference temp1 =
+          FirebaseFirestore.instance.collection('professionals');
+      DocumentReference temp2 =
+          temp1.doc(appointmentDetails.id.toString());
+      var response = await temp2.get();
+      dynamic veri3 = response.data();
+      setState(() {});
+      _personText = appointmentDetails.notes;
       _subjectText = appointmentDetails.subject;
       _dateText = DateFormat('MMMM dd, yyyy')
           .format(appointmentDetails.startTime)
@@ -169,15 +174,35 @@ class _CalendarPageState extends State<CalendarPage> {
             return AlertDialog(
               title: Center(child: Text('$_subjectText')),
               content: SizedBox(
-                height: 100,
+                height: 120,
                 child: Column(
                   children: [
+                    (appointmentDetails.id.toString() == 'temp') ?
                     Text(
-                      '$_contentText',
+                      '$_personText',
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
                       ),
+                    )
+                    : TextButton(
+                        onPressed: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfessionalProfile(
+                                      hocaRef: veri3,
+                                      hocaSnapshot: response)));
+
+                        },
+
+                        child:Text(
+                          '$_personText',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
                     ),
                     const SizedBox(height: 10),
                     Text(
