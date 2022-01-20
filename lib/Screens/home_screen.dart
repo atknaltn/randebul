@@ -297,11 +297,13 @@ class _HomeScreenState extends State<MyHomePage> {
                                   const SizedBox(
                                     width: 75,
                                   ),
-                                  Image.network(
+                                  Flexible(
+                                      child: Image.network(
                                     list[index]['imageURL'],
-                                    fit: BoxFit.cover,
-                                    height: 175,
-                                  ),
+                                    fit: BoxFit.fill,
+                                    height: 125,
+                                    width: 250,
+                                  )),
                                   const SizedBox(
                                     width: 1,
                                   ),

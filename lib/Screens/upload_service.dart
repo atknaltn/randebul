@@ -44,13 +44,13 @@ class _UploadServiceState extends State<UploadService> {
   Widget build(BuildContext context) {
     _getUserName();
     return Scaffold(
-        backgroundColor: Color(0xff000725),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xffff2fc3),
+          backgroundColor: Colors.blue,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pushReplacement(
@@ -61,7 +61,7 @@ class _UploadServiceState extends State<UploadService> {
           ),
           title: Text(
             "Create a Service",
-            style: TextStyle(color: Color(0xffffffff)),
+            style: TextStyle(color: Colors.white),
           ),
         ),
         body: Form(
@@ -79,7 +79,7 @@ class _UploadServiceState extends State<UploadService> {
                             child: Icon(
                               Icons.add_a_photo_sharp,
                               size: 80,
-                              color: Color(0xffff2fc3),
+                              color: Colors.blue,
                             ))
                         : Image.file(
                             imageFile!,
@@ -108,25 +108,25 @@ class _UploadServiceState extends State<UploadService> {
                                 serviceName = value;
                               }
                             },
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.blue),
                             decoration: InputDecoration(
                               labelText: "Service Name",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                             ),
                           )),
                     ),
@@ -143,7 +143,7 @@ class _UploadServiceState extends State<UploadService> {
                             value: serviceCategory,
                             icon: const Icon(Icons.arrow_downward),
                             elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
+                            style: const TextStyle(color: Colors.blue),
                             underline: Container(
                               height: 2,
                               color: Colors.deepPurpleAccent,
@@ -188,25 +188,25 @@ class _UploadServiceState extends State<UploadService> {
                                 servicePrice = value;
                               }
                             },
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.blue),
                             decoration: InputDecoration(
                               labelText: "Service Price",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                             ),
                           )),
                     ),
@@ -227,25 +227,25 @@ class _UploadServiceState extends State<UploadService> {
                                 serviceDuration = value;
                               }
                             },
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.blue),
                             decoration: InputDecoration(
                               labelText: "Service Duration",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                      color: Color(0xffff2fc3), width: 1)),
+                                  borderSide:
+                                      BorderSide(color: Colors.blue, width: 1)),
                             ),
                           )),
                     ),
@@ -269,25 +269,25 @@ class _UploadServiceState extends State<UploadService> {
                             serviceDefinition = value;
                           }
                         },
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.blue),
                         decoration: InputDecoration(
                           labelText: "Service Definition",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color(0xffff2fc3), width: 1)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
                           disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color(0xffff2fc3), width: 1)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color(0xffff2fc3), width: 1)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                  color: Color(0xffff2fc3), width: 1)),
+                              borderSide:
+                                  BorderSide(color: Colors.blue, width: 1)),
                         ),
                       )),
                 ),
