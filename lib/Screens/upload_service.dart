@@ -300,7 +300,11 @@ class _UploadServiceState extends State<UploadService> {
                             gravity: ToastGravity.CENTER,
                             toastLength: Toast.LENGTH_LONG);
                       } else {
+                        Navigator.pop(context, 'OK');
+
                         uploadImage();
+                        Fluttertoast.showToast(
+                            msg: "The service has been created.");
                       }
                     },
                     child: Container(
