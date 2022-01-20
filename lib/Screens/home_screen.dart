@@ -349,7 +349,10 @@ class _HomeScreenState extends State<MyHomePage> {
               children: [
                 const DrawerHeader(
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage('assets/logo.png'),
+                    ),
                   ),
                   child: Text('Categories'),
                 ),
