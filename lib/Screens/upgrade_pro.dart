@@ -174,6 +174,8 @@ class _UpgaredeProState extends State<UpgradePro> {
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
           updateFireBase();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
         child: const Text(
           "Upgrade Pro",
