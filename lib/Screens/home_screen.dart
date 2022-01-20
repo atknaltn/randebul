@@ -365,6 +365,13 @@ class _HomeScreenState extends State<MyHomePage> {
                     },
                   ),
                 ListTile(
+                  title: const Text('Home Screen'),
+                  onTap: () {
+                    _isSearching = false;
+                    _searchValue = "";
+                  },
+                ),
+                ListTile(
                   title: const Text('Health'),
                   onTap: () {
                     _categoryValue = "Health";
@@ -396,6 +403,34 @@ class _HomeScreenState extends State<MyHomePage> {
                     title: const Text('Music'),
                     onTap: () async {
                       _categoryValue = "Music";
+                      _isSearching = true;
+                      _searchValue = _categoryValue;
+                    }),
+                ListTile(
+                    title: const Text('Life Style'),
+                    onTap: () async {
+                      _categoryValue = "Life Style";
+                      _isSearching = true;
+                      _searchValue = _categoryValue;
+                    }),
+                ListTile(
+                    title: const Text('Design'),
+                    onTap: () async {
+                      _categoryValue = "Design";
+                      _isSearching = true;
+                      _searchValue = _categoryValue;
+                    }),
+                ListTile(
+                    title: const Text('Self-Improvment'),
+                    onTap: () async {
+                      _categoryValue = "Self-Improvment";
+                      _isSearching = true;
+                      _searchValue = _categoryValue;
+                    }),
+                ListTile(
+                    title: const Text('Software Development'),
+                    onTap: () async {
+                      _categoryValue = "Software Development";
                       _isSearching = true;
                       _searchValue = _categoryValue;
                     })

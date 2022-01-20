@@ -157,7 +157,11 @@ class _UploadServiceState extends State<UploadService> {
                               'Health',
                               'Education',
                               'Sports',
-                              'Music'
+                              'Music',
+                              'Life Style',
+                              'Design',
+                              'Self-Improvment',
+                              'Software Development'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
