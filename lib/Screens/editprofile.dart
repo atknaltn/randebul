@@ -123,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
               uploadImage();
               Navigator.pop(context, "OK");
               Fluttertoast.showToast(
-                  msg: 'Bilgileriniz başarıyla güncellendi.');
+                  msg: 'Your information updated successfully.');
             },
           ),
         ],
