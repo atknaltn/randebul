@@ -65,7 +65,7 @@ class _EditProfileState extends State<EditProfile> {
                       child: Icon(
                         Icons.add_a_photo_sharp,
                         size: 80,
-                        color: Color(0xffff2fc3),
+                        color: Colors.blue,
                       ))
                   : Image.file(
                       imageFile!,
@@ -86,7 +86,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
           const SizedBox(height: 24),
           TextFieldWidget(
-            label: 'email',
+            label: 'Email',
             text: mail,
             onChanged: (email) {},
           ),
