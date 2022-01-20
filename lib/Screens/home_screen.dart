@@ -259,7 +259,7 @@ class _HomeScreenState extends State<MyHomePage> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         color: Colors.transparent,
-                        shadowColor: Colors.deepPurple,
+                        shadowColor: Colors.teal,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16)),
                         elevation: 5,
@@ -347,7 +347,8 @@ class _HomeScreenState extends State<MyHomePage> {
                                     flex: 1,
                                     child: Text(
                                       'Price: ${list[index]['servicePrice']} \$',
-                                      style: const TextStyle(fontSize: 20),
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.red),
                                     ),
                                   ),
                                 ],
