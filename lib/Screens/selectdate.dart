@@ -296,7 +296,7 @@ class _SelectDatePageState extends State<SelectDatePage> {
             endTime: randevuList[i]['startTime']
                 .toDate()
                 .add(Duration(minutes: randevuList[i]['duration'])),
-            subject: 'Dolu',
+            subject: 'Taken',
             color: Colors.red,
             isAllDay: false));
       }
