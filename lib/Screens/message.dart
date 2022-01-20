@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:randebul/model/ChatMessage.dart';
 import 'package:randebul/Screens/text_message.dart';
 
 class Message extends StatelessWidget {
+  final dynamic ref;
   const Message({
     Key? key,
     @required this.message,
+    @required this.ref,
   }) : super(key: key);
 
   final ChatMessage? message;
@@ -28,9 +31,19 @@ class Message extends StatelessWidget {
             message!.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           if (!message!.isSender) ...[
-            const CircleAvatar(
-              radius: 11,
-              backgroundImage: AssetImage("assets/testProfile.jpg"),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: (ref['imageURL'] != '' && ref['imageURL'] != 'null')
+                  ? Image.network(
+                      ref['imageURL'],
+                      height: 40,
+                      width: 40,
+                    )
+                  : Image.asset(
+                      'assets/blankprofile.png',
+                      height: 40,
+                      width: 40,
+                    ),
             ),
             const SizedBox(
               width: 10.0,
