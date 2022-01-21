@@ -30,6 +30,7 @@ class _MyProfileProState extends State<MyProfilePro> {
   String uid = "";
   double puan = 0;
   bool verified = false;
+  dynamic yorumlar = <Map>[];
   dynamic ref;
   var response2;
   Future<void> _getUserName() async {
@@ -51,6 +52,7 @@ class _MyProfileProState extends State<MyProfilePro> {
       hakkinda = ref['about'];
       profession = ref['profession'];
       uid = ref['uid'];
+      yorumlar = ref['comments'];
 
       if (ref['comments'] != null) {
         puan = ref['point'] / ref['comments'].length;
@@ -95,6 +97,7 @@ class _MyProfileProState extends State<MyProfilePro> {
                 ),
                 const SizedBox(height: 30),
                 Yorumlar(
+                  yorumlar: yorumlar,
                   hocaRef: ref,
                 ),
                 const SizedBox(height: 30),
@@ -302,14 +305,12 @@ class IletisimBilgileri extends StatelessWidget {
 /*2 yorum kartından oluşan son yorumlar bölümü.*/
 class Yorumlar extends StatelessWidget {
   final dynamic hocaRef;
+  final dynamic yorumlar;
 
-  const Yorumlar({Key? key, required this.hocaRef}) : super(key: key);
+  const Yorumlar({Key? key, required this.yorumlar, required this.hocaRef}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    dynamic yorumlar = <Map>[];
-    yorumlar = hocaRef['comments'];
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(

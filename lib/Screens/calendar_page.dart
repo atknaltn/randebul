@@ -32,9 +32,6 @@ class _CalendarPageState extends State<CalendarPage> {
     getFireBase();
     getProfRandevu();
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-      ),
       appBar: AppBar(
         title: const Text('Calendar'),
         centerTitle: true,
