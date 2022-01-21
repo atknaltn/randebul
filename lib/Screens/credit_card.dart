@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class CreditCard extends StatefulWidget {
   String amount = "";
+
   CreditCard(String amount) {
     this.amount = amount;
   }
@@ -35,7 +36,10 @@ class CreditCardState extends State<CreditCard> {
   OutlineInputBorder? border;
   final amountController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  final cvvValidationMessage = 'Please input a valid CVV';
+  final dateValidationMessage = 'Please input a valid date';
+  final numberValidationMessage = 'Please input a valid number';
+  final amountValidationMessage = 'Please input a amount number';
   @override
   void initState() {
     border = OutlineInputBorder(
@@ -251,10 +255,23 @@ class CreditCardState extends State<CreditCard> {
                             ),
                           ),
                           onPressed: () {
-                            updateFireBase();
-                            Navigator.pop(context, 'OK');
-                            Fluttertoast.showToast(
-                                msg: 'The balance is added successfully.');
+                            if (cardNumber.isEmpty || cardNumber.length < 16) {
+                              Fluttertoast.showToast(
+                                  msg: numberValidationMessage);
+                            } else if (expiryDate.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: dateValidationMessage);
+                            } else if (cvvCode.isEmpty || cvvCode.length < 3) {
+                              Fluttertoast.showToast(msg: cvvValidationMessage);
+                            } else if (amount.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: amountValidationMessage);
+                            } else {
+                              updateFireBase();
+                              Navigator.pop(context, 'OK');
+                              Fluttertoast.showToast(
+                                  msg: 'The balance is added successfully.');
+                            }
                           },
                         ),
                       ],
