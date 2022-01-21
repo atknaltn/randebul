@@ -5,7 +5,10 @@ import 'package:randebul/Screens/login_screen.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MaterialApp(home: MyHomePage()));
+  runApp(const MaterialApp(
+    home: MyHomePage(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class MyHomePage extends StatefulWidget {

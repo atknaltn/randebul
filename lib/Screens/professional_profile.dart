@@ -217,8 +217,7 @@ class _ProfessionalProfileState extends State<ProfessionalProfile> {
               ],
             ),
           ),
-          Expanded(
-            flex: 1,
+          SingleChildScrollView(
             child: Row(
               children: [
                 Expanded(
