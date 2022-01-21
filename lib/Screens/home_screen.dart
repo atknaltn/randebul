@@ -335,8 +335,25 @@ class _HomeScreenState extends State<MyHomePage> {
                                   ),
                                 ],
                               ),
+                              Row(
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 50,
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      '${list[index]['profName']}',
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.deepPurple,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(
-                                height: 50,
+                                height: 5,
                               ),
                               Row(
                                 children: <Widget>[
@@ -359,7 +376,23 @@ class _HomeScreenState extends State<MyHomePage> {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      '\n'
+                                      '${list[index]['serviceContent']}',
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ));
