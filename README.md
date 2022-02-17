@@ -1,16 +1,1 @@
-# randebul
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Randebul is a social media application that brings professionals (someone that expert of some field) and customers together. Customers can find professionals and take appointment from them, professionals can create services in many areas such as Health, Music, Fitness etc. and set his/her free hours to serve to customers. Customers can send messages to professionals and professionals can respond. Each user type have a profile and customers can comment and give star to professionals profile.
